@@ -318,9 +318,7 @@
             .part1 {
                 display: flex;
                 align-items: center;
-                /* gap: 1.375rem; */
-                justify-content: space-between;
-                width: 100%;
+                gap: 1.375rem;
             }
 
             img {
@@ -347,16 +345,16 @@
                 }
             }
 
-            // .time-act {
-            //     position: relative;
-            //     font-family: 'SF';
-            //     font-style: normal;
-            //     font-weight: 300;
-            //     font-size: toRem(9);
-            //     color: #ADADAD;
-            //     position: relative;
-            //     top: toRem(17);
-            // }
+            .time-act {
+                position: relative;
+                font-family: 'SF';
+                font-style: normal;
+                font-weight: 300;
+                font-size: toRem(9);
+                color: #00887A;
+                position: relative;
+                top: toRem(17);
+            }
         }
     }
 }

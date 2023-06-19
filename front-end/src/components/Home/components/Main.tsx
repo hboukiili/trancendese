@@ -22,8 +22,9 @@ function ActivityContent(props: any) {
 			<div className="part1">
 				<img src={props.avatar1} alt="" />
 				<p>{props.p1}<span>{' ' + (props.isDraw === false ? 'won against ' : 'had a draw with')}</span>{props.p2}</p>
-				<img src={props.avatar2} alt="" />
+				{/* <img src={props.avatar2} alt="" /> */}
 			</div>
+			<div className="time-act">{(props.isDraw === true ? '+60pts' : '+120pts')}</div>
 		</div>
 	)
 }
@@ -51,9 +52,14 @@ function Activity() {
 						<div className="activity-content">
 							{
 								isAll.boolAll ?
-									(data && data.map((e, i) => {
+									(data && data.map((e:any, i) => {
 										return (
-											<ActivityContent key={'activ-' + i} p1={e.Player1} p2={e.Player2} isDraw={e.IsDraw} avatar1={e.Player1Avatar} avatar2={e.Player2Avatar} />
+											e.IsDraw === false ? 
+											<ActivityContent key={'activ-' + i} p1={e.Player1} p2={e.Player2} isDraw={e.IsDraw} avatar1={e.Player1Avatar} />
+											: <>
+											<ActivityContent key={'activ-' + i} p1={e.Player1} p2={e.Player2} isDraw={e.IsDraw} avatar1={e.Player1Avatar} />
+											<ActivityContent key={'activ-' + i + '2'} p1={e.Player2} p2={e.Player1} isDraw={e.IsDraw} avatar1={e.Player2Avatar} />
+											</>
 										)
 									})) : <ActivityContent p1='aaizza' p2='arahmoun' time="10:21 AM" avat={avatar} stat='won' />
 							}
