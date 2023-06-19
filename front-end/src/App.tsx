@@ -14,7 +14,7 @@ import Cookies from 'js-cookie';
 
 function App() {
 	// const dispatch: AppDispatch = useDispatch()
-	const [isLogin, setisLogin] = useState(false);
+	const [isLogin, setisLogin] = useState(true);
 	useEffect(() => {
 		const token = Cookies.get('isAuthenticated');
 		console.log(token);
