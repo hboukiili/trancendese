@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, Res, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
@@ -8,26 +8,27 @@ import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
 export class ProfileController {
     constructor(private readonly UserService : UsersService){}
 
-    @Get('gamehistory')
-    async getGameHistory(@Req() req, @Res() res)
-    {
-        let game : AllGames = await this.UserService.fetchgame(req.user);
+    @Get(':username/gamehistory')
+    async getGameHistory(@Req() req, @Res() res, @Param('username') username : string)
+	{	 
+		const user = await this.UserService.ReturnOneUserByusername(username);
+        let game : AllGames = await this.UserService.fetchgame(user);
         res.json(game.AllGames);
     }
 
-    @Get('profile')
-    async getProfile(@Req() req, @Res() res){
-        const user = await this.UserService.ReturnOneUser(req.user);
+    @Get(':username/profile')
+    async getProfile(@Req() req, @Res() res, @Param('username') username : string){
+        const user = await this.UserService.ReturnOneUserByusername(username);
         res.json({
-            avatar 	 : req.user.avatar,
-            status 	 : req.user.status,
-            level  	 : req.user.level,
-            xp       : req.user.xp,
-            username : req.user.username,
+            avatar 	 : user.avatar,
+            status 	 : user.status,
+            level  	 : user.level,
+            xp       : user.XP,
+            username : user.username,
         });
     }
 
-	@Get('Friends')
+	@Get(':username/Friends')
 	async getFriends()
 	{
 

@@ -15,7 +15,7 @@ import { GoogleStrategy } from './auth-services/GoogleStrategy';
   imports: [
     JwtModule.register({
       secret: process.env.SECRET_KEY,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '15m' },
     }),
     UsersModule],
 })
@@ -24,6 +24,6 @@ export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AccessTokenMiddleware)
-      .forRoutes('auth/ok');
+      .forRoutes('enable-2fa');
   }
 }

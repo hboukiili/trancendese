@@ -30,9 +30,8 @@ export class AuthControlers {
         if (!found)
             this.UsersService.createUser(req.user);
         const token = await this.AuthService.generateJwtToken(req.user);
-        res.cookie('access_token', token, { httpOnly: true, secure : true});
         const RefreshToken = await this.AuthService.generateRefreshJwtToken(req.user);
-        this.UsersService.updateUser(req.user.email, {RefreshToken : RefreshToken});
+        res.cookie('access_token', token, { httpOnly: true, secure : true});
         res.cookie('refresh_token', RefreshToken, { httpOnly: true, secure : true});
         res.cookie('isAuthenticated', true, {secure : true});
         if (found)
@@ -52,9 +51,8 @@ export class AuthControlers {
             this.UsersService.createUser(req.user);
         }
         const token = await this.AuthService.generateJwtToken(req.user);
-        res.cookie('access_token', token, { httpOnly: true });
         const RefreshToken = await this.AuthService.generateRefreshJwtToken(req.user);
-        // this.UsersService.updateUser(req.user.email, {RefreshToken : RefreshToken});
+        res.cookie('access_token', token, { httpOnly: true });
         res.cookie('refresh_token', RefreshToken, { httpOnly: true, secure : true});
         res.cookie('isAuthenticated', true, {secure : true});
         if (found)
@@ -72,7 +70,6 @@ export class AuthControlers {
             const accessToken = await this.AuthService.generateJwtToken(user);
             res.cookie('access_token', accessToken, { httpOnly: true });
             res.json(accessToken);
-      
           } catch (err) {
             throw new UnauthorizedException('Invalid refresh token');
           }
