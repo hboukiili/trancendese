@@ -4,7 +4,8 @@
     width: toRem(80);
     height: toRem(80);
 }
-.bar-left{
+
+.bar-left {
     display: flex;
     position: relative;
     height: fit-content;
@@ -12,6 +13,7 @@
     margin-left: 1.4375rem;
     margin-top: toRem(23);
 }
+
 .left-bar-container {
     height: 59rem;
     width: toRem(118);
@@ -23,6 +25,7 @@
     // position: fixed;
 
 }
+
 .left-bar {
     width: 100%;
     height: 100%;
@@ -53,7 +56,7 @@ ul {
         display: flex;
         justify-content: center;
         align-items: center;
-        
+
 
         &::before {
             content: "";
@@ -98,10 +101,12 @@ ul {
     box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.25);
     width: 100%;
     height: toRem(110);
+    width: 100%;
 
     img {
         width: auto;
     }
+
 
 }
 

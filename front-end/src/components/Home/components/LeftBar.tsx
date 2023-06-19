@@ -23,9 +23,9 @@ function LeftBar() {
             <Link className='desactive' to='leaderBoard'><img style={{ width: '1.5rem' }} src={LeaderBoard} alt="Leader Board" /></Link>
             <Link className='desactive' to='settings'><img style={{ width: '1.5rem' }} src={SetfImg} alt="Settings" /></Link>
           </ul>
-          <button className='logout'>
+          <a href="http://localhost:3001/auth/logout" className='logout'>
             <img style={{ width: '2.5rem' }} src={LogoutImg} alt="" />
-          </button>
+          </a>
         </div>
       </div>
     </div>
