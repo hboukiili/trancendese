@@ -1,0 +1,44 @@
+@use "sass:math";
+
+@import "./global.scss";
+
+.App {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    // width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    // background: linear-gradient(183.52deg, rgba(113, 61, 65, 0.9) -842.96%, rgba(10, 10, 12, 0.9) 99.44%);
+    z-index: -2;
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
+}
+$base-font-size: 16px;
+$base-screen-width: 1920px;
+$base-screen-font-size: $base-font-size;
+
+@function calculate-font-size($screen-width) {
+  $base-factor: math.div($screen-width, $base-screen-width);
+  $calculated-font-size: $base-factor * $base-screen-font-size;
+  // $calculated-font-size: $base-factor * $base-screen-font-size;
+  @return $calculated-font-size;
+}
+
+@mixin font-size($min-width) {
+  $font-size: calculate-font-size($min-width);
+  @media screen and (min-width: $min-width) {
+    :root {
+      font-size: $font-size;
+    }
+  }
+}
+
+// Generate media queries for various screen widths
+@for $i from 320px through 7680px {
+  @include font-size($i);
+}

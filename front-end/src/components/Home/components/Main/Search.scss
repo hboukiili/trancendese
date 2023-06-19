@@ -1,0 +1,165 @@
+@import "../../../../global.scss";
+
+.cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.search-input {
+    font-family: 'SF';
+    width: toRem(335);
+    height: 100%;
+    padding-left: toRem(24);
+    background-color: transparent;
+    outline: none;
+    display: flex;
+    align-items: center;
+    font-size: toRem(16);
+    justify-content: center;
+
+    &::placeholder {
+        color: white;
+        opacity: 1;
+    }
+}
+
+.search-btn {
+    height: 100%;
+    width: toRem(51);
+    border-left: toRem(1) solid rgba(249, 198, 144, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: toRem(28);
+    }
+}
+
+.searchC {
+    position: absolute;
+    top: toRem(73);
+    // width: 100%;
+    // height: 100%;
+}
+
+.SearchContent {
+    display: flex;
+    // position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(toRem(6));
+    -webkit-backdrop-filter: blur(toRem(2));
+    border-radius: toRem(20);
+    border: 1px solid rgba(237, 81, 82, 0.18);
+    box-shadow: 0 toRem(8) toRem(32) 0 rgba(0, 0, 0, 0.37);
+    width: toRem(367);
+    height: fit-content;
+    z-index: 9000;
+    flex-direction: column;
+    justify-content: start;
+    padding-left: toRem(7);
+    padding-right: toRem(7);
+    padding-top: toRem(12);
+    padding-bottom: toRem(15);
+    align-items: center;
+    // gap: toRem(6);
+
+    .found {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: toRem(49);
+        // background: #363133;
+        // padding-left: toRem(16);
+        justify-content: space-between;
+        // border-top: 1px solid rgba(114, 114, 114, 0.18);
+        border-bottom: toRem(1) solid rgba(114, 114, 114, 0.18);
+        cursor: pointer;
+
+        .user-active-search{
+            &::before {
+                content: "";
+                position: relative;
+                top: toRem(-15);
+                left: toRem(42);
+                width: 0.4rem;
+                height: 0.4rem;
+                background-color: #00CE78;
+                z-index: 8888888888;
+                border: toRem(1) solid #00CE78;
+                border-radius: 50%;
+            }
+        }
+        .user-desactive-search{
+            &::before {
+                content: "";
+                position: relative;
+                top: toRem(-15);
+                left: toRem(42);
+                width: 0.4rem;
+                height: 0.4rem;
+                background-color: #EF5E59;
+                z-index: 8888888888;
+                border: toRem(1) solid #EF5E59;
+                border-radius: 50%;
+            }
+        }
+
+        .f-part1 {
+            display: flex;
+            align-items: center;
+            gap: toRem(6);
+            img {
+                position: relative;
+                width: toRem(34);
+                height: toRem(34);
+                border-radius: toRem(9);
+
+            }
+
+            .textInfo {
+                display: flex;
+                flex-direction: column;
+                // gap: toRem(2);
+                // align-items: center;
+                justify-content: center;
+
+                h4 {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: toRem(16);
+                    color: #FFFFFF;
+                }
+
+                p {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 300;
+                    font-size: toRem(8);
+                    letter-spacing: 0.11em;
+                    text-transform: uppercase;
+                    color: #EE5755;
+                }
+            }
+        }
+
+        .f-part2 {
+            display: flex;
+            align-items: center;
+            height: 70%;
+            padding-left: toRem(6);
+            // padding-right: toRem(4);
+            border-left: 1px solid rgba(249, 198, 144, 0.2);
+
+            img {
+                width: toRem(33);
+                height: toRem(36);
+            }
+        }
+
+    }
+}

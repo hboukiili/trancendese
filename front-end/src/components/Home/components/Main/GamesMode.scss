@@ -1,0 +1,210 @@
+@import "../../../../global.scss";
+
+.ModePlay {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    gap: toRem(20);
+    justify-content: flex-start;
+    align-items: center;
+    padding: toRem(14) 0;
+    padding-left: toRem(28);
+    overflow: hidden;
+
+    .Mode1 {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(9);
+
+        h2 {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 600;
+            font-size: toRem(18);
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 400;
+            font-size: toRem(11);
+            color: #FFFFFF;
+            margin-bottom: toRem(27);
+        }
+    }
+}
+
+.playnowbtn {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-family: 'SF';
+    font-style: normal;
+    font-weight: 600;
+    font-size: toRem(18);
+    color: #FFFFFF;
+}
+
+.photoMode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 98;
+
+    // height: 100%;
+    // position: absolute;
+    // transform: translate(toRem(49), toRem(5)) scale(0.7);
+    img {
+        z-index: 2;
+    }
+
+    &::after {
+        z-index: 1;
+    }
+}
+
+.classic {
+
+    // @include backblur(toRem(132), toRem(188), #D67859);
+    img {
+        position: relative;
+        transform: scale(1.6);
+        width: 8.5rem;
+        height: 11.75rem;
+    }
+}
+
+.ai {
+    img {
+        // width: toRem(198);
+        position: relative;
+        transform: scale(1.7);
+        width: toRem(198);
+        height: toRem(227);
+    }
+
+    // @include backblur(toRem(197), toRem(169), #028BC7);
+
+}
+
+.friend {
+    img {
+        // width: toRem(198);
+        position: relative;
+        transform: scale(1.8);
+        width: toRem(139);
+        height: toRem(166);
+    }
+}
+
+#classicIMG #aiIMG #friendIMG {
+    transition: all 1s ease-in-out;
+
+}
+
+
+body:has(#classicA:hover) #classicIMG {
+    // filter: saturate(0);
+    transform: scale(2);
+}
+
+body:has(#aiA:hover) #aiIMG {
+    // filter: saturate(0);
+    transform: scale(2);
+}
+
+body:has(#friendA:hover) #friendIMG {
+    // filter: saturate(0);
+    transform: scale(2.1);
+}
+
+.owl-item.active.center {
+    transform: scale(1.1);
+
+}
+
+.owl-carousel.owl-theme.owl-loaded.owl-drag {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: visible;
+}
+
+.owl-item.active {
+    filter: blur(toRem(2));
+}
+
+.owl-stage-outer {
+    // overflow: visible;
+    height: toRem(244);
+    // display: contents;
+    padding-top: toRem(25);
+    overflow-y: visible;
+}
+
+.owl-item.active.center {
+    filter: blur(0px);
+    // filter: ;
+    div{
+        .container-games{
+            box-shadow: 0px 0px toRem(15) rgba(53, 118, 123, 0.5);
+        }
+    }
+}
+
+.custom-nav-btn {
+    width: toRem(42);
+    height: toRem(42);
+    box-shadow: 0px 0.25rem 2.5rem rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(0.75rem);
+    border-radius: 0.8125rem;
+    background: linear-gradient(to bottom, #5699AE, #E15253);
+    padding: 0.0625rem;
+    position: absolute;
+    // top: 0;
+    // left: 0;
+
+    .content-nav {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.8125rem;
+        background: #2C282C;
+
+        svg {
+            opacity: 1;
+        }
+    }
+}
+
+.next-btn {
+    position: absolute;
+    top: -9.75rem;
+    left: 68.4125rem;
+}
+
+.prev-btn {
+    position: absolute;
+    top: toRem(-156);
+    left: toRem(-48);
+}
+
+.owl-nav {
+    position: relative;
+}
+
+.owl-carousel.owl-theme.owl-loaded.owl-drag {
+    // display: none;
+    width: 98%;
+    // -webkit-tap-highlight-color: transparent;
+    // position: relative;
+    // z-index: 1;
+    margin-inline: auto;
+}

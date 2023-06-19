@@ -1,0 +1,15 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 844 844" width="844" height="844">
+	<title>New Project</title>
+	<defs>
+		<image  width="844" height="844" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0wAAANMAQMAAABVU7/0AAAAAXNSR0IB2cksfwAAAANQTFRFHh4en4yxHAAAAG5JREFUeJztwTEBAAAAwqD1T+1hDaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgBmDTAAEJU46/AAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+		tspan { white-space:pre } 
+		.t0 { font-size: 971px;fill: #fefefe;font-weight: 400;font-family: "Inter-Regular", "Inter" } 
+	</style>
+	<use id="Background" href="#img1" x="0" y="0"/>
+	<text id="?" style="transform: matrix(.771,0,0,.771,93.727,150.715)" >
+		<tspan x="184.3" y="706.2" class="t0">?
+</tspan>
+	</text>
+</svg>

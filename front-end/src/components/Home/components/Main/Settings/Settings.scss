@@ -1,0 +1,465 @@
+@import "../../../../../global.scss";
+
+.settings-Container {
+    display: flex;
+    gap: toRem(50);
+    flex-direction: column;
+    // background-color: red;
+    width: 75.0625rem;
+    height: fit-content;
+
+    .header-settings {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        .backHome-cont {
+            width: toRem(166);
+            height: toRem(44);
+            background: linear-gradient(to bottom, #5699AE, #E15253);
+            box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(toRem(2));
+            border-radius: toRem(15);
+            padding: toRem(1);
+
+            .backHome {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: toRem(10);
+                background-color: #2D292C;
+                border-radius: toRem(15);
+
+                svg {
+                    position: relative;
+                    opacity: 1;
+                }
+
+                p {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: toRem(17);
+                    color: #F9C690;
+                }
+
+            }
+        }
+    }
+
+    .con-act {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        gap: toRem(99);
+        // margin-top: toRem(20);
+    }
+
+    .con-act-cont {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        gap: toRem(65);
+        flex-direction: column;
+        padding: toRem(33) toRem(31) toRem(0) toRem(35);
+
+        h1 {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 556;
+            font-size: toRem(22);
+            color: #FFFFFF;
+        }
+
+        .center-cont-act {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            h2 {
+
+                font-family: 'SF';
+                font-style: normal;
+                font-weight: 100;
+                font-size: toRem(21);
+                color: #FFFFFF;
+            }
+
+            .showListC {
+                background: rgba(47, 45, 53, 0.3);
+                box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5);
+                border-radius: toRem(15);
+                width: toRem(162);
+                height: toRem(40);
+                background: linear-gradient(to bottom, #5699AE, #E15253);
+                padding: toRem(1);
+
+                .showlist {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 350;
+                    font-size: toRem(17);
+                    color: #FFFFFF;
+                    border-radius: toRem(15);
+                    background-color: #2D292C;
+
+                }
+            }
+
+        }
+
+        .bottom-cont {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+
+
+            .deleteAccount {
+                width: toRem(326);
+                height: toRem(47);
+                box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5);
+                border-radius: toRem(15);
+                background: linear-gradient(to bottom, #5699AE, #E15253);
+
+                .deleteAcountU {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    background: #ED5152;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: toRem(15);
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 350;
+                    font-size: toRem(21);
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+        .bottom-update {
+            align-items: center;
+            justify-content: space-between;
+
+            h2 {
+                font-family: 'SF';
+                font-style: normal;
+                font-weight: 350;
+                font-size: toRem(21);
+                text-align: center;
+                color: #FFFFFF;
+            }
+        }
+    }
+}
+
+.AccountSettings {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: toRem(9);
+    padding: toRem(31);
+    padding-left: toRem(43);
+
+    h2 {
+        font-family: 'SF';
+        font-style: normal;
+        font-weight: 556;
+        font-size: toRem(22);
+        color: #FFFFFF;
+    }
+
+    .account-set {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        gap: toRem(174);
+        justify-content: center;
+        align-items: center;
+
+        .image-pro-settings {
+            width: toRem(166);
+            height: toRem(166);
+            background-size: cover;
+            border-radius: toRem(20);
+            padding-top: toRem(79);
+            position: relative;
+            // flex-direction: column-reverse;
+
+            .editAv {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: toRem(166);
+                height: toRem(87);
+                background: rgba(0, 0, 0, 0.55);
+                backdrop-filter: blur(toRem(25));
+                border-radius: 0px 0px toRem(20) toRem(20);
+                font-family: 'SF';
+                font-style: normal;
+                font-weight: 457;
+                font-size: toRem(13);
+                line-height: 1rem;
+                color: #FFFFFF;
+                text-align: center;
+            }
+
+            .Pen {
+                position: absolute;
+                width: toRem(37);
+                height: toRem(37);
+                background: rgba(32, 31, 35, 0.5);
+                box-shadow: 0px 0px toRem(20) rgba(0, 0, 0, 0.45);
+                backdrop-filter: blur(toRem(2));
+                border-radius: toRem(25);
+                background: linear-gradient(to bottom, #5699AE, #E15253);
+                padding: toRem(1);
+                left: toRem(138);
+                top: toRem(140);
+
+                .penC {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: toRem(25);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #2D292C;
+                }
+            }
+        }
+
+        .edit-NEP {
+            width: toRem(620);
+            border-left: toRem(2) solid #7D7D7D;
+            padding: toRem(14);
+            padding-left: toRem(92);
+            gap: toRem(26);
+            display: flex;
+            // align-items: center;
+            height: fit-content;
+            flex-direction: column;
+
+            .input-settings {
+                display: flex;
+                align-items: center;
+                gap: toRem(25);
+                width: toRem(550);
+
+                .icon-edit {
+                    height: 100%;
+                    width: 100%;
+                    align-items: center;
+                    justify-content: center;
+                    display: flex;
+                }
+
+                .inputContent {
+                    width: 100%;
+                    height: 100%;
+                    padding: toRem(18);
+                    padding-left: toRem(22);
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: row;
+                    align-items: center;
+
+                    button {
+                        display: flex;
+                        width: fit-content;
+                        height: fit-content;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    input {
+                        width: 100%;
+                        height: 100%;
+                        font-family: 'SF';
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: toRem(18);
+                        background-color: transparent;
+                        display: flex;
+                        align-items: center;
+                        padding-right: toRem(5);
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+svg {
+    position: relative;
+    opacity: 1;
+}
+
+.switch {
+    display: inline-block;
+    height: toRem(30);
+    position: relative;
+    width: toRem(81);
+    background: #ED5152;
+    box-shadow: 0px 0px toRem(20) rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(toRem(2));
+    border-radius: toRem(25);
+}
+
+.switch .toogleInput {
+    display: none;
+}
+
+.slider {
+    /*   background-color: #ccc; */
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    // border : toRem(1) solid #ED5152;
+}
+
+.slider:before {
+    background: rgba(32, 31, 35, 0.5);
+    border: toRem(1) solid #ED5152;
+    /*   background-color: #fff; */
+    /*   bottom: 4px; */
+    content: "";
+    height: toRem(27);
+    left: 0px;
+    position: absolute;
+    transition: .2s;
+    width: toRem(27);
+    top: toRem(0.7);
+}
+
+.toogleInput:checked+.slider {
+    background-color: #00887A;
+    box-shadow: 0px 0px toRem(20) #22BFAF;
+    // border : toRem(1) solid #22BFAF;
+
+}
+
+.toogleInput:checked+.slider:before {
+    transform: translateX(toRem(52));
+    background: white;
+    box-shadow: 0px 0px toRem(20) #22BFAF;
+    border: toRem(1) solid #22BFAF;
+}
+
+.slider.round {
+    border-radius: toRem(34);
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+
+
+
+
+.button-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: toRem(2);
+    background: rgba(14, 14, 14, 0.2);
+    box-shadow: inset 0px 0px toRem(4) rgba(0, 0, 0, 0.25);
+    border-radius: toRem(7);
+    position: relative;
+
+    .switch-back {
+        position: absolute;
+        width: toRem(81);
+        height: toRem(24);
+        background: linear-gradient(238.62deg, #00887A 30.68%, #F9C690 237.48%);
+        box-shadow: 0px 0px toRem(15) rgba(27, 143, 125, 0.5);
+        border-radius: toRem(5);
+        z-index: 40;
+        left: toRem(2);
+    }
+
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'SF';
+        font-style: normal;
+        font-weight: 400;
+        font-size: toRem(12);
+        color: #FFFFFF;
+        z-index: 55;
+    }
+
+    .online-btn {
+        width: toRem(81);
+        height: toRem(24);
+        // background: linear-gradient(238.62deg, #00887A 30.68%, #F9C690 237.48%);
+        // box-shadow: 0px 0px toRem(15) rgba(27, 143, 125, 0.5);
+        border-radius: toRem(5);
+    }
+
+    .offline-btn {
+        width: toRem(81);
+        height: toRem(24);
+        // background: linear-gradient(238.62deg, #00887A 30.68%, #F9C690 237.48%);
+        // box-shadow: 0px 0px toRem(15) rgba(27, 143, 125, 0.5);
+        border-radius: toRem(5);
+    }
+}
+
+.offline-active-btn {
+    left: toRem(82);
+    animation: online 0.2s ease-in 0s 1 normal forwards;
+}
+
+.online-active-btn {
+    left: toRem(2);
+    animation: offline 0.2s ease-in 0s 1 normal forwards;
+}
+
+@keyframes offline {
+    0% {
+        left: toRem(82);
+        // opacity: 0;
+        
+    }
+
+    100% {
+        left: 0.125rem;
+        background: linear-gradient(238.62deg, rgb(237, 81, 82) 30.68%, #F9C690 237.48%);
+        box-shadow: 0px 0px toRem(15) rgba(237, 81, 82, 0.5);
+        opacity: 1;
+    }
+
+}
+
+@keyframes online {
+    0% {
+        left: 0.125rem;
+    }
+
+    100% {
+        left: toRem(82);
+    }
+
+}
+
+

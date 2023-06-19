@@ -1,0 +1,123 @@
+@import "../../../../../global.scss";
+
+.leaderboard-container {
+    display: flex;
+    gap: toRem(50);
+    flex-direction: column;
+    width: 75.0625rem;
+    height: fit-content;
+
+    .headerLb {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // padding-right: toRem(59);
+
+        .filterC {
+            width: toRem(204);
+            height: toRem(56);
+            background: rgba(47, 45, 53, 0.3);
+            box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(toRem(2));
+            border-radius: toRem(15);
+            background: linear-gradient(to bottom, #5699AE, #E15253);
+            padding: toRem(1);
+            // position: relative;
+            .filterIn {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                padding-left: toRem(22);
+                padding-right: toRem(19);
+                border-radius: toRem(15);
+                justify-content: space-between;
+                background-color: #2D292C;
+                align-items: center;
+                font-family: 'SF';
+                font-style: normal;
+                font-weight: 400;
+                font-size: toRem(19);
+                color: #FFFFFF;
+
+            }
+        }
+    }
+}
+
+.filterSide {
+    position: absolute;
+    width: toRem(204);
+    height: fit-content;
+    background: linear-gradient(276deg, #2ABAAB 10%, rgba(43, 188, 173, 0) 55%);
+    // background: #262226;
+    box-shadow: 0px toRem(8) toRem(12) rgba(0, 0, 0, 0.31);
+    padding: toRem(1);
+    border-radius: toRem(12);
+    top: 12 rem;
+    left: toRem(1207);
+
+    .filterSide-C {
+        width: 100%;
+        height: 100%;
+        border-radius: toRem(12);
+        background: #262226;
+        display: flex;
+        gap: toRem(20);
+        padding: toRem(26) toRem(12) toRem(26) toRem(19);
+        flex-direction: column;
+        // align-items: center;
+        justify-content: space-between;
+
+        div {
+            display: flex;
+            gap: toRem(19);
+            align-items: center;
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 1rem;
+            color: #FFFFFF;
+            position: relative;
+
+            input[type="radio"] {
+                opacity: 0;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: toRem(22);
+                height: toRem(22);
+                cursor: pointer;
+                z-index: 500000;
+            }
+
+            label {
+                cursor: pointer;
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    background-image: url('./radio.svg');
+                    background-size: 60%;
+                    background-color: #262226;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    width: toRem(18);
+                    height: toRem(18);
+                    border: toRem(1) solid #FFFFFF;
+                    border-radius: toRem(7);
+                    transition: background-color 0.5s ease;
+                    pointer-events: none;
+                }
+
+            }
+
+
+        }
+    }
+}
+input[type="radio"]:hover + label::before{
+    background-color: #2e7b7319;
+}
+input[type="radio"]:checked + label::before{
+    background-color: #2ABAAB;
+}

@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  
+  UserId              String                @id
+  username            String             @unique
+  FullName            String
+  avatar              String
+  FA_On               Boolean?
+  FAsecret            String?
+  XP                  Int?                @default(0)
+  win                 Int?                @default(0)
+  loss                Int?                @default(0)
+  draw                Int?                @default(0)
+  level               Int?                @default(0)
+  badge               String?
+  email               String             @unique
+  createdAt           DateTime           @default(now())
+  RefreshToken        String?
+  
+  // Relations
+  SenderFriendships   Friendship[]        @relation("SenderFriendships")
+  ReceiverFriendships Friendship[]       @relation("ReceiverFriendships")
+  Messages            Message[]           @relation("SenderMessages")
+  membershipGroups    Membership[]       @relation("MembershipGroupUsers")
+  notifications       Notification[]      @relation("UserNotifications")
+  Player1Relation     Game[]              @relation("Player1Relation")
+  Player2Relation     Game[]              @relation("Player2Relation")
+  WinnerRelation     Game[]              @relation("WinnerRelation")
+}
+
+model Room {
+  
+  RoomId        Int       @id @default(autoincrement())
+  RoomNAme      String
+  CreationTime  DateTime  @default(now())
+  updateTime    DateTime  @updatedAt @default(now())
+  ischannel     Boolean
+  Password      String
+
+  // Relations
+  Message Message[] @relation("messages")
+  members Membership[] @relation("roomMember")
+}
+
+model Message {
+  
+  MessageId   Int       @id @default(autoincrement())
+  room       Room       @relation(name : "messages", fields : [RoomId], references : [RoomId])
+  RoomId      Int
+  user        User       @relation(name : "SenderMessages", fields : [UserId], references : [UserId])
+  UserId      String
+  Content     String
+  SendTime    DateTime  @updatedAt @default(now())
+  
+}
+
+model Friendship{
+  
+  FriendshipId    Int        @id @default(autoincrement())
+  sender          User       @relation(name : "SenderFriendships", fields: [SenderId], references: [UserId])
+  SenderId        String
+  receiver         User      @relation(name : "ReceiverFriendships", fields: [ReceiverId], references: [UserId])
+  ReceiverId      String
+  Accepted        Boolean
+  CreationTime    DateTime   @default(now())
+}
+
+model Notification {
+  NotificationId  Int      @id @default(autoincrement())
+  user            User     @relation(name : "UserNotifications", fields : [UserId], references : [UserId])
+  UserId          String
+  Title           String
+  Type            String   // 'game_invitation', 'friendship_request', etc.
+  isRead          Boolean  // optional
+  CreationTime    DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Membership {
+
+  GroupId       Int  @id @default(autoincrement())
+  room          Room @relation(name: "roomMember", fields : [RoomId], references : [RoomId])
+  RoomId        Int
+  member        User @relation(name: "MembershipGroupUsers", fields : [UserId], references : [UserId])
+  UserId        String
+  Role          Role @default(USER)
+  isBanned      Boolean
+  isMuted       Boolean
+  CreationTime  DateTime   @default(now())
+}
+
+enum MODE {
+  classic
+  AI
+  Friends
+}
+
+
+model Game{
+
+  GameId              Int       @id @default(autoincrement())
+  Player1             User      @relation(name : "Player1Relation", fields : [PlayerId1], references : [UserId])
+  PlayerId1           String
+  Player2             User      @relation(name : "Player2Relation", fields : [PlayerId2], references : [UserId]) 
+  PlayerId2           String
+  Mode                MODE
+  winner              User?      @relation(name : "WinnerRelation", fields : [WinnerId], references : [UserId]) 
+  WinnerId            String?
+  isDraw              Boolean   @default(false)
+  Result              Int
+  PlayerXP1           Int
+  PlayerXP2           Int
+  Rounds              Int        
+  CreationTime        DateTime   @default(now())
+}

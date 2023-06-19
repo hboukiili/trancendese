@@ -1,0 +1,704 @@
+@import "../../../../../global.scss";
+
+.ProfileComponent-Activity-Friends {
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    position: relative;
+    top: toRem(-10);
+
+    .fa-Profile {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(25);
+
+        .textActive {
+            display: flex;
+            gap: toRem(8);
+            flex-direction: row;
+            align-items: center;
+
+            button {
+                svg {
+                    position: relative;
+                }
+            }
+
+        }
+
+        .graph {
+            display: flex;
+            gap: toRem(9);
+            align-items: center;
+
+            .graphN {
+                display: flex;
+                flex-direction: column;
+                height: toRem(305);
+                justify-content: space-between;
+                align-items: flex-end;
+
+                position: absolute;
+                transform: translateX(toRem(-30));
+
+                p {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: toRem(10);
+                    text-align: right;
+                    color: #F9C690;
+                }
+            }
+        }
+
+    }
+
+
+}
+
+.content-friend {
+    width: 100%;
+    height: 100%;
+    padding-top: toRem(37);
+    padding-bottom: toRem(32);
+    padding-right: toRem(3);
+
+    .content-fri {
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 100%;
+        max-height: 100%;
+        gap: toRem(27);
+        padding: 0 toRem(22);
+        // justify-content: center;
+        align-items: center;
+
+
+        .friend-Profile {
+            display: flex;
+            align-items: center;
+            // justify-content: start;
+            gap: toRem(25);
+
+            .friend-info {
+                display: flex;
+                gap: toRem(11);
+                align-items: center;
+                height: fit-content;
+                width: toRem(150);
+
+                img {
+                    width: toRem(63);
+                    height: toRem(63);
+                    background: #4F5150;
+                    border-radius: toRem(19);
+
+                    p {
+                        font-family: 'SF';
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: toRem(14);
+                        text-transform: uppercase;
+                        color: #FFFFFF;
+                    }
+                }
+            }
+
+            .buttons-f {
+                display: flex;
+                justify-content: center;
+                gap: toRem(13);
+                align-items: center;
+
+                button {
+                    padding: toRem(1);
+                    width: toRem(85);
+                    height: toRem(33);
+                    background: linear-gradient(to right, #2D282C, #1D4947);
+                    border-radius: toRem(12);
+
+                    div {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #262226;
+                        border-radius: toRem(12);
+                        font-family: 'SF';
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: toRem(11);
+                        color: #FFFFFF;
+                    }
+                }
+
+                .IP {
+                    background: linear-gradient(to right, #2D282C, #E15253);
+                }
+            }
+        }
+    }
+}
+
+h1 {
+    font-family: "SF";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.8125rem;
+    line-height: 2.1875rem;
+    color: #F9C690;
+}
+
+.container-Profile-profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding-top: toRem(20);
+    padding-bottom: toRem(39);
+    align-items: center;
+    justify-content: space-between;
+
+    .imgS {
+        width: toRem(120);
+        height: toRem(120);
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 7.5rem;
+            height: 7.5rem;
+            background-color: #ED5152;
+            filter: blur(toRem(29));
+            opacity: 0.4;
+            z-index: 555555;
+            transform: translateX(toRem(-110));
+        }
+
+        img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #ED5152;
+            border-radius: toRem(20);
+            z-index: 555596;
+
+            p {
+                font-family: 'SF';
+                font-style: normal;
+                font-weight: 600;
+                font-size: toRem(14);
+                text-transform: uppercase;
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    h2 {
+        font-family: 'SF';
+        font-style: normal;
+        font-weight: 600;
+        font-size: toRem(25);
+        color: #FFFFFF;
+    }
+
+    .status {
+        width: fit-content;
+        height: fit-content;
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: toRem(7);
+
+        .dotss {
+            width: toRem(7);
+            height: toRem(7);
+            background: #ED5152;
+            border-radius: 50%;
+        }
+
+        .txt-status {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 500;
+            font-size: rem(13);
+            letter-spacing: -0.01em;
+            color: #ED5152;
+        }
+    }
+
+    .buttons-f {
+        display: flex;
+        align-items: center;
+        gap: toRem(26);
+
+        button {
+            width: toRem(40);
+            height: toRem(40);
+            box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(toRem(12));
+            border-radius: toRem(13);
+            background: linear-gradient(to bottom, #5699AE, #E15253);
+            padding: toRem(1);
+
+            div {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: toRem(13);
+                background: #2C282C;
+            }
+        }
+
+    }
+
+    .progress {
+        display: flex;
+        width: toRem(355);
+        height: toRem(24);
+        background: rgba(47, 45, 53, 0.3);
+        box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5), inset -5px 5px 8px 1px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(toRem(2));
+        border-radius: toRem(17);
+        background: linear-gradient(to bottom, #5699AE, #E15253);
+        padding: toRem(1);
+
+        .content-progress {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2C282C;
+            border-radius: toRem(17);
+            padding-left: toRem(11);
+            padding-right: toRem(11);
+
+            h5 {
+                z-index: 50001;
+            }
+
+            .absoluteProgress {
+                position: absolute;
+                width: toRem(288);
+                height: toRem(22);
+                background: linear-gradient(270deg, #00887A -31.37%, #1FB4A5 136.27%);
+                border-radius: toRem(17);
+                z-index: 50000;
+                transform: translateX(toRem(-10.99));
+            }
+        }
+    }
+
+    .footerP {
+        .footerCon {
+            border-radius: toRem(17);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: toRem(13);
+            padding-right: toRem(11);
+            background: #2C282C;
+
+            .footedge {
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                gap: toRem(43);
+                width: 49.5%;
+
+                h5 {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: toRem(14);
+                    letter-spacing: -0.01em;
+                    color: #FFFFFF;
+                }
+
+                .green {
+                    color: #00887A;
+                }
+            }
+
+            .gaping-edge {
+                gap: toRem(33);
+            }
+
+            .footCenter {
+                width: toRem(46);
+                height: 0px;
+                border: toRem(1) solid rgba(237, 81, 82, 0.3);
+                box-shadow: 0px 0px toRem(15) #ED5152;
+                transform: rotate(90deg);
+            }
+
+        }
+
+        width: toRem(294);
+        height: toRem(46);
+        padding: toRem(1);
+        box-shadow: 0px toRem(4) toRem(40) rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(toRem(2));
+        border-radius: toRem(17);
+        background: linear-gradient(to bottom, #5699AE, #E15253);
+    }
+}
+
+.profileDown {
+    display: flex;
+    gap: toRem(38);
+    //padding-left: 4.25rem;
+    padding-right: 2.125rem;
+    width: 100%;
+    position: relative;
+    top: toRem(-17);
+    // gap: 4.5rem;
+
+    .AchivementsProfile,
+    .UpgradeProfile,
+    .HistoryProfile {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(28);
+
+        h1 {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 600;
+            font-size: toRem(29);
+            color: #F9C690;
+        }
+    }
+}
+
+.archivement-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: toRem(17) toRem(14);
+    // padding-top: toRem(67);
+    // gap: toRem(16);
+
+    .button-slide {
+        width: toRem(39);
+        height: toRem(39);
+        padding: toRem(1);
+        border-radius: 50%;
+        box-shadow: 0px toRem(4) toRem(4) rgba(0, 0, 0, 0.5);
+        background: linear-gradient(to bottom, #5699AE, #E15253);
+        z-index: 909090090;
+        position: absolute;
+        left: 14px;
+
+        .backjack {
+            display: flex;
+            background-color: #2B292E;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+
+            .imgRight {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .right-btn {
+        left: initial;
+        right: 14px;
+    }
+
+
+    .slideImg {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        // gap: toRem(15);
+        justify-content: center;
+
+        h1 {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 2rem;
+            color: #FFFFFF;
+        }
+    }
+}
+
+.container-pro {
+    width: 100%;
+    height: 100%;
+    padding-top: toRem(46);
+    padding-bottom: toRem(28);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .progress-Cont {
+        // width: 100%;
+        // height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+
+        .outer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: toRem(223);
+            height: toRem(223);
+            border-radius: 50%;
+            box-shadow: 0px 0px toRem(15) rgba(0, 0, 0, 0.3);
+            background-color: #1d4443;
+
+            .inner {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: toRem(160);
+                height: toRem(160);
+                border-radius: 50%;
+                /* background: linear-gradient(245.19deg, #00887a 14.59%, #14b3a2 114.88%); */
+                /* box-shadow: 0px 0px 10px #079f90; */
+                background-color: #262226;
+
+                .number {
+                    font-family: "SF";
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: toRem(40);
+                    color: #f9c690;
+                }
+            }
+        }
+    }
+
+    p {
+        width: toRem(279);
+        height: toRem(46);
+        font-family: 'SF';
+        font-style: normal;
+        font-weight: 300;
+        font-size: 1rem;
+        line-height: toRem(19);
+        text-align: center;
+        color: #FFFFFF;
+    }
+}
+
+
+
+
+.svg-progress {
+    position: absolute;
+    left: toRem(-52);
+    top: toRem(-66);
+    opacity: 1;
+
+    .circle-progress {
+        fill: none;
+        stroke: #079f90;
+        stroke-width: toRem(30);
+        stroke-dasharray: toRem(600);
+        stroke-dashoffset: toRem(126);
+        box-shadow: 0px 0px toRem(10) #079f90;
+        transform-origin: center;
+        transform: rotate(275deg);
+        -webkit-filter: drop-shadow(0px 0px toRem(10) #079f90);
+        filter: drop-shadow(0px 0px toRem(10) #079f90);
+    }
+}
+
+
+.gameHistory {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: toRem(26);
+    padding: toRem(26) 0;
+    align-items: center;
+    // justify-content: space-between;
+
+    .headerHistory {
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: toRem(43);
+
+        .seperator {
+            height: toRem(30);
+            width: 0px;
+            border: toRem(1) solid rgba(237, 81, 82, 0.3);
+            box-shadow: 0px 0px toRem(15) #ED5152;
+        }
+
+        .game-h {
+            font-family: 'SF';
+            font-style: normal;
+            font-weight: 500;
+            font-size: toRem(21);
+            color: #B0B0B0;
+        }
+
+        .wins {
+            color: #00887A;
+
+        }
+
+        .lose {
+            color: #ED5152;
+        }
+
+    }
+
+    .gameHistoryC {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-inline: toRem(52);
+        row-gap: toRem(61);
+        justify-content: space-between;
+        // column-gap: toRem(20);
+        width: 100%;
+        height: fit-content;
+        max-height: toRem(280);
+        overflow-x: hidden;
+        overflow-y: auto;
+
+    }
+}
+
+.firstLayer {
+    width: toRem(322);
+    height: toRem(106);
+    background: linear-gradient(to bottom, #5699AE, #E15253);
+    padding: toRem(1);
+    border-radius: toRem(40);
+
+    .secondLayer {
+        width: 100%;
+        height: 100%;
+        background-color: #242225;
+        border-radius: toRem(40);
+
+        .gameSta {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(270.22deg, rgba(176, 176, 176, 0.44) -56.75%, rgba(176, 176, 176, 0) 99.81%);
+            border-radius: toRem(40);
+            display: flex;
+            padding: toRem(18);
+            padding-left: toRem(19);
+            padding-right: toRem(23);
+            justify-content: space-between;
+            align-items: center;
+
+            .infoGame {
+                display: flex;
+                align-items: center;
+                gap: toRem(15);
+
+                img {
+                    width: toRem(66.19);
+                    height: toRem(66.19);
+                    border-radius: toRem(19);
+                }
+
+                .enemyScore {
+                    display: flex;
+                    flex-direction: column;
+                    // gap: toRem(10);
+                    // align-items: center;
+                    // justify-content: center;
+
+                    h1 {
+                        font-family: 'SF';
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 1rem;
+                        text-transform: uppercase;
+                        color: #FFFFFF;
+                    }
+
+                    .score {
+                        display: flex;
+                        justify-content: space-between;
+                        width: toRem(56);
+                        align-items: center;
+
+                        .Goal {
+                            font-family: 'SF';
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 1rem;
+                            text-transform: uppercase;
+                            color: #B0B0B0;
+                        }
+
+                        .Win {
+                            color: #00887A;
+                        }
+
+                        .Lose {
+                            color: #ED5152;
+                        }
+                    }
+                }
+            }
+
+            .xpGame {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                // gap: 1rem;
+
+                h1 {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 1rem;
+                    text-transform: uppercase;
+                    color: #FFFFFF;
+                }
+
+                .modeGame {
+                    font-family: 'SF';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: toRem(11);
+                    text-transform: uppercase;
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+        .winGame {
+            background: linear-gradient(270.22deg, rgba(0, 136, 122, 0.44) -56.75%, rgba(0, 136, 122, 0) 99.81%);
+        }
+
+        .loseGame {
+            background: linear-gradient(270.22deg, rgba(237, 81, 82, 0.49) -56.75%, rgba(225, 82, 83, 0) 99.81%);
+        }
+    }
+}

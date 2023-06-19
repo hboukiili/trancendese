@@ -1,0 +1,52 @@
+
+export class UserDTO
+{
+    id 			: string;
+    username 	: String;
+    FULLNAME 	: String;
+    avatar   	: String;
+    XP       	: number;
+	win			: number;
+	loss		: number;
+	draw		: number;
+	level		: number;
+	badge		: number;
+	email		: string;
+	createdAt	: Date	;
+};
+
+export class GamesDTO
+{
+	GameId				: string;
+	Mode 				: string;
+	Result				: number;
+	won					: boolean;
+	isDraw				: boolean;
+	Rounds  			: number;
+	advPic				: string;
+	AdvName				: string;
+}
+
+export class AllGames
+{
+	win	 		: number;
+	loose 		: number;
+	Draw		: number;
+	AllGames	: GamesDTO[];
+}
+
+export class topPlayers
+{
+	avatar 		: string;
+	username 	: string;
+	XP	 		: number;
+	level 		: number;
+}
+
+export class RecentActivity
+{
+	Player1 : string;
+	Player2 : string;
+	Winner  : string;
+	IsDraw  : boolean;
+}
