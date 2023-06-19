@@ -33,7 +33,7 @@ function Activity() {
 	const [data, seData] = useState([]);
 	console.log(data)
 	useEffect(() => {
-		axios.get('RecentActivity').then((response) => seData(response.data));
+		axios.get('Home/RecentActivity').then((response) => seData(response.data));
 	}, [])
 	return (
 		<div className='box-box-cont'>
@@ -160,7 +160,7 @@ function Main() {
 						<Route path="/" element={<><Hero /><GamesMode /><BestPlayers /></>} />
 						<Route path="chat" element={<Chat params={false} />} />
 						<Route path="chat/:login" element={<Chat params={true} />} />
-						<Route path="profile/" element={<><Profile /></>} />
+						<Route path="profile/:login" element={<><Profile /></>} />
 						<Route path="settings/" element={<><Settings /></>} />
 						<Route path="/leaderBoard" element={<LeaderBoard />} />
 
@@ -172,12 +172,12 @@ function Main() {
 					<Route path="/leaderBoard" element={<Side2 isN={1} />} />
 					<Route path="chat" element={<Side2 isN={1} />} />
 					<Route path="chat/:login" element={<Side2 isN={1} />} />
-					<Route path="/profile" element={<Side2 isN={0} />} />
+					<Route path="/profile/:login" element={<Side2 isN={0} />} />
 				</Routes>
 				{invit && <Invitation state={setInvit} />}
 			</div>
 			<Routes>
-				<Route path="/profile" element={<ProfileDown />} />
+				<Route path="/profile/:login" element={<ProfileDown />} />
 			</Routes>
 		</div>
 	)

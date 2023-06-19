@@ -70,7 +70,6 @@ function Profile() {
                         <Charts />
                     </GradienBox>
                 </div>
-
             </div>
             <div className="fa-Profile">
                 <h1>Friends</h1>

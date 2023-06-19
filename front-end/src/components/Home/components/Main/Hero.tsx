@@ -8,7 +8,7 @@ function Hero() {
   
   const [LoginHero, setHero] = useState('')
   useEffect(()=>{
-    axios.get('/Hero').then(( response ) => setHero(response.data))
+    axios.get('/Home/Hero').then(( response ) => setHero(response.data))
   }, [])
   
   return (

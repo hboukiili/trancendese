@@ -11,7 +11,7 @@ import axios from '../../../../Interceptor/Interceptor'
 function RankTable() {
 	const [rankData, setBestPlayers] = useState([])
 	useEffect(() => {
-		axios.get('/Best6Players').then((response) => setBestPlayers(response.data))
+		axios.get('/Home/Best6Players').then((response) => setBestPlayers(response.data))
 	}, [])
 	console.log(rankData);
 	var noPlayer = {

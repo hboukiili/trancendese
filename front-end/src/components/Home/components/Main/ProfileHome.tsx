@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 function ProfileHome() {
     const [data, setdata] = useState('')
     useEffect(()=>{
-        axios.get('/MyProfile').then(( response ) => setdata(response.data))
+        axios.get('Home/MyProfile').then(( response ) => setdata(response.data))
     },[])
     return (
         <GradienBox mywidth="397px" myheight="284px" myborder="40px">
