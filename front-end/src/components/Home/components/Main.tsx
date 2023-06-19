@@ -21,7 +21,7 @@ function ActivityContent(props: any) {
 		<div className="activity-x">
 			<div className="part1">
 				<img src={props.avatar1} alt="" />
-				<p>{props.p1}<span>{' ' + (props.isDraw === false ? 'won against ' : 'had a draw with')}</span>{props.p2}</p>
+				<p>{props.p1}<span>{' ' + (props.isDraw === false ? 'won against ' : 'had a draw with ')}</span>{props.p2}</p>
 				{/* <img src={props.avatar2} alt="" /> */}
 			</div>
 			<div className="time-act">{(props.isDraw === true ? '+60pts' : '+120pts')}</div>
