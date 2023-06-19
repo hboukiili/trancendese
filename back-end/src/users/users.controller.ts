@@ -41,13 +41,12 @@ export class UsersController {
     async getGameHistory(@Req() req, @Res() res)
     {
         let game : AllGames = await this.UserService.fetchgame(req.user);
-        console.log(game.AllGames[0].advPic);
-        res.json(game.AllGames[0].advPic);
+        res.json(game.AllGames);
     }
 
     @Get('RecentActivity')
-    GetRecentActivity(@Req() req, @Res() res){
-        this.UserService.RecentActivity();
-        res.json('okk');
+    async GetRecentActivity(@Req() req, @Res() res){
+        const recent = await this.UserService.RecentActivity();
+        res.json(recent);
     }
 }

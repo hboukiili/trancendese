@@ -1,6 +1,6 @@
 import { All, Injectable } from '@nestjs/common';
 import { PrismaClient, User, Game } from '@prisma/client';
-import { GamesDTO, AllGames, topPlayers } from '../dto/dto-classes';
+import { GamesDTO, AllGames, topPlayers, RecentActivity } from '../dto/dto-classes';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +13,70 @@ export class UsersService {
 			data: user,
 		});
 		return newUser;
+	}
+
+	async RecentActivity()
+	{
+		let allgames = await this.prisma.game.findMany({
+			orderBy:{
+				CreationTime : "desc",
+			},
+			include : {
+				Player1 : {
+					select : {
+						username : true,
+						avatar : true
+					}
+				},
+				Player2 : {
+					select : {
+						username : true,
+						avatar : true
+					}
+				},
+				winner :{
+					select :{
+						username : true,
+					}
+				}
+				
+			}
+		});
+
+		const recently : RecentActivity[] = [];
+		for (let i = 0; i < allgames.length; i++) {
+			if (allgames[i].isDraw)
+			{
+				recently.push( {
+					Player1 : allgames[i].Player2.avatar,
+					Player1Avatar : allgames[i].Player2.avatar,
+					Player2 : allgames[i].Player1.avatar,
+					Player2Avatar : allgames[i].Player1.avatar,
+					IsDraw : true,
+				})
+			}
+			else if (allgames[i].WinnerId == allgames[i].PlayerId1)
+			{
+				recently.push( {
+					Player1 : allgames[i].Player1.avatar,
+					Player1Avatar : allgames[i].Player1.avatar,
+					Player2 : allgames[i].Player2.avatar,
+					Player2Avatar : allgames[i].Player2.avatar,
+					IsDraw : false,
+				})
+			}
+			else if (allgames[i].WinnerId == allgames[i].PlayerId2)
+			{
+				recently.push( {
+					Player1 : allgames[i].Player2.avatar,
+					Player1Avatar : allgames[i].Player2.avatar,
+					Player2 : allgames[i].Player1.avatar,
+					Player2Avatar : allgames[i].Player1.avatar,
+					IsDraw : false,
+				})
+			}
+		}
+		return recently;
 	}
 
     async findOneUser(user : User){
@@ -97,39 +161,6 @@ export class UsersService {
 		}
 	}
 
-	async RecentActivity()
-	{
-		let allgames = await this.prisma.game.findMany({
-			orderBy:{
-				CreationTime : "desc",
-			},
-			include : {
-				Player1 : {
-					select : {
-						username : true,
-						avatar : true
-					}
-				},
-				Player2 : {
-					select : {
-						username : true,
-						avatar : true
-					}
-				},
-				winner :{
-					select :{
-						username : true,
-					}
-				}
-				
-			}
-		});
-
-		for (let i = 0; i < allgames.length; i++){
-
-		}
-		console.log(allgames);
-	}
 
 	async fetchgame(user : User)
 	{

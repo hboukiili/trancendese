@@ -45,8 +45,9 @@ export class topPlayers
 
 export class RecentActivity
 {
-	Player1 : string;
-	Player2 : string;
-	Winner  : string;
-	IsDraw  : boolean;
+	Player1 		: string;
+	Player1Avatar 	: string;
+	Player2 		: string;
+	Player2Avatar	: string;
+	IsDraw  		: boolean;
 }
