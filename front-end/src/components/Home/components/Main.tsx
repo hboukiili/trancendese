@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Search from './Main/Search'
 import MsgNot from './Main/MsgNot'
 import GamesMode from './Main/GamesMode'
@@ -13,20 +13,27 @@ import Chat from './Main/Chat/Chat'
 import Profile, { ProfileProfile, ProfileDown } from './Main/Profile/Profile'
 import Settings from './Main/Settings/Settings'
 import LeaderBoard from './Main/LeaderBoard/LeaderBoard'
+import axios from '../../../Interceptor/Interceptor'
 
 
 function ActivityContent(props: any) {
-	return (<div className="activity-x">
-		<div className="part1">
-			<img src={props.avat} alt="" />
-			<p>{props.p1}<span>{' ' + props.stat + ' against '}</span>{props.p2}</p>
-			<img src={props.avat} alt="" />
+	return (
+		<div className="activity-x">
+			<div className="part1">
+				<img src={props.avatar1} alt="" />
+				<p>{props.p1}<span>{' ' + (props.isDraw === false ? 'won against ' : 'had a draw with')}</span>{props.p2}</p>
+				<img src={props.avatar2} alt="" />
+			</div>
 		</div>
-		{/* <div className="time-act">{props.time}</div> */}
-	</div>)
+	)
 }
 function Activity() {
 	const [isAll, setIsALL] = useState({ boolAll: true });
+	const [data, seData] = useState([]);
+	console.log(data)
+	useEffect(() => {
+		axios.get('RecentActivity').then((response) => seData(response.data));
+	}, [])
 	return (
 		<div className='box-box-cont'>
 			<h1 className='title-h1'>Recent activity</h1>
@@ -42,11 +49,13 @@ function Activity() {
 
 						</div>
 						<div className="activity-content">
-							{isAll.boolAll ? (<>
-								<ActivityContent p1='tchtaibi' p2='schoukou' time="10:21 AM" avat={avatar} stat='won' />
-								<ActivityContent p1='hboukil' p2='ydahni' time="10:21 AM" avat={avatar} stat='won' />
-								<ActivityContent p1='aaizza' p2='arahmoun' time="10:21 AM" avat={avatar} stat='won' />
-							</>) : <ActivityContent p1='aaizza' p2='arahmoun' time="10:21 AM" avat={avatar} stat='won' />
+							{
+								isAll.boolAll ?
+									(data && data.map((e, i) => {
+										return (
+											<ActivityContent key={'activ-' + i} p1={e.Player1} p2={e.Player2} isDraw={e.IsDraw} avatar1={e.Player1Avatar} avatar2={e.Player2Avatar} />
+										)
+									})) : <ActivityContent p1='aaizza' p2='arahmoun' time="10:21 AM" avat={avatar} stat='won' />
 							}
 						</div>
 						<button className="activity-footer">
@@ -134,7 +143,7 @@ function Side2(props: any) {
 function Main() {
 	const [invit, setInvit] = useState(false)
 	return (
-		<div style={{display: 'flex', flexDirection: 'column', marginBottom: 'auto'}}>
+		<div style={{ display: 'flex', flexDirection: 'column', marginBottom: 'auto' }}>
 			<div className='main'>
 				<div className="side1">
 					<div className='top'>
@@ -146,9 +155,9 @@ function Main() {
 						<Route path="chat" element={<Chat params={false} />} />
 						<Route path="chat/:login" element={<Chat params={true} />} />
 						<Route path="profile/" element={<><Profile /></>} />
-						<Route path="settings/" element={<><Settings/></>} />
-						<Route path="/leaderBoard" element={<LeaderBoard/>} />
-						
+						<Route path="settings/" element={<><Settings /></>} />
+						<Route path="/leaderBoard" element={<LeaderBoard />} />
+
 					</Routes>
 				</div>
 				<Routes>

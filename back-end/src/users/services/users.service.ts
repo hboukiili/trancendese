@@ -48,9 +48,9 @@ export class UsersService {
 			if (allgames[i].isDraw)
 			{
 				recently.push( {
-					Player1 : allgames[i].Player2.avatar,
+					Player1 : allgames[i].Player2.username,
 					Player1Avatar : allgames[i].Player2.avatar,
-					Player2 : allgames[i].Player1.avatar,
+					Player2 : allgames[i].Player1.username,
 					Player2Avatar : allgames[i].Player1.avatar,
 					IsDraw : true,
 				})
@@ -58,9 +58,9 @@ export class UsersService {
 			else if (allgames[i].WinnerId == allgames[i].PlayerId1)
 			{
 				recently.push( {
-					Player1 : allgames[i].Player1.avatar,
+					Player1 : allgames[i].Player1.username,
 					Player1Avatar : allgames[i].Player1.avatar,
-					Player2 : allgames[i].Player2.avatar,
+					Player2 : allgames[i].Player2.username,
 					Player2Avatar : allgames[i].Player2.avatar,
 					IsDraw : false,
 				})
@@ -68,9 +68,9 @@ export class UsersService {
 			else if (allgames[i].WinnerId == allgames[i].PlayerId2)
 			{
 				recently.push( {
-					Player1 : allgames[i].Player2.avatar,
+					Player1 : allgames[i].Player2.username,
 					Player1Avatar : allgames[i].Player2.avatar,
-					Player2 : allgames[i].Player1.avatar,
+					Player2 : allgames[i].Player1.username,
 					Player2Avatar : allgames[i].Player1.avatar,
 					IsDraw : false,
 				})

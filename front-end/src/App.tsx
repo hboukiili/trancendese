@@ -21,19 +21,6 @@ function App() {
 		if (token === 'true') {
 			setisLogin(true);
 		}
-
-		// const fetchData = async () => {
-		// await dispatch(getUsers());
-		// await dispatch(getNotification());
-		// await dispatch(getMessage());
-		// 	axios.get('/auth/ok')
-		// 		.then((response) => {
-		// 			setisLogin(true)
-		// 		}).catch((error)=>{
-		// 			console.log(error)
-		// 		})
-		// };
-		// fetchData();
 	},[]);
 
 	return (
