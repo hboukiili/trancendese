@@ -23,12 +23,14 @@ export class ProfileController {
         const user = await this.UserService.ReturnOneUserByusername(username);
 		if (!user)
 			throw new NotFoundException('User profile not found');
+        const isFriend = await this.UserService.checkisfriend(user);
         res.json({
             avatar 	 : user.avatar,
             status 	 : user.status,
             level  	 : user.level,
             xp       : user.XP,
             username : user.username,
+            isFriend,
         });
     }
 

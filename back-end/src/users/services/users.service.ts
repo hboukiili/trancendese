@@ -15,6 +15,26 @@ export class UsersService {
 		return newUser;
 	}
 
+	async checkisfriend(user : User)
+	{
+		const friend = await this.prisma.friendship.findMany({
+			where :
+			{
+				AND : [
+					{
+						OR: [{SenderId : user.UserId}, {ReceiverId : user.UserId}]
+					},
+					{
+						Accepted : true,
+					}
+				]
+			},
+			take : 1,
+		});
+		friend.filter((friend) => friend !== undefined);
+		return friend.length ? true : false;
+	}
+
 	async RecentActivity()
 	{
 		let allgames = await this.prisma.game.findMany({
