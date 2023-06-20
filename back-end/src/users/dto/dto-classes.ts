@@ -57,4 +57,5 @@ export class ProfileFriends
 	avatar 	 		: string;
 	username 		: string;
 	isMUtualFriend 	: boolean;
+	UserId			: string;
 }

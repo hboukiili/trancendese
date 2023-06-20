@@ -147,12 +147,14 @@ export class UsersService {
 					select : {
 						avatar : true,
 						username : true,
+						UserId : true,
 					}
 				},
 				receiver : {
 					select : {
 						avatar : true,
 						username : true,
+						UserId : true,
 					}
 				}
 			}
@@ -176,12 +178,14 @@ export class UsersService {
 						select : {
 							avatar : true,
 							username : true,
+							UserId : true,
 						}
 					},
 					receiver : {
 						select : {
 							avatar : true,
 							username : true,
+							UserId : true,
 						}
 					}
 				}
@@ -193,10 +197,11 @@ export class UsersService {
 					if (friend.username !== authUser.username)
 					{
 						const isMutual = friendsInfo2.some((friendship) => {
-							var friend2 = friendship.sender.username === authUser.username ? friendship.receiver : friendship.sender;
-							return friend.username === friend2.username;
+							var friend2 = friendship.sender.UserId === authUser.UserId ? friendship.receiver : friendship.sender;
+							return friend.UserId === friend2.UserId;
 						});	
 						return {
+							UserId	: friend.UserId,
 							avatar : friend.avatar,
 							username : friend.username,
 							isMUtualFriend : isMutual,
@@ -209,8 +214,9 @@ export class UsersService {
 		else if (user.UserId === authUser.UserId)
 		{
 			const friends : ProfileFriends[] = friendsInfo.map((friendsInfo) => {
-				const check = friendsInfo.sender.username === user.username ? friendsInfo.receiver : friendsInfo.sender;
+				const check = friendsInfo.sender.UserId === user.UserId ? friendsInfo.receiver : friendsInfo.sender;
 				return {
+					UserId : check.UserId,
 					avatar : check.avatar,
 					username : check.username,
 					isMUtualFriend : true,
