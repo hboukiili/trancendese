@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, Param, Req, Res, UseGuards } from '@nestjs/common';
+import { ConsoleLogger, Controller, Get, NotFoundException, Param, Req, Res, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
@@ -23,13 +23,17 @@ export class ProfileController {
         const user = await this.UserService.ReturnOneUserByusername(username);
 		if (!user)
 			throw new NotFoundException('User profile not found');
-        const isFriend = await this.UserService.checkisfriend(user);
+        const Isowner = user.username === req.user.username;
+        let isFriend = false;
+        if (!Isowner)
+            isFriend = await this.UserService.checkisfriend(user);
         res.json({
             avatar 	 : user.avatar,
             status 	 : user.status,
             level  	 : user.level,
             xp       : user.XP,
             username : user.username,
+            Isowner,
             isFriend,
         });
     }
