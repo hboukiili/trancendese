@@ -221,6 +221,9 @@ h1 {
             background: #ED5152;
             border-radius: 50%;
         }
+        .greenDotss {
+            background: #00887A;
+        }
 
         .txt-status {
             font-family: 'SF';
@@ -229,6 +232,11 @@ h1 {
             font-size: rem(13);
             letter-spacing: -0.01em;
             color: #ED5152;
+        }
+
+        .greenStatus {
+            // background: #00887A;
+            color: #00887A;
         }
     }
 
