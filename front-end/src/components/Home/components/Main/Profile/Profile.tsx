@@ -192,9 +192,9 @@ function TheGame(props: any) {
                 <div className={props.theGame === 'win' ? "gameSta winGame" :
                     props.theGame === 'lose' ? 'gameSta loseGame' : 'gameSta'}>
                     <div className="infoGame">
-                        <img src={avatar} alt="Enemey" />
+                        <img src={props.avatar} alt="Enemey" />
                         <div className="enemyScore">
-                            <h1>cerulean</h1>
+                            <h1>{props.login}</h1>
                             <div className="score">
                                 <h1 className='Goal Win'>10</h1>
                                 <div className="Goal Win">|</div>
@@ -203,8 +203,9 @@ function TheGame(props: any) {
                         </div>
                     </div>
                     <div className="xpGame">
-                        <h1>+120 XP</h1>
-                        <h1 className='modeGame'>FRIENDs MODE</h1>
+                        <h1>{props.theGame === 'win' ? "+120pts" :
+                            props.theGame === 'lose' ? '-120pts' : '+60pts'}</h1>
+                        <h1 className='modeGame'>{props.mode}</h1>
                     </div>
                 </div>
             </div>
@@ -217,26 +218,66 @@ type Archivement = {
     title: string;
     img: string;
 }
+
+
+
+type GamesDTO =
+    {
+        GameId: string;
+        Mode: string;
+        Result: number;
+        won: boolean;
+        isDraw: boolean;
+        Rounds: number;
+        advPic: string;
+        AdvName: string;
+    }
+type AllGames =
+    {
+        win: number;
+        loose: number;
+        Draw: number;
+        AllGames: GamesDTO[];
+    }
+
 export function ProfileDown() {
     const { login } = useParams();
-    const [CircleCal, setCircle] = useState('0');
-    
+    const [ProfileRight, setPR] = useState<ProfileRightType | undefined>(undefined);
     const [widthPro, setwidthPro] = useState(0);
-    const [ProfileRight, setPR] = useState<ProfileRightType>({
-        avatar: '',
-        status: false,
-        level: 0,
-        xp: 0,
-        username: ''
-    });
+    const [CircleCal, setCircle] = useState('0rem');
+    const [allGames, setAllGams] = useState<AllGames | undefined>(undefined)
+
     useEffect(() => {
-        const Fetch = async () => {
-            await axios.get('/Profile/' + login + '/profile').then((response) => setPR(response.data));
-            setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100));
-            setCircle((52 / 100 * widthPro) + 'rem')
-        }
-        Fetch();
-    }, [login])
+        const calculateWidths = () => {
+            if (ProfileRight) {
+                const newWidthPro = (ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100;
+                const newCircleCal = (52 / 100 * newWidthPro) + 'rem';
+                setwidthPro(newWidthPro);
+                setCircle(newCircleCal);
+            }
+        };
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/Profile/' + login + '/profile');
+                setPR(response.data);
+            } catch (error) {
+                // Handle error
+            }
+            try {
+                const response = await axios.get('/Profile/' + login + '/gamehistory');
+                setAllGams(response.data);
+                // console.log('allGame', allGames)
+            } catch (error) {
+                // Handle error
+            }
+        };
+
+        fetchData();
+        calculateWidths();
+    }, [login, ProfileRight]);
+
+
 
 
 
@@ -330,17 +371,19 @@ export function ProfileDown() {
                 <GradienBox mywidth={'885px'} myheight={'388px'} myborder={'40px'}>
                     <div className="gameHistory">
                         <div className="headerHistory">
-                            <div className="game-h wins">7 WINS</div>
+                            <div className="game-h wins">{allGames?.win + ' WINS'}</div>
                             <div className="seperator"></div>
-                            <div className="game-h draw">3 DRAW</div>
+                            <div className="game-h draw">{allGames?.Draw + ' DRAW'}</div>
                             <div className="seperator"></div>
-                            <div className="game-h lose">1 LOSE</div>
+                            <div className="game-h lose">{allGames?.loose + ' LOSE'}</div>
                         </div>
                         <div className="gameHistoryC">
-                            <TheGame theGame='win' />
-                            <TheGame theGame='lose' />
-                            <TheGame />
-                            <TheGame theGame='win' />
+                            {
+                                allGames?.AllGames.map((e) => <TheGame key={e.GameId}
+                                    login={e.AdvName} mode={e.Mode} avatar={e.advPic}
+                                    theGame={e.isDraw ? 'draw' : e.won ? 'win' : 'lose'}
+                                />)
+                            }
                         </div>
                     </div>
                 </GradienBox>
