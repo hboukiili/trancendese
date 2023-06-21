@@ -81,13 +81,6 @@ export class AuthControlers {
         this.AuthService.logout(res);
     }
 
-    @Get('ok')
-    @UseGuards(JwtAuthGuard)
-    test(@Req() req)
-    {
-        return 'req.user';
-    }
-
     @Get('enable-2fa')
     enable2FA()
     {

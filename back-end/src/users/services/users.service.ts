@@ -1,6 +1,6 @@
 import { All, Injectable } from '@nestjs/common';
 import { PrismaClient, User, Game } from '@prisma/client';
-import { GamesDTO, AllGames, topPlayers, RecentActivity } from '../dto/dto-classes';
+import { GamesDTO, AllGames, topPlayers, RecentActivity, ProfileFriends } from '../dto/dto-classes';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +13,26 @@ export class UsersService {
 			data: user,
 		});
 		return newUser;
+	}
+
+	async checkisfriend(user : User)
+	{
+		const friend = await this.prisma.friendship.findMany({
+			where :
+			{
+				AND : [
+					{
+						OR: [{SenderId : user.UserId}, {ReceiverId : user.UserId}]
+					},
+					{
+						Accepted : true,
+					}
+				]
+			},
+			take : 1,
+		});
+		friend.filter((friend) => friend !== undefined);
+		return friend.length ? true : false;
 	}
 
 	async RecentActivity()
@@ -114,6 +134,117 @@ export class UsersService {
 		}
 		return findUser;
     }
+
+	async sendRequest(User : User, receiverId : string)
+	{
+		const friendshipRequest = await this.prisma.friendship.create({
+			data: {
+			  sender: {
+				connect: { UserId: User.UserId }
+			  },
+			  receiver: {
+				connect: { UserId: receiverId }
+			  },
+			}
+		  });
+	}
+
+	async userFriends(user : User, authUser : User)
+	{
+		const friendsInfo = await this.prisma.friendship.findMany({
+			where : {
+				AND : [
+					{
+						OR: [{SenderId : user.UserId}, {ReceiverId : user.UserId}]
+					},
+					{
+						Accepted : true,
+					}
+				]
+			},
+			select : {
+				sender : {
+					select : {
+						avatar : true,
+						username : true,
+						UserId : true,
+					}
+				},
+				receiver : {
+					select : {
+						avatar : true,
+						username : true,
+						UserId : true,
+					}
+				}
+			}
+		});
+			
+		if (user.UserId !== authUser.UserId)
+		{
+			let friendsInfo2 = await this.prisma.friendship.findMany({
+				where : {
+					AND : [
+						{
+							OR: [{SenderId : authUser.UserId}, {ReceiverId : authUser.UserId}]
+						},
+						{
+							Accepted : true,
+						}
+					]
+				},
+				select : {
+					sender : {
+						select : {
+							avatar : true,
+							username : true,
+							UserId : true,
+						}
+					},
+					receiver : {
+						select : {
+							avatar : true,
+							username : true,
+							UserId : true,
+						}
+					}
+				}
+
+			});
+
+			const afriends = friendsInfo.map((friendship) => {
+				const friend = friendship.sender.username === user.username ? friendship.receiver : friendship.sender;
+					if (friend.username !== authUser.username)
+					{
+						const isMutual = friendsInfo2.some((friendship) => {
+							var friend2 = friendship.sender.UserId === authUser.UserId ? friendship.receiver : friendship.sender;
+							return friend.UserId === friend2.UserId;
+						});	
+						return {
+							UserId	: friend.UserId,
+							avatar : friend.avatar,
+							username : friend.username,
+							isMUtualFriend : isMutual,
+						}
+					}
+					
+			}).filter((friend) => friend !== undefined);
+			return afriends;
+		}
+		else if (user.UserId === authUser.UserId)
+		{
+			const friends : ProfileFriends[] = friendsInfo.map((friendsInfo) => {
+				const check = friendsInfo.sender.UserId === user.UserId ? friendsInfo.receiver : friendsInfo.sender;
+				return {
+					UserId : check.UserId,
+					avatar : check.avatar,
+					username : check.username,
+					isMUtualFriend : true,
+				}
+			});
+			return friends;
+		}
+	}
 
 	async updateUser(email, updatedObject)
 	{

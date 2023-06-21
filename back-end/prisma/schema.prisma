@@ -28,7 +28,7 @@ model User {
   badge               String?
   email               String             @unique
   createdAt           DateTime           @default(now())
-  RefreshToken        String?
+  status              Boolean             @default(true)
   
   // Relations
   SenderFriendships   Friendship[]        @relation("SenderFriendships")
@@ -69,13 +69,15 @@ model Message {
 
 model Friendship{
   
-  FriendshipId    Int        @id @default(autoincrement())
-  sender          User       @relation(name : "SenderFriendships", fields: [SenderId], references: [UserId])
-  SenderId        String
-  receiver         User      @relation(name : "ReceiverFriendships", fields: [ReceiverId], references: [UserId])
-  ReceiverId      String
-  Accepted        Boolean
-  CreationTime    DateTime   @default(now())
+  FriendshipId      Int         @id @default(autoincrement())
+  sender            User        @relation(name : "SenderFriendships", fields: [SenderId], references: [UserId])
+  SenderId          String
+  receiver          User        @relation(name : "ReceiverFriendships", fields: [ReceiverId], references: [UserId])
+  ReceiverId        String
+  Accepted          Boolean     @default(false)
+  blockedBySender   Boolean     @default(false)
+  blockedByReceiver Boolean     @default(false)
+  CreationTime      DateTime    @default(now())
 }
 
 model Notification {

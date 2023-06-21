@@ -51,3 +51,11 @@ export class RecentActivity
 	Player2Avatar	: string;
 	IsDraw  		: boolean;
 }
+
+export class ProfileFriends
+{
+	avatar 	 		: string;
+	username 		: string;
+	isMUtualFriend 	: boolean;
+	UserId			: string;
+}
