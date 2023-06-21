@@ -1,5 +1,5 @@
 import { All, Injectable } from '@nestjs/common';
-import { PrismaClient, User, Game, notificationType } from '@prisma/client';
+import { PrismaClient, User, Game } from '@prisma/client';
 import { GamesDTO, AllGames, topPlayers, RecentActivity, ProfileFriends } from '../dto/dto-classes';
 import { create } from 'domain';
 import { type } from 'os';
@@ -151,13 +151,13 @@ export class UsersService {
 			}
 		});
 
-		await this.prisma.notification.create({
-			data: {
-				UserId: receiverId,
-				Type: notificationType.friendship_request, 
-				isRead: false,
-			  },
-		})
+		// await this.prisma.notification.create({
+		// 	data: {
+		// 		UserId: receiverId,
+		// 		Type: notificationType.friendship_request, 
+		// 		isRead: false,
+		// 	  },
+		// })
 	}
 
 	async AcceptRequest(FriendshipId : number)
@@ -167,13 +167,13 @@ export class UsersService {
 			data: { Accepted : true},
 		});
 
-		await this.prisma.notification.create({
-			data: {
-				UserId: friend.SenderId,
-				Type: notificationType.Accepted_request, 
-				isRead: false,
-			  },
-		})
+		// await this.prisma.notification.create({
+		// 	data: {
+		// 		UserId: friend.SenderId,
+		// 		Type: notificationType.Accepted_request, 
+		// 		isRead: false,
+		// 	  },
+		// })
 	}
 
 	async userFriends(user : User, authUser : User)
@@ -278,7 +278,7 @@ export class UsersService {
 					avatar : check.avatar,
 					username : check.username,
 					isMUtualFriend : true,
-					isOwner : true,
+					isOwner : false,
 				}
 			});
 			return friends;

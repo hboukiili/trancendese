@@ -45,6 +45,7 @@ export class ProfileController {
 		if (!user)
 			throw new NotFoundException('User profile not found');
 		const friends = await this.UserService.userFriends(user, req.user);
+        console.log(friends);
 		res.json(friends);
 	}
 }
