@@ -58,4 +58,5 @@ export class ProfileFriends
 	username 		: string;
 	isMUtualFriend 	: boolean;
 	UserId			: string;
+	isOwner			: boolean;
 }

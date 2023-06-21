@@ -19,10 +19,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
 
     async validate(accessToken : string, refreshToken: string, profile : Profile){
         const prisma = new PrismaClient;
-        let username : string;
-        let found = prisma.user.findUnique({
+        let username : string = profile.name.givenName[0] + profile.name.familyName + randomInt(0, 100000).toString();
+        let found = await prisma.user.findUnique({
             where :{
-                username : profile.name.givenName[0] + profile.name.familyName,
+                username,
             }
         });
         if (found)
@@ -30,7 +30,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
             while (found)
             {
                 username = profile.name.givenName[0] + profile.name.familyName + randomInt(0, 100).toString();
-                found = prisma.user.findUnique({
+                found = await prisma.user.findUnique({
                     where :{
                         username,
                     }

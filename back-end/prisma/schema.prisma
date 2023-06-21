@@ -67,7 +67,7 @@ model Message {
   
 }
 
-model Friendship{
+model Friendship {
   
   FriendshipId      Int         @id @default(autoincrement())
   sender            User        @relation(name : "SenderFriendships", fields: [SenderId], references: [UserId])
@@ -80,13 +80,20 @@ model Friendship{
   CreationTime      DateTime    @default(now())
 }
 
+enum notificationType {
+  friendship_request
+  Accepted_request
+  game_invitation
+  Achievement
+  GroupInvitation
+}
+
 model Notification {
   NotificationId  Int      @id @default(autoincrement())
   user            User     @relation(name : "UserNotifications", fields : [UserId], references : [UserId])
   UserId          String
-  Title           String
-  Type            String   // 'game_invitation', 'friendship_request', etc.
-  isRead          Boolean  // optional
+  Type            notificationType   
+  isRead          Boolean  
   CreationTime    DateTime @default(now())
 }
 
