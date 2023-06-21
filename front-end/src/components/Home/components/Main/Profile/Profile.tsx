@@ -2,12 +2,10 @@ import './Profile.scss'
 import GradienBox from '../../../../../tools/GradienBox'
 import Charts from './Charts'
 import { useSelector } from 'react-redux'
-import { userType } from '../../../../../interface/interfaces'
 import btnSlide from './buttonSlide.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import ACE from './Ace.svg'
 import { useEffect, useState } from 'react'
-import avatar from './avatar.svg'
 import axios from '../../../../../Interceptor/Interceptor'
 import { useParams } from 'react-router-dom';
 const Chat = () => {
@@ -145,7 +143,7 @@ export function ProfileProfile() {
             setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100) + '%');
         }
         Fetch();
-    }, [login])
+    }, [login,ProfileRight])
     return (
         <GradienBox mywidth={'397px'} myheight={'526px'} myborder={'40px'}>
             <div className="container-Profile-profile">
@@ -244,16 +242,16 @@ export function ProfileDown() {
     const { login } = useParams();
     const [ProfileRight, setPR] = useState<ProfileRightType | undefined>(undefined);
     const [widthPro, setwidthPro] = useState(0);
-    const [CircleCal, setCircle] = useState('0rem');
+    const [dashArray, SetdashArray] = useState(100);
     const [allGames, setAllGams] = useState<AllGames | undefined>(undefined)
 
     useEffect(() => {
         const calculateWidths = () => {
             if (ProfileRight) {
                 const newWidthPro = (ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100;
-                const newCircleCal = (52 / 100 * newWidthPro) + 'rem';
                 setwidthPro(newWidthPro);
-                setCircle(newCircleCal);
+                // 100 min -> 138 max
+                SetdashArray((newWidthPro / 100) * (138 - 100) + 100);
             }
         };
 
@@ -276,11 +274,6 @@ export function ProfileDown() {
         fetchData();
         calculateWidths();
     }, [login, ProfileRight]);
-
-
-
-
-
 
     const [index, setIndex] = useState<number>(0);
     const [Direction, setDirection] = useState<number>(0);
@@ -350,7 +343,7 @@ export function ProfileDown() {
                         <div className="progress-Cont">
                             <div className="outer">
                                 <div className="inner">
-                                    <div className="number">{widthPro + '%'}</div>
+                                    <div className="number">{widthPro.toString().slice(0,4) + '%'}</div>
                                 </div>
                             </div>
                         </div>
@@ -360,7 +353,8 @@ export function ProfileDown() {
                             width="27.875rem"
                             height="27.875rem"
                         >
-                            <circle style={{ strokeDasharray: CircleCal }} className='circle-progress' cx="13.938rem" cy="13.938rem" r="6rem" strokeLinecap="round" />
+                             
+                            <circle style={{ strokeDasharray: dashArray + 'rem'}} className='circle-progress' cx="13.938rem" cy="13.938rem" r="6rem" strokeLinecap="round" />
                         </svg>
                         <p>Track progress with dynamic graph arc. Stay motivated towards next climb.</p>
                     </div>
@@ -371,11 +365,11 @@ export function ProfileDown() {
                 <GradienBox mywidth={'885px'} myheight={'388px'} myborder={'40px'}>
                     <div className="gameHistory">
                         <div className="headerHistory">
-                            <div className="game-h wins">{allGames?.win + ' WINS'}</div>
+                            <div className="game-h wins">{(allGames != undefined ? allGames.win : 0) + ' WINS'}</div>
                             <div className="seperator"></div>
-                            <div className="game-h draw">{allGames?.Draw + ' DRAW'}</div>
+                            <div className="game-h draw">{(allGames != undefined ? allGames.Draw : 0) + ' DRAW'}</div>
                             <div className="seperator"></div>
-                            <div className="game-h lose">{allGames?.loose + ' LOSE'}</div>
+                            <div className="game-h lose">{(allGames != undefined ? allGames.loose : 0) + ' LOSE'}</div>
                         </div>
                         <div className="gameHistoryC">
                             {

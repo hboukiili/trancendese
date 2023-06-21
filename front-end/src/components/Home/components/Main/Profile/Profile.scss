@@ -526,13 +526,14 @@ h1 {
         fill: none;
         stroke: #079f90;
         stroke-width: toRem(30);
-        stroke-dasharray: toRem(600);
-        stroke-dashoffset: toRem(126);
+        stroke-dasharray: 100rem;
+        stroke-dashoffset: 100rem;
         box-shadow: 0px 0px toRem(10) #079f90;
         transform-origin: center;
         transform: rotate(275deg);
         -webkit-filter: drop-shadow(0px 0px toRem(10) #079f90);
         filter: drop-shadow(0px 0px toRem(10) #079f90);
+        transition: stroke-dasharray 2s ease;
     }
 }
 

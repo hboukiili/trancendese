@@ -14,7 +14,7 @@ import Profile, { ProfileProfile, ProfileDown } from './Main/Profile/Profile'
 import Settings from './Main/Settings/Settings'
 import LeaderBoard from './Main/LeaderBoard/LeaderBoard'
 import axios from '../../../Interceptor/Interceptor'
-
+import Loading from '../../Loading'
 
 function ActivityContent(props: any) {
 	return (
@@ -136,7 +136,6 @@ function Invitation(props: any) {
 
 function Side2(props: any) {
 	return (
-
 		<div className='side2'>
 			{
 				props.isN === 1 ? <> <ProfileHome /><Activity /></> :
@@ -156,6 +155,7 @@ function Main() {
 						<Search />
 						<MsgNot />
 					</div>
+					{/* <Loading/> */}
 					<Routes>
 						<Route path="/" element={<><Hero /><GamesMode /><BestPlayers /></>} />
 						<Route path="chat" element={<Chat params={false} />} />

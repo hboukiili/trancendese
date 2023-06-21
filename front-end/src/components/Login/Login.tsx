@@ -4,7 +4,7 @@ import GradienBox from '../../tools/GradienBox';
 import axios from '../../Interceptor/Interceptor'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/store'
-import { setTrue } from '../../features/isLogin';
+import { setTrue } from '../../features/isLoading';
 
 
 function Login() {

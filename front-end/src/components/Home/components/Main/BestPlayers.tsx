@@ -14,7 +14,6 @@ function BestPlayers() {
               <div className='bp-cont'>
                 <RankTable/>
               </div>
-              
             </GradienBox>
         </div>
     </div>
