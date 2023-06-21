@@ -80,8 +80,9 @@
         .friend-Profile {
             display: flex;
             align-items: center;
-            // justify-content: start;
+            justify-content: space-between;
             gap: toRem(25);
+            width: toRem(358);
 
             .friend-info {
                 display: flex;
@@ -112,7 +113,10 @@
                 justify-content: center;
                 gap: toRem(13);
                 align-items: center;
-
+                button:disabled {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
                 button {
                     padding: toRem(1);
                     width: toRem(85);

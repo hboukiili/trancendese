@@ -61,25 +61,39 @@ type ProfileRightType = {
     username: string;
 }
 
+
+const ButtonSent = () => {
+    const [sendInvitation, setSendInvitation] = useState('Send Invitation');
+    const [isDisable, setIsDisable] = useState(false);
+
+    const handleClick = () => {
+        setSendInvitation('Sent');
+        setIsDisable(true);
+    };
+
+    return (
+        <button onClick={() => {
+            handleClick();
+        }} disabled={isDisable}><div>{sendInvitation}</div>
+        </button>
+    );
+};
+
 function Profile(props: any) {
 
     const { login } = useParams();
-    // const [ProfileRight, setPR] = useState<ProfileRightType>({
-    //     avatar : '',
-    //     status : false,
-    //     level : 0,
-    //     xp : 0,
-    //     username : ''
-    // });
-    // useEffect( () => {
-    //     const Fetch = async () => {
-    //         await axios.get('/Profile/' + login + '/profile').then((response) => setPR(response.data));
-    //     }
-    //     Fetch();
-    // }, [])
 
-    const Admin: userType = useSelector((state: any) => state.admin);
-    const Friends: userType[] = useSelector((state: any) => state.users.users).filter((e: userType) => e.isFriend === true && e.login !== Admin.login);
+    const [myFriends, setFriends] = useState([]);
+    useEffect(() => {
+        const Fetch = async () => {
+            await axios.get('/Profile/' + login + '/Friends').then((response) => setFriends(response.data));
+        }
+        Fetch();
+    }, [myFriends, login])
+    const [isDisable, setDisable] = useState(false);
+    const [SendInvitation, setSendInvitation] = useState('Send Invitation');
+
+
     return (
         <div className="ProfileComponent-Activity-Friends">
             <div className="fa-Profile">
@@ -100,16 +114,22 @@ function Profile(props: any) {
                     <div className="content-friend">
                         <div className="content-fri">
                             {
-                                Friends.map((e: userType) => {
+                                myFriends.map((e) => {
                                     return (
-                                        <div className="friend-Profile">
+                                        <div key={e.UserId + 'fr'} className="friend-Profile">
                                             <div className="friend-info">
                                                 <img src={e.avatar} alt="" />
-                                                <p>{e.login}</p>
+                                                <p>{e.username}</p>
                                             </div>
                                             <div className="buttons-f">
-                                                <button><div>Send Message</div></button>
-                                                <button className='IP'><div >Invite to Play</div></button>
+                                                {
+                                                    !e.isOwner && e.isMUtualFriend === true ?
+                                                        <button><div>Send Message</div></button> :
+                                                        <ButtonSent key={e.UserId + '-env'} />
+                                                }
+                                                {
+                                                    !e.isOwner && <button className='IP'><div >Invite to Play</div></button>
+                                                }
                                             </div>
                                         </div>
                                     )
@@ -143,10 +163,10 @@ export function ProfileProfile() {
             await axios.get('/Profile/' + login + '/profile').then((response) => setPR(response.data));
             setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100));
             setOpacity(1);
-            // console.log(widthPro);
+            // console.log(ProfileRight);
         }
         Fetch();
-    }, [login,ProfileRight])
+    }, [login, ProfileRight])
     return (
         <GradienBox mywidth={'397px'} myheight={'526px'} myborder={'40px'}>
             <div className="container-Profile-profile">
@@ -163,7 +183,7 @@ export function ProfileProfile() {
                 <div className="progress">
                     <div className="content-progress">
                         {/* style={{ width: widthPro }} */}
-                        <div style={{backgroundImage: 'linear-gradient(to right, #00887A ' + (widthPro) + '%, #2C282C ' + (widthPro) + '%)', opacity}}  className="absoluteProgress"></div>
+                        <div style={{ backgroundImage: 'linear-gradient(to right, #00887A ' + (widthPro) + '%, #2C282C ' + (widthPro) + '%)', opacity }} className="absoluteProgress"></div>
                         <h5 className='From'>{'Lv.' + ProfileRight.level}</h5>
                         <h5 className='center'>{ProfileRight.xp + 'XP   /   ' + (200 * (ProfileRight.level + 1)) + 'XP'}</h5>
                         <h5 className='to'>{'Lv.' + (ProfileRight.level + 1)}</h5>
@@ -347,7 +367,7 @@ export function ProfileDown() {
                         <div className="progress-Cont">
                             <div className="outer">
                                 <div className="inner">
-                                    <div className="number">{widthPro.toString().slice(0,4) + '%'}</div>
+                                    <div className="number">{widthPro.toString().slice(0, 4) + '%'}</div>
                                 </div>
                             </div>
                         </div>
@@ -357,8 +377,8 @@ export function ProfileDown() {
                             width="27.875rem"
                             height="27.875rem"
                         >
-                             
-                            <circle style={{ strokeDasharray: dashArray + 'rem'}} className='circle-progress' cx="13.938rem" cy="13.938rem" r="6rem" strokeLinecap="round" />
+
+                            <circle style={{ strokeDasharray: dashArray + 'rem' }} className='circle-progress' cx="13.938rem" cy="13.938rem" r="6rem" strokeLinecap="round" />
                         </svg>
                         <p>Track progress with dynamic graph arc. Stay motivated towards next climb.</p>
                     </div>
