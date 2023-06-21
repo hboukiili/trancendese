@@ -62,11 +62,17 @@ type ProfileRightType = {
 }
 
 
-const ButtonSent = () => {
+const ButtonSent = (props: any) => {
     const [sendInvitation, setSendInvitation] = useState('Send Invitation');
     const [isDisable, setIsDisable] = useState(false);
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        await axios.post('/SendRequest', { receiverId: props.userId }).then(response => {
+            console.log(response);
+        })
+            .catch(error => {
+                console.log(error);
+            });
         setSendInvitation('Sent');
         setIsDisable(true);
     };
@@ -92,7 +98,7 @@ function Profile(props: any) {
     }, [myFriends, login])
     const [isDisable, setDisable] = useState(false);
     const [SendInvitation, setSendInvitation] = useState('Send Invitation');
-    console.log(myFriends)
+    // console.log(myFriends)
 
     return (
         <div className="ProfileComponent-Activity-Friends">
@@ -125,7 +131,7 @@ function Profile(props: any) {
                                                 {
                                                     e.isOwner === false && (e.isMUtualFriend === true ?
                                                         <button><div>Send Message</div></button> :
-                                                        <ButtonSent key={e.UserId + '-env'} />)
+                                                        <ButtonSent userId={e.UserId} key={e.UserId + '-env'} />)
                                                 }
                                                 {
                                                     e.isOwner === false && <button className='IP'><div >Invite to Play</div></button>
