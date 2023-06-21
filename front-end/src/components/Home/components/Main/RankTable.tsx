@@ -7,7 +7,7 @@ import Bronze from "../../../../assets/img/bronze.svg"
 import intero from "../../../../assets/img/interogation.svg"
 import { useEffect, useState } from 'react'
 import axios from '../../../../Interceptor/Interceptor'
-
+import Loading from '../../../Loading'
 function RankTable() {
 	const [rankData, setBestPlayers] = useState([])
 	useEffect(() => {
@@ -45,28 +45,31 @@ function RankTable() {
 		}
 	}
 	return (
-		<div className="bp">
-			<div className='bp-head'>
-				<div className="head-">
-					<h3>#</h3>
-					<h3>player</h3>
-					<h3>points</h3>
-					<h3>Level</h3>
+		<>
+		{/* <Loading/> */}
+			<div className="bp">
+				<div className='bp-head'>
+					<div className="head-">
+						<h3>#</h3>
+						<h3>player</h3>
+						<h3>points</h3>
+						<h3>Level</h3>
+					</div>
+					<div className="head-">
+						<h3>#</h3>
+						<h3 style={{ right: '1rem', position: 'relative' }}>player</h3>
+						<h3 style={{ right: '0.313rem', position: 'relative' }}>points</h3>
+						<h3>Level</h3>
+					</div>
 				</div>
-				<div className="head-">
-					<h3>#</h3>
-					<h3 style={{ right: '1rem', position: 'relative' }}>player</h3>
-					<h3 style={{ right: '0.313rem', position: 'relative' }}>points</h3>
-					<h3>Level</h3>
+				<div className="rank">
+					{
+						newObject.map((e, index) => {
+							return <PlayerRank key={(index + 1) + 'player'} award={e.award} avatar={e.avatar} login={e.login} points={e.points} level={e.level} />
+						})}
 				</div>
 			</div>
-			<div className="rank">
-				{
-					newObject.map((e, index) => {
-						return <PlayerRank key={(index + 1) + 'player'} award={e.award} avatar={e.avatar} login={e.login} points={e.points} level={e.level} />
-					})}
-			</div>
-		</div>
+		</>
 	)
 }
 
