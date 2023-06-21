@@ -295,12 +295,14 @@ h1 {
 
             .absoluteProgress {
                 position: absolute;
-                width: toRem(288);
+                width: 99.4%;
                 height: toRem(22);
-                background: linear-gradient(270deg, #00887A -31.37%, #1FB4A5 136.27%);
+                // background: linear-gradient(270deg, #00887A -31.37%, #1FB4A5 136.27%);                
                 border-radius: toRem(17);
                 z-index: 50000;
                 transform: translateX(toRem(-10.99));
+                opacity: 0;
+                transition: opacity 4s ease;
             }
         }
     }

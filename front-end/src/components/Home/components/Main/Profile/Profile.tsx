@@ -129,7 +129,8 @@ export function ProfileProfile() {
 
     const { login } = useParams();
 
-    const [widthPro, setwidthPro] = useState('0%');
+    const [widthPro, setwidthPro] = useState(0);
+    const [opacity, setOpacity] = useState(0);
     const [ProfileRight, setPR] = useState<ProfileRightType>({
         avatar: '',
         status: false,
@@ -140,7 +141,9 @@ export function ProfileProfile() {
     useEffect(() => {
         const Fetch = async () => {
             await axios.get('/Profile/' + login + '/profile').then((response) => setPR(response.data));
-            setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100) + '%');
+            setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100));
+            setOpacity(1);
+            // console.log(widthPro);
         }
         Fetch();
     }, [login,ProfileRight])
@@ -159,7 +162,8 @@ export function ProfileProfile() {
                 </div>
                 <div className="progress">
                     <div className="content-progress">
-                        <div style={{ width: widthPro }} className="absoluteProgress"></div>
+                        {/* style={{ width: widthPro }} */}
+                        <div style={{backgroundImage: 'linear-gradient(to right, #00887A ' + (widthPro) + '%, #2C282C ' + (widthPro) + '%)', opacity}}  className="absoluteProgress"></div>
                         <h5 className='From'>{'Lv.' + ProfileRight.level}</h5>
                         <h5 className='center'>{ProfileRight.xp + 'XP   /   ' + (200 * (ProfileRight.level + 1)) + 'XP'}</h5>
                         <h5 className='to'>{'Lv.' + (ProfileRight.level + 1)}</h5>
