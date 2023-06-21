@@ -92,7 +92,7 @@ function Profile(props: any) {
     }, [myFriends, login])
     const [isDisable, setDisable] = useState(false);
     const [SendInvitation, setSendInvitation] = useState('Send Invitation');
-
+    console.log(myFriends)
 
     return (
         <div className="ProfileComponent-Activity-Friends">
@@ -123,12 +123,12 @@ function Profile(props: any) {
                                             </div>
                                             <div className="buttons-f">
                                                 {
-                                                    !e.isOwner && e.isMUtualFriend === true ?
+                                                    e.isOwner === false && (e.isMUtualFriend === true ?
                                                         <button><div>Send Message</div></button> :
-                                                        <ButtonSent key={e.UserId + '-env'} />
+                                                        <ButtonSent key={e.UserId + '-env'} />)
                                                 }
                                                 {
-                                                    !e.isOwner && <button className='IP'><div >Invite to Play</div></button>
+                                                    e.isOwner === false && <button className='IP'><div >Invite to Play</div></button>
                                                 }
                                             </div>
                                         </div>
