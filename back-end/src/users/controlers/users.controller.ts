@@ -8,9 +8,9 @@ export class UsersController {
     constructor(private readonly UserService : UsersService){}
 
     @Post('SendRequest')
-    async sendRequest(@Body('receiverId') receiver : string, @Req() req){
-        await this.UserService.sendRequest(req.user, receiver);
-        return true;
+    async sendRequest(@Body('receiverId') receiver : string, @Req() req, @Res() res){
+        const already = await this.UserService.sendRequest(req.user, receiver);
+        res.json(already);
     }
 
     @Post('AcceptRequest')

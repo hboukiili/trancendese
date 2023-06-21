@@ -1,4 +1,4 @@
-import { All, Injectable } from '@nestjs/common';
+import { All, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaClient, User, Game, notificationType } from '@prisma/client';
 import { GamesDTO, AllGames, topPlayers, RecentActivity, ProfileFriends } from '../dto/dto-classes';
 import { create } from 'domain';
@@ -139,7 +139,16 @@ export class UsersService {
 
 	async sendRequest(User : User, receiverId : string)
 	{
-		console.log(receiverId);
+		const existingRequest = await this.prisma.friendship.findFirst({
+			where: {
+			  SenderId: User.UserId,
+			  ReceiverId: receiverId
+			}
+		});
+
+		if (existingRequest)
+			return true;
+
 		await this.prisma.friendship.create ({
 			data: {
 			  sender: {
@@ -158,6 +167,8 @@ export class UsersService {
 				isRead: false,
 			  },
 		})
+
+		return false;
 	}
 
 	async AcceptRequest(FriendshipId : number)
@@ -166,6 +177,9 @@ export class UsersService {
 			where: { FriendshipId : FriendshipId,  },
 			data: { Accepted : true},
 		});
+
+		if (!friend)
+			throw new UnauthorizedException("no Request to be accepted");
 
 		await this.prisma.notification.create({
 			data: {
@@ -239,7 +253,7 @@ export class UsersService {
 
 			});
 
-			const afriends = friendsInfo.map((friendship) => {
+			const afriends : ProfileFriends[] = friendsInfo.map((friendship) => {
 				const friend = friendship.sender.username === user.username ? friendship.receiver : friendship.sender;
 					if (friend.username !== authUser.username)
 					{
@@ -278,7 +292,7 @@ export class UsersService {
 					avatar : check.avatar,
 					username : check.username,
 					isMUtualFriend : true,
-					isOwner : true,
+					isOwner : false,
 				}
 			});
 			return friends;
