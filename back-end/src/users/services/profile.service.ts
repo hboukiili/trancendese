@@ -119,6 +119,7 @@ export class ProfileService {
 							avatar : friend.avatar,
 							username : friend.username,
 							sentInvitation : isMutual,
+							Accepted : false,
 							isOwner : false,
 						}
 					}
