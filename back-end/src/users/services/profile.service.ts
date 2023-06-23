@@ -85,39 +85,24 @@ export class ProfileService {
 
 			});
 
-
-			const afriends : ProfileFriends[] = friendsInfo.map((friendship) => {
+			var friend2;
+			const afriends = friendsInfo.map((friendship) => {
 				const friend = friendship.sender.username === user.username ? friendship.receiver : friendship.sender;
 					if (friend.username !== authUser.username)
 					{
 						const isMutual = friendsInfo2.some((friendship) => {
-							var friend2 = friendship.sender.UserId === authUser.UserId ? friendship.receiver : friendship.sender;
+							console.log(friendsInfo2);
+							friend2 = friendship.sender.UserId === authUser.UserId ? friendship.receiver : friendship.sender;
+							if (friend.UserId === friend2.UserId)
+								friend2.accepted = friendship.Accepted;
 							return friend.UserId === friend2.UserId;
 						});
-						if (isMutual && friendship.Accepted)
-							return {
-								friendshipId : friendship.FriendshipId,
-								UserId	: friend.UserId,
-								avatar : friend.avatar,
-								username : friend.username,
-								Accepted : true,
-								sentInvitation : isMutual,
-								isOwner : false,
-							}
-						else if (isMutual && !friendship.Accepted)
-							return {
-								friendshipId : friendship.FriendshipId,
-								UserId	: friend.UserId,
-								avatar : friend.avatar,
-								username : friend.username,
-								Accepted : false,
-								sentInvitation : isMutual,
-								isOwner : false,
-							}
 						return {
+							friendshipId : friendship.FriendshipId,
 							UserId	: friend.UserId,
 							avatar : friend.avatar,
 							username : friend.username,
+							Accepted : friend2.accepted,
 							sentInvitation : isMutual,
 							isOwner : false,
 						}
