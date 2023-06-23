@@ -7,13 +7,23 @@ import Bronze from "../../../../assets/img/bronze.svg"
 import intero from "../../../../assets/img/interogation.svg"
 import { useEffect, useState } from 'react'
 import axios from '../../../../Interceptor/Interceptor'
-import Loading from '../../../Loading'
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../store/store'
+import { setFalse, setTrue } from '../../../../features/isLoading';
 function RankTable() {
+
+	const dispatch: AppDispatch = useDispatch()
 	const [rankData, setBestPlayers] = useState([])
 	useEffect(() => {
-		axios.get('/Home/Best6Players').then((response) => setBestPlayers(response.data))
+		if (rankData.length === 0) {
+			dispatch(setTrue());
+			console.log('outside')
+			axios.get('/Home/Best6Players').then((response) => {
+				setBestPlayers(response.data);
+				dispatch(setFalse());
+			})
+		}
 	}, [])
-	console.log(rankData);
 	var noPlayer = {
 		login: "--",
 		level: 0,
@@ -46,7 +56,7 @@ function RankTable() {
 	}
 	return (
 		<>
-		{/* <Loading/> */}
+			{/* <Loading/> */}
 			<div className="bp">
 				<div className='bp-head'>
 					<div className="head-">

@@ -1,22 +1,64 @@
 import './Profile.scss'
 import GradienBox from '../../../../../tools/GradienBox'
 import Charts from './Charts'
-import { useSelector } from 'react-redux'
+import { AppDispatch } from '../../../../../store/store'
+import { setFalse, setTrue } from '../../../../../features/isLoading';
 import btnSlide from './buttonSlide.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import ACE from './Ace.svg'
 import { useEffect, useState } from 'react'
 import axios from '../../../../../Interceptor/Interceptor'
 import { useParams } from 'react-router-dom';
-const Chat = () => {
-    return (
-        <div>
-            <svg width="1.125rem" height="1.125rem" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M0.891112 12.8589C0.869162 12.812 0.847289 12.7653 0.825725 12.7188C0.295686 11.5746 0 10.3001 0 8.95833C0 4.01078 4.01078 0 8.95833 0C13.9059 0 17.9167 4.01078 17.9167 8.95833C17.9167 13.9059 13.9059 17.9167 8.95833 17.9167C7.94665 17.9167 7.06009 17.7721 6.22805 17.4745C5.48363 17.2082 5.17857 17.1004 5.08652 17.0787C4.52715 16.9472 3.99758 17.2021 3.4721 17.455C3.13281 17.6183 2.79522 17.7808 2.45242 17.8379C1.51535 17.9941 0.681554 17.2269 0.759318 16.2801C0.787101 15.9418 0.918047 15.6527 1.04981 15.3618C1.13469 15.1745 1.2199 14.9863 1.2781 14.7838C1.4738 14.1028 1.17594 13.467 0.891112 12.8589ZM5.625 6.54167C5.21079 6.54167 4.875 6.87745 4.875 7.29167C4.875 7.70588 5.21079 8.04167 5.625 8.04167H12.2917C12.7059 8.04167 13.0417 7.70588 13.0417 7.29167C13.0417 6.87745 12.7059 6.54167 12.2917 6.54167H5.625ZM5.625 9.875C5.21079 9.875 4.875 10.2108 4.875 10.625C4.875 11.0392 5.21079 11.375 5.625 11.375H8.95833C9.37255 11.375 9.70833 11.0392 9.70833 10.625C9.70833 10.2108 9.37255 9.875 8.95833 9.875H5.625Z" fill="white" />
-            </svg>
-        </div>
-    )
-}
+import { useDispatch } from 'react-redux';
+import PlayBtn from './playBtn.svg'
+
+
+const Playbtn = () => (
+    <div>
+        <svg width={(12 / 16) + 'rem'} height={(15 / 16) + 'rem'} viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.7562 14.3286C1.37233 14.5781 0.983854 14.5927 0.590773 14.3724C0.197692 14.152 0.000767737 13.8112 0 13.3497V1.43063C0 0.969993 0.196924 0.629118 0.590773 0.408009C0.984622 0.186901 1.3731 0.201488 1.7562 0.45177L11.1418 6.41133C11.4873 6.64165 11.66 6.96794 11.66 7.39019C11.66 7.81245 11.4873 8.13874 11.1418 8.36906L1.7562 14.3286Z" fill="white" />
+        </svg>
+    </div>
+)
+
+const Chatbtn = () => (
+    <div>
+        <svg width="1.125rem" height="1.125rem" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M0.891112 12.8589C0.869162 12.812 0.847289 12.7653 0.825725 12.7188C0.295686 11.5746 0 10.3001 0 8.95833C0 4.01078 4.01078 0 8.95833 0C13.9059 0 17.9167 4.01078 17.9167 8.95833C17.9167 13.9059 13.9059 17.9167 8.95833 17.9167C7.94665 17.9167 7.06009 17.7721 6.22805 17.4745C5.48363 17.2082 5.17857 17.1004 5.08652 17.0787C4.52715 16.9472 3.99758 17.2021 3.4721 17.455C3.13281 17.6183 2.79522 17.7808 2.45242 17.8379C1.51535 17.9941 0.681554 17.2269 0.759318 16.2801C0.787101 15.9418 0.918047 15.6527 1.04981 15.3618C1.13469 15.1745 1.2199 14.9863 1.2781 14.7838C1.4738 14.1028 1.17594 13.467 0.891112 12.8589ZM5.625 6.54167C5.21079 6.54167 4.875 6.87745 4.875 7.29167C4.875 7.70588 5.21079 8.04167 5.625 8.04167H12.2917C12.7059 8.04167 13.0417 7.70588 13.0417 7.29167C13.0417 6.87745 12.7059 6.54167 12.2917 6.54167H5.625ZM5.625 9.875C5.21079 9.875 4.875 10.2108 4.875 10.625C4.875 11.0392 5.21079 11.375 5.625 11.375H8.95833C9.37255 11.375 9.70833 11.0392 9.70833 10.625C9.70833 10.2108 9.37255 9.875 8.95833 9.875H5.625Z" fill="white" />
+        </svg>
+    </div>
+)
+
+const Addbtn = () => (
+    <div>
+        <svg style={{ transform: 'translateX(' + (2 / 16) + 'rem)' }} width={(20 / 16) + 'rem'} height={(20 / 16) + 'rem'} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clipRule="evenodd" d="M7.50016 1.04163C5.31404 1.04163 3.54183 2.81383 3.54183 4.99996C3.54183 7.18609 5.31404 8.95829 7.50016 8.95829C9.68629 8.95829 11.4585 7.18609 11.4585 4.99996C11.4585 2.81383 9.68629 1.04163 7.50016 1.04163ZM0.208496 15.7916C0.208496 13.1683 2.33514 11.0416 4.9585 11.0416H10.0418C12.6652 11.0416 14.7918 13.1683 14.7918 15.7916C14.7918 17.5405 13.3741 18.9583 11.6252 18.9583H3.37516C1.62626 18.9583 0.208496 17.5405 0.208496 15.7916ZM17.4168 5.83329C17.4168 5.41908 17.081 5.08329 16.6668 5.08329C16.2526 5.08329 15.9168 5.41908 15.9168 5.83329V7.58329H14.1668C13.7526 7.58329 13.4168 7.91908 13.4168 8.33329C13.4168 8.74751 13.7526 9.08329 14.1668 9.08329H15.9168V10.8333C15.9168 11.2475 16.2526 11.5833 16.6668 11.5833C17.081 11.5833 17.4168 11.2475 17.4168 10.8333V9.08329H19.1668C19.581 9.08329 19.9168 8.74751 19.9168 8.33329C19.9168 7.91908 19.581 7.58329 19.1668 7.58329H17.4168V5.83329Z" fill="white" />
+        </svg>
+
+    </div>
+)
+const Blockbtn = () => (
+    <div>
+        <svg style={{ transform: 'translateX(' + (2 / 16) + 'rem)' }} width={(21 / 16) + 'rem'} height={(18 / 16) + 'rem'} viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.42857 4.29488C3.42857 1.92289 5.25141 0 7.5 0C9.74859 0 11.5714 1.92289 11.5714 4.29488C11.5714 6.66688 9.74859 8.58977 7.5 8.58977C5.25141 8.58977 3.42857 6.66688 3.42857 4.29488Z" fill="white" />
+            <path d="M5.15386 10.8502C2.30746 10.8502 0 13.1577 0 16.0041C0 17.9017 1.53831 19.44 3.43591 19.44H11.5641C13.4617 19.44 15 17.9017 15 16.0041C15 13.1577 12.6925 10.8502 9.84614 10.8502H5.15386Z" fill="white" />
+            <path d="M19.8536 7.14645L15.8536 3.14645L15.1464 3.85355L19.1464 7.85355L19.8536 7.14645ZM20.5 5.5C20.5 7.15685 19.1569 8.5 17.5 8.5C15.8431 8.5 14.5 7.15685 14.5 5.5C14.5 3.84315 15.8431 2.5 17.5 2.5C19.1569 2.5 20.5 3.84315 20.5 5.5Z" stroke="white" />
+        </svg>
+
+    </div>
+)
+
+const Friendbtn = () => (
+    <div>
+        <svg style={{ transform: 'translateX(' + (2 / 16) + 'rem)' }} width={(20 / 16) + 'rem'} height={(18 / 16) + 'rem'} viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.54183 3.99996C3.54183 1.81383 5.31404 0.041626 7.50016 0.041626C9.68629 0.041626 11.4585 1.81383 11.4585 3.99996C11.4585 6.18609 9.68629 7.95829 7.50016 7.95829C5.31404 7.95829 3.54183 6.18609 3.54183 3.99996Z" fill="white" />
+            <path d="M4.9585 10.0416C2.33514 10.0416 0.208496 12.1683 0.208496 14.7916C0.208496 16.5405 1.62626 17.9583 3.37516 17.9583H11.6252C13.3741 17.9583 14.7918 16.5405 14.7918 14.7916C14.7918 12.1683 12.6652 10.0416 10.0418 10.0416H4.9585Z" fill="white" />
+            <path d="M19 3L15 7.5L13 5.5" stroke="white" strokeLinecap="round" />
+        </svg>
+    </div>
+
+)
+
 const Infobtn = () => {
     return (
         <button style={{ position: 'relative', top: '0.5rem' }}>
@@ -59,46 +101,49 @@ type ProfileRightType = {
     level: number;
     xp: number;
     username: string;
+    Isowner: boolean;
 }
 
 
-const ButtonSent = (props: any) => {
-    const [sendInvitation, setSendInvitation] = useState('Send Invitation');
-    const [isDisable, setIsDisable] = useState(false);
-
-    const handleClick = async () => {
-        await axios.post('/SendRequest', { receiverId: props.userId }).then(response => {
-            console.log(response);
-        })
-            .catch(error => {
-                console.log(error);
-            });
-        setSendInvitation('Sent');
-        setIsDisable(true);
-    };
-
-    return (
-        <button onClick={() => {
-            handleClick();
-        }} disabled={isDisable}><div>{sendInvitation}</div>
-        </button>
-    );
-};
 
 function Profile(props: any) {
 
     const { login } = useParams();
+    const [isDisable, setDisable] = useState(false);
+    const [invi, setInvi] = useState(false);
 
     const [myFriends, setFriends] = useState([]);
+    const ButtonSent = (props: any) => {
+        const [sendInvitation, setSendInvitation] = useState(props.Sent === false ? 'Add Friend' : 'Cancel');
+
+        const handleClick = async () => {
+            if (props.Sent === false) {
+                await axios.post('/SendRequest', { receiverId: props.userId }).then(response => {
+                    // console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            }
+            setSendInvitation(props.Sent === false ? 'Add Friend' : 'Cancel');
+            setInvi(!invi);
+        };
+        
+        return (
+            <button onClick={() => {
+                handleClick();
+            }}><div>{sendInvitation}</div>
+            </button>
+        );
+    };
+    console.log('myFriend', myFriends)
     useEffect(() => {
         const Fetch = async () => {
             await axios.get('/Profile/' + login + '/Friends').then((response) => setFriends(response.data));
+            setDisable(true);
         }
         Fetch();
-    }, [myFriends, login])
-    const [isDisable, setDisable] = useState(false);
-    const [SendInvitation, setSendInvitation] = useState('Send Invitation');
-    // console.log(myFriends)
+    }, [myFriends, login, invi])
 
     return (
         <div className="ProfileComponent-Activity-Friends">
@@ -129,12 +174,12 @@ function Profile(props: any) {
                                             </div>
                                             <div className="buttons-f">
                                                 {
-                                                    e.isOwner === false && (e.isMUtualFriend === true ?
+                                                    e.isOwner === false && (e.Accepted === true ?
                                                         <button><div>Send Message</div></button> :
-                                                        <ButtonSent userId={e.UserId} key={e.UserId + '-env'} />)
+                                                        <ButtonSent Sent={e.sentInvitation} userId={e.UserId} key={e.UserId + '-env'} />)
                                                 }
                                                 {
-                                                    e.isOwner === false && <button className='IP'><div >Invite to Play</div></button>
+                                                    e.isOwner === false && e.Accepted === true && <button className='IP'><div >Invite to Play</div></button>
                                                 }
                                             </div>
                                         </div>
@@ -162,17 +207,29 @@ export function ProfileProfile() {
         status: false,
         level: 0,
         xp: 0,
-        username: ''
+        username: '',
+        Isowner: true
     });
+    const dispatch: AppDispatch = useDispatch()
+
+
     useEffect(() => {
+        dispatch(setTrue());
         const Fetch = async () => {
-            await axios.get('/Profile/' + login + '/profile').then((response) => setPR(response.data));
+            await axios.get('/Profile/' + login + '/profile').then((response) => {
+                setPR(response.data)
+                dispatch(setFalse());
+            });
             setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100));
             setOpacity(1);
-            // console.log(ProfileRight);
         }
         Fetch();
+    }, [login])
+    useEffect(() => {
+        setwidthPro(((ProfileRight.xp / (200 * (ProfileRight.level + 1))) * 100));
+        setOpacity(1);
     }, [login, ProfileRight])
+    console.log(ProfileRight);
     return (
         <GradienBox mywidth={'397px'} myheight={'526px'} myborder={'40px'}>
             <div className="container-Profile-profile">
@@ -183,8 +240,28 @@ export function ProfileProfile() {
                 <h2>{ProfileRight.username}</h2>
                 <div className="status"><span className={(!ProfileRight ? 'txt-dotss' : 'dotss greenDotss')}></span><span className={(!ProfileRight ? 'txt-status' : 'txt-status greenStatus')}>{(!ProfileRight ? 'Offline' : 'Online')}</span></div>
                 <div className="buttons-f">
-                    <button><Chat /></button>
-                    <button><Chat /></button>
+                    {
+                        ProfileRight.Isowner === false ?
+                            <>
+                                {/* { */}
+                                {
+                                    ProfileRight.isFriend ?
+                                        <>
+                                            <button><Friendbtn /></button>
+                                            <button><Blockbtn /></button>
+                                            <button><Chatbtn /></button>
+                                            <button><Playbtn /></button>
+                                        </> :
+                                        <>
+                                            <button><Blockbtn /></button>
+                                            <button><Addbtn /></button>
+                                        </>
+
+                                }
+
+                                {/* } */}
+                            </> : ''
+                    }
                 </div>
                 <div className="progress">
                     <div className="content-progress">
