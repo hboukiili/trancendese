@@ -2,11 +2,12 @@ import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
+import { HomeService } from '../services/home.service';
 
 @Controller('Home')
 @UseGuards(JwtAuthGuard)
 export class HomeController {
-    constructor(private readonly UserService : UsersService){}
+    constructor(private readonly HomeService : HomeService){}
 
     @Get('Hero')
     GetHero(@Req() req, @Res() res) {
@@ -15,13 +16,13 @@ export class HomeController {
 
     @Get('Best6Players')
     async getBestPlayers(@Req() req, @Res() res){
-        const top6Players: topPlayers[] = await this.UserService.Best6Players(req.user);
+        const top6Players: topPlayers[] = await this.HomeService.Best6Players(req.user);
         res.json(top6Players);
     }
 
     @Get('MyProfile')
     async GetProfile(@Req() req, @Res() res){
-        let lastGame = await this.UserService.lastGame(req.user);
+        let lastGame = await this.HomeService.lastGame(req.user);
         res.json({
             lastGame : lastGame,
             avatar : req.user.avatar,
@@ -34,7 +35,7 @@ export class HomeController {
 
     @Get('RecentActivity')
     async GetRecentActivity(@Req() req, @Res() res){
-        const recent = await this.UserService.RecentActivity();
+        const recent = await this.HomeService.RecentActivity();
         res.json(recent);
     }
 }

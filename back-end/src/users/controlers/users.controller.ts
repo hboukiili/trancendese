@@ -1,7 +1,9 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Patch, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
+import { FileInterceptor } from '@nestjs/platform-express';
+
 @Controller('')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
@@ -18,4 +20,6 @@ export class UsersController {
         await this.UserService.AcceptRequest(FriendshipId);
         return true;
     }
+
+
 }

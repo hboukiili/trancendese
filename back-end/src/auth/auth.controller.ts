@@ -25,7 +25,6 @@ export class AuthControlers {
     @Get('intra/callback')
     @UseGuards(AuthGuard('42'))
     async loginsuccess(@Req() req, @Res() res : Response){
-        console.log('saasasasas');
         const found = await this.UsersService.findOneUser(req.user);
         if (!found)
             this.UsersService.createUser(req.user);
@@ -46,10 +45,7 @@ export class AuthControlers {
     {
         const found = await this.UsersService.findOneUser(req.user);
         if (!found)
-        {
-            console.log(req.user);
             this.UsersService.createUser(req.user);
-        }
         const token = await this.AuthService.generateJwtToken(req.user);
         const RefreshToken = await this.AuthService.generateRefreshJwtToken(req.user);
         res.cookie('access_token', token, { httpOnly: true });
@@ -63,13 +59,15 @@ export class AuthControlers {
 
     @Get('refresh')
     async refreshToken(@Req() req, @Res() res){
-        const refreshToken = req.cookies['refresh_token'];
+        var RefreshToken = req.cookies['refresh_token'];
         try {
-            const payload = await this.AuthService.getUserFromRefreshToken(refreshToken);
+            const payload = await this.AuthService.getUserFromRefreshToken(RefreshToken);
             const user = await this.UsersService.ReturnOneUser(payload);
             const accessToken = await this.AuthService.generateJwtToken(user);
-            res.cookie('access_token', accessToken, { httpOnly: true });
-            res.json(accessToken);
+            RefreshToken = await this.AuthService.generateRefreshJwtToken(user);
+            res.cookie('refresh_token', RefreshToken, { httpOnly: true, secure : true});
+            res.cookie('access_token', accessToken, { httpOnly: true, secure : true });
+            res.json(true);
           } catch (err) {
             throw new UnauthorizedException('Invalid refresh token');
           }

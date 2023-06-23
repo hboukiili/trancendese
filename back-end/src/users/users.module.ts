@@ -4,9 +4,11 @@ import { UsersController } from './controlers/users.controller';
 import { AccessTokenMiddleware } from 'src/access-token-middleware/access-token.middleware';
 import { ProfileController } from './controlers/profile.controller';
 import { HomeController } from './controlers/home.controller';
+import { ProfileService } from './services/profile.service';
+import { HomeService } from './services/home.service';
 
 @Module({
-  providers: [UsersService],
+  providers: [UsersService, ProfileService, HomeService],
   controllers: [UsersController, ProfileController, HomeController],
   exports: [UsersService]
 })

@@ -19,12 +19,13 @@ export class GamesDTO
 {
 	GameId				: string;
 	Mode 				: string;
-	Result				: number;
 	won					: boolean;
 	isDraw				: boolean;
 	Rounds  			: number;
 	advPic				: string;
 	AdvName				: string;
+	Winnerxp			: number;
+	looserxp			: number;
 }
 
 export class AllGames
@@ -54,9 +55,11 @@ export class RecentActivity
 
 export class ProfileFriends
 {
+	friendshipId?	: number;
 	avatar 	 		: string;
 	username 		: string;
-	isMUtualFriend 	: boolean;
+	sentInvitation 	: boolean;
+	Accepted?		: boolean;
 	UserId			: string;
 	isOwner			: boolean;
 }

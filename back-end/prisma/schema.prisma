@@ -133,9 +133,8 @@ model Game{
   winner              User?      @relation(name : "WinnerRelation", fields : [WinnerId], references : [UserId]) 
   WinnerId            String?
   isDraw              Boolean   @default(false)
-  Result              Int
-  PlayerXP1           Int
-  PlayerXP2           Int
+  WinnerXP            Int?
+  looserXP            Int?
   Rounds              Int        
   CreationTime        DateTime   @default(now())
 }
