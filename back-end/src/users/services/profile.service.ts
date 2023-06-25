@@ -159,6 +159,7 @@ export class ProfileService {
 							username : friend.username,
 							Accepted : friend2.accepted,
 							sentInvitation : isMutual,
+							Accepted : false,
 							isOwner : false,
 						}
 					}
