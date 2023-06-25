@@ -63,3 +63,10 @@ export class ProfileFriends
 	UserId			: string;
 	isOwner			: boolean;
 }
+
+export class blockedlist
+{
+	UserId 	 : string;
+	avatar 	 : string;
+	username : string;
+}

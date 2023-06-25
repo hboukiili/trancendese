@@ -1,6 +1,6 @@
 import { All, Injectable } from '@nestjs/common';
 import { PrismaClient, User, Game, notificationType } from '@prisma/client';
-import { GamesDTO, AllGames, topPlayers, RecentActivity, ProfileFriends } from '../dto/dto-classes';
+import { GamesDTO, AllGames, topPlayers, RecentActivity, ProfileFriends, blockedlist } from '../dto/dto-classes';
 import { create } from 'domain';
 import { type } from 'os';
 
@@ -29,6 +29,16 @@ export class UsersService {
 		return true;
     }
 
+	async cancelRequest(FriendshipId : number)
+	{
+		const friendship = await this.prisma.friendship.delete({
+			where: {
+			  FriendshipId: FriendshipId
+			},
+		});
+		return true;
+	}
+
 	async ReturnOneUser(user : User){
 		const findUser = await this.prisma.user.findUnique({
 			where: {
@@ -40,6 +50,65 @@ export class UsersService {
 		}
 		return findUser;
     }
+
+
+	async getBlockedlist(User : User)
+	{
+		var blockedlist : blockedlist [] = [];
+		const blockedBySender = await this.prisma.friendship.findMany({
+			where : {
+					SenderId: User.UserId,
+					blockedBySender : true,
+				},
+			select : {
+				receiver :
+				{
+					select : {
+						UserId : true,
+						username : true,
+						avatar : true,
+					}
+				}
+			}
+		});
+
+		blockedBySender.map((friend) => {
+			const { avatar, UserId, username} = friend.receiver;
+			blockedlist.push({
+				avatar : avatar,
+				username : username,
+				UserId : UserId,
+			})
+		});
+
+		const blockedByreceiver = await this.prisma.friendship.findMany({
+			where : {
+					ReceiverId: User.UserId,
+					blockedByReceiver : true,
+				},
+			select : {
+				sender:
+				{
+					select : {
+						UserId : true,
+						username : true,
+						avatar : true,
+					}
+				}
+			}
+		});
+
+		blockedByreceiver.map((friend) => {
+			const { avatar, UserId, username} = friend.sender;
+			blockedlist.push({
+				avatar : avatar,
+				username : username,
+				UserId : UserId,
+			})
+		});
+
+		return blockedlist; 
+	}
 
 
 	async sendRequest(User : User, receiverId : string)

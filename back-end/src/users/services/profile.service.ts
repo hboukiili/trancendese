@@ -23,6 +23,58 @@ export class ProfileService {
 		}
 		return findUser;
     }
+
+	async blockUser(user : User, targetUser : User)
+	{
+		var friend = await this.prisma.friendship.findFirst({
+			where : {
+				OR :[
+					{
+					SenderId : user.UserId, ReceiverId : targetUser.UserId
+				},
+				{
+					SenderId : targetUser.UserId, ReceiverId : user.UserId,
+				}
+			]
+			}
+		})
+
+		if (!friend)
+		{
+			friend = await this.prisma.friendship.create({
+				data : {
+					SenderId : user.UserId,
+					ReceiverId : targetUser.UserId,
+					blockedBySender : true,
+				}
+			})
+			return friend;
+		}
+		if (friend.SenderId === user.UserId)
+		{
+			await this.prisma.friendship.update({
+				where : {
+					FriendshipId : friend.FriendshipId,
+				},
+				data : {
+					blockedBySender : true,
+					Accepted : false,
+				}
+			})
+		}
+		else
+		{
+			await this.prisma.friendship.update({
+				where : {
+					FriendshipId : friend.FriendshipId,
+				},
+				data : {
+					blockedByReceiver : true,
+					Accepted : false,
+				}
+			})
+		}
+	}
     
     async userFriends(user : User, authUser : User)
 	{
@@ -32,7 +84,9 @@ export class ProfileService {
 					{
 						OR: [{SenderId : user.UserId}, {ReceiverId : user.UserId}]
 					},
-				]
+				],
+				blockedByReceiver : false,
+				blockedBySender : false,
 			},
 			select : {
 				Accepted : true,
@@ -62,7 +116,9 @@ export class ProfileService {
 						{
 							OR: [{SenderId : authUser.UserId}, {ReceiverId : authUser.UserId}]
 						},
-					]
+					],
+					blockedByReceiver : false,
+					blockedBySender : false,
 				},
 				select : {
 					FriendshipId : true,
@@ -91,7 +147,6 @@ export class ProfileService {
 					if (friend.username !== authUser.username)
 					{
 						const isMutual = friendsInfo2.some((friendship) => {
-							console.log(friendsInfo2);
 							friend2 = friendship.sender.UserId === authUser.UserId ? friendship.receiver : friendship.sender;
 							if (friend.UserId === friend2.UserId)
 								friend2.accepted = friendship.Accepted;
@@ -109,13 +164,16 @@ export class ProfileService {
 					}
 					else
 					{
-						return {
-							UserId	: friend.UserId,
-							avatar : friend.avatar,
-							username : friend.username,
-							sentInvitation : false,
-							isOwner : true,
-						}
+						friend2.accepted = friendship.Accepted;
+						if (friend2.accepted)
+							return {
+								UserId	: friend.UserId,
+								avatar : friend.avatar,
+								username : friend.username,
+								Accepted : true,
+								sentInvitation : false,
+								isOwner : true,
+							}
 					}
 					
 			}).filter((friend) => friend !== undefined);
@@ -160,15 +218,73 @@ export class ProfileService {
 		return friend.length ? true : false;
 	}
     
+	async isBlocked(user : User, AuthUser : User)
+	{
+		const isBlocked = await this.prisma.friendship.findFirst({
+			where : {
+				OR : [
+					{
+						SenderId : user.UserId, ReceiverId : AuthUser.UserId, blockedBySender : true,
+					},
+					{
+						SenderId : user.UserId, ReceiverId : AuthUser.UserId, blockedByReceiver : true,
+					},
+					{
+						SenderId : AuthUser.UserId, ReceiverId : user.UserId, blockedByReceiver : true,
+					},
+					{
+						SenderId : AuthUser.UserId, ReceiverId : user.UserId, blockedBySender : true,
+					}
+				],
+			}
+		});
+		console.log(isBlocked);
+		return isBlocked !== null;
+	}
 
 	async fetchgame(user : User)
 	{
+		const blockedUser = await this.prisma.friendship.findMany({
+			where : {
+				OR : [
+					{
+						SenderId : user.UserId,
+						OR : [
+								{blockedBySender : true},
+								{blockedByReceiver : true},
+						]
+					},
+					{
+						ReceiverId : user.UserId,
+						OR : [
+							{blockedBySender : true},
+							{blockedByReceiver : true},
+						]
+					},	
+				]
+			},
+			select : {
+				SenderId : true,
+				ReceiverId : true,
+			}
+		});
+
+		const blockedUserIds = blockedUser.map(friendship =>
+			friendship.SenderId === user.UserId ? friendship.ReceiverId : friendship.SenderId
+		);
+
 		let games = await this.prisma.game.findMany({
 			where: {
 				OR: [
-					{ PlayerId1: user.UserId },
-					{ PlayerId2: user.UserId },
-				],
+					{ 
+					  PlayerId1: user.UserId, 
+					  PlayerId2: { not: { in: blockedUserIds } },
+					},
+					{ 
+					  PlayerId2: user.UserId, 
+					  PlayerId1: { not: { in: blockedUserIds } },
+					},
+				  ],
 			},
 			orderBy:{
 				CreationTime : "desc"
@@ -178,9 +294,15 @@ export class ProfileService {
 			where:{
 				isDraw: true,
 				OR: [
-					{ PlayerId1: user.UserId },
-					{ PlayerId2: user.UserId },
-				],
+					{ 
+					  PlayerId1: user.UserId, 
+					  PlayerId2: { not: { in: blockedUserIds } },
+					},
+					{ 
+					  PlayerId2: user.UserId, 
+					  PlayerId1: { not: { in: blockedUserIds } },
+					},
+				  ],
 			}
 		});
 
@@ -188,8 +310,14 @@ export class ProfileService {
 			where:{
 				WinnerId: user.UserId,
 				OR: [
-					{ PlayerId1: user.UserId },
-					{ PlayerId2: user.UserId },
+					{ 
+					  PlayerId1: user.UserId, 
+					  PlayerId2: { not: { in: blockedUserIds } },
+					},
+					{ 
+					  PlayerId2: user.UserId, 
+					  PlayerId1: { not: { in: blockedUserIds } },
+					},
 				],
 			}
 		});
@@ -240,10 +368,10 @@ export class ProfileService {
         const path = join(__dirname, '../../../uploads', filename);
 		console.log(path);
         await fs.writeFile(path, file.buffer);
-		const picture = await this.prisma.user.update({
-			where: { username, },
-			data : { avatar : path },
-		})
+		// const picture = await this.prisma.user.update({
+		// 	where: { username, },
+		// 	data : { avatar : path },
+		// })
 		return true;
 	}
 

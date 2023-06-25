@@ -4,10 +4,12 @@ import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
 import { ProfileService } from '../services/profile.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 
 
 @Controller('Profile')
+@ApiTags('Profile')
 @UseGuards(JwtAuthGuard)
 export class ProfileController {
     constructor(private readonly ProfileService : ProfileService){}
@@ -24,8 +26,11 @@ export class ProfileController {
 
     @Get(':username/profile')
     async getProfile(@Req() req, @Res() res, @Param('username') username : string){
+        var blocked;
         const user = await this.ProfileService.ReturnOneUserByusername(username);
-		if (!user)
+        if (user.UserId !== req.user.UserId)
+            blocked = await this.ProfileService.isBlocked(user, req.user);
+		if (blocked || !user)
 			throw new NotFoundException('User profile not found');
         const Isowner = user.username === req.user.username;
         let isFriend = false;
@@ -56,7 +61,6 @@ export class ProfileController {
     @UseInterceptors(FileInterceptor('file'))
     async UpdateProfile(@UploadedFile() file, @Param('username') username: string, @Req() req)
     {
-        // console.log(req.headers);
         return await this.ProfileService.updatePhoto(file, username);
     }
 
@@ -64,8 +68,27 @@ export class ProfileController {
     async updateUsername(@Body('username') newUsername: string, @Param('username') oldusername : string, @Req() req)
     {
         if (req.user.username === newUsername)
-            return true;
-    
+            throw new Error('No changes has been made');
         return await this.ProfileService.updateUsername(newUsername, oldusername);
+    }
+    
+    @Post('blockUser')
+    @Post('CancelRequest')
+    @ApiBody({ 
+        schema: {
+          type: 'object',
+          properties: {
+            blockedUser: {
+              type: 'string',
+            },
+          },
+        },
+    })
+    async blockUser(@Req() req, @Body('blockedUser') username : string)
+    {
+        const user = await this.ProfileService.ReturnOneUserByusername(username);
+        if (!user)
+            throw new NotFoundException('User profile not found');
+        const blocked = await this.ProfileService.blockUser(req.user, user);
     }
 }

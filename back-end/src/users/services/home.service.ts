@@ -10,21 +10,52 @@ export class HomeService {
 	constructor(){}
 
     async Best6Players(user : User) {
-		const top6Players = await this.prisma.user.findMany({
+		const blockedUser = await this.prisma.friendship.findMany({
+			where : {
+				OR : [
+					{
+						SenderId : user.UserId,
+						OR : [
+								{blockedBySender : true},
+								{blockedByReceiver : true},
+						]
+					},
+					{
+						ReceiverId : user.UserId,
+						OR : [
+							{blockedBySender : true},
+							{blockedByReceiver : true},
+						]
+					},	
+				]
+			},
+			select : {
+				SenderId : true,
+				ReceiverId : true,
+			}
+		});
+
+		const blockedUserIds = blockedUser.map(friendship =>
+			friendship.SenderId === user.UserId ? friendship.ReceiverId : friendship.SenderId
+		);
+
+		let topPlayers = await this.prisma.user.findMany({
 			orderBy: {
 			  XP: 'desc'
 			},
-			take: 6
 		  });
-		  let top : topPlayers[] = [];
-		  for (let i = 0; i < top6Players.length; i++){
-			  top.push({
-				avatar: top6Players[i].avatar,
-				username : top6Players[i].username,
-				XP : top6Players[i].XP,
-				level : top6Players[i].level,
-			  });
-		}
+
+		topPlayers = topPlayers.filter(user => !blockedUserIds.includes(user.UserId));
+
+		const top6Players = topPlayers.slice(0, 6);
+
+		const top = top6Players.map(player => ({
+			avatar: player.avatar,
+			username: player.username,
+			XP: player.XP,
+			level: player.level,
+		}));
+
 		return top;
 	}
 
@@ -52,8 +83,37 @@ export class HomeService {
 		}
 	}
 
-    async RecentActivity()
+    async RecentActivity(user : User)
 	{
+		const blockedUser = await this.prisma.friendship.findMany({
+			where : {
+				OR : [
+					{
+						SenderId : user.UserId,
+						OR : [
+								{blockedBySender : true},
+								{blockedByReceiver : true},
+						]
+					},
+					{
+						ReceiverId : user.UserId,
+						OR : [
+							{blockedBySender : true},
+							{blockedByReceiver : true},
+						]
+					},	
+				]
+			},
+			select : {
+				SenderId : true,
+				ReceiverId : true,
+			}
+		});
+
+		const blockedUserIds = blockedUser.map(friendship =>
+			friendship.SenderId === user.UserId ? friendship.ReceiverId : friendship.SenderId
+		);
+
 		let allgames = await this.prisma.game.findMany({
 			orderBy:{
 				CreationTime : "desc",
@@ -79,6 +139,11 @@ export class HomeService {
 				
 			}
 		});
+
+		allgames = allgames.filter(game => 
+			!blockedUserIds.includes(game.PlayerId1) && 
+			!blockedUserIds.includes(game.PlayerId2)
+		  );
 
 		const recently : RecentActivity[] = [];
 		for (let i = 0; i < allgames.length; i++) {

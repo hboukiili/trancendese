@@ -9,8 +9,10 @@ import { UsersService } from 'src/users/services/users.service';
 import { AccessTokenMiddleware } from '../access-token-middleware/access-token.middleware'
 import * as jwt from 'jsonwebtoken';
 import { GoogleAuthGuard } from './auth-guard/Google-Guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthControlers {
     constructor (private readonly UsersService : UsersService, private readonly AuthService : AuthService){}
     

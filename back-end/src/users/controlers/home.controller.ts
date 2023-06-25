@@ -3,8 +3,10 @@ import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
 import { HomeService } from '../services/home.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('Home')
+@ApiTags('Home')
 @UseGuards(JwtAuthGuard)
 export class HomeController {
     constructor(private readonly HomeService : HomeService){}
@@ -35,7 +37,7 @@ export class HomeController {
 
     @Get('RecentActivity')
     async GetRecentActivity(@Req() req, @Res() res){
-        const recent = await this.HomeService.RecentActivity();
+        const recent = await this.HomeService.RecentActivity(req.user);
         res.json(recent);
     }
 }

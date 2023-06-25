@@ -3,8 +3,10 @@ import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @Controller('')
+@ApiTags('Request')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
     constructor(private readonly UserService : UsersService){}
@@ -21,5 +23,28 @@ export class UsersController {
         return true;
     }
 
+    @Post('CancelRequest')
+    @ApiBody({ 
+        schema: {
+          type: 'object',
+          properties: {
+            FriendshipId: {
+              type: 'number',
+            },
+          },
+        },
+    })
+    async RemoveRequest(@Body('FriendshipId') friendshipId : number)
+    {
+        console.log(friendshipId);
+        await this.UserService.cancelRequest(friendshipId);
+    }
+
+    @Get('blockedlist')
+    async getBlockedlist(@Req() req)
+    {
+        const list = await this.UserService.getBlockedlist(req.user);
+        return list;
+    }
 
 }
