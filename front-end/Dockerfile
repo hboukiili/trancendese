@@ -10,7 +10,7 @@ RUN npm install
 
 COPY ./src ./src
 
-# COPY ./localData ./
+COPY vite.config.ts .
 
 COPY ./index.html ./
 

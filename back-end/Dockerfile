@@ -15,4 +15,6 @@ COPY ./.env ./
 
 EXPOSE 3000
 
-CMD npx prisma migrate dev && npx prisma generate && npm run start:dev
+RUN npm i @nestjs/swagger
+
+CMD npx prisma generate && npm run start:dev
