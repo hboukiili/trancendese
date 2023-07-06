@@ -166,6 +166,7 @@
                     transform: rotate(180deg);
                     position: absolute;
                     transform: translate(1.5rem) rotate(180deg);
+                    pointer-events: none;
                 }
 
                 &::before {
@@ -610,13 +611,13 @@
 .prev-btn {
     position: absolute;
     top: -9.75rem;
-    left: toRem(-597);
+    left: toRem(-610);
 }
 
 .next-btn {
     position: absolute;
     top: -9.75rem;
-    left: 32.3rem;
+    left: 33.7rem;
 }
 
 .owl-carousel .owl-nav button.owl-prev,

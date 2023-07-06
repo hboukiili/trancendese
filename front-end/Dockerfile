@@ -16,5 +16,4 @@ COPY ./index.html ./
 
 EXPOSE 3000
 
-
 CMD [ "npm", "run", "dev"]

@@ -47,4 +47,9 @@ export class UsersController {
         return list;
     }
 
+    @Get('Rank-Table')
+	getRankTable()
+    {
+		
+    }
 }

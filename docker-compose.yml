@@ -20,6 +20,7 @@ services:
       - ./back-end/src:/usr/src/app/src
     ports:
       - "3001:3001"
+      - "5555:5555"
   front-end:
     build: ./front-end
     restart: always

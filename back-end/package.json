@@ -25,6 +25,7 @@
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^7.1.1",
     "cookie-parser": "^1.4.6",
     "jsonwebtoken": "^9.0.0",
     "passport": "^0.6.0",

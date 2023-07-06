@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ACE from './Ace.svg'
 import { useEffect, useState } from 'react'
 import axios from '../../../../../Interceptor/Interceptor'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PlayBtn from './playBtn.svg'
 
@@ -169,10 +169,10 @@ function Profile(props: any) {
                                     return (
                                         <div key={e.UserId + 'fr'} className="friend-Profile">
                                             <div className="friend-info">
-                                                <img src={e.avatar} alt="" />
+                                                <Link to={'/profile/' + e.username}><img src={e.avatar} alt="" /></Link>
                                                 <p>{e.username}</p>
                                             </div>
-                                            <div className="buttons-f">
+                                            {/* <div className="buttons-f">
                                                 {
                                                     e.isOwner === false && (e.Accepted === true ?
                                                         <button><div>Send Message</div></button> :
@@ -181,12 +181,15 @@ function Profile(props: any) {
                                                 {
                                                     e.isOwner === false && e.Accepted === true && <button className='IP'><div >Invite to Play</div></button>
                                                 }
-                                            </div>
+                                            </div> */}
                                         </div>
                                     )
                                 })
                             }
 
+                        </div>
+                        <div className="con-fr-fot">
+                            { myFriends.length + ' Friends'}
                         </div>
                     </div>
                 </GradienBox>

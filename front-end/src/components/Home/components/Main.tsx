@@ -14,12 +14,14 @@ import Profile, { ProfileProfile, ProfileDown } from './Main/Profile/Profile'
 import Settings from './Main/Settings/Settings'
 import LeaderBoard from './Main/LeaderBoard/LeaderBoard'
 import axios from '../../../Interceptor/Interceptor'
+import { Link } from 'react-router-dom'
 
 function ActivityContent(props: any) {
 	return (
 		<div className="activity-x">
 			<div className="part1">
-				<img src={props.avatar1} alt="" />
+				<Link to={'/profile/' + props.p1}><img src={props.avatar1} alt="" /></Link>
+				
 				<p>{props.p1}<span>{' ' + (props.isDraw === false ? 'won against ' : 'had a draw with ')}</span>{props.p2}</p>
 				{/* <img src={props.avatar2} alt="" /> */}
 			</div>
