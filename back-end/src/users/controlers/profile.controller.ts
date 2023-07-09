@@ -90,7 +90,7 @@ export class ProfileController {
         if (!user)
             throw new NotFoundException('User profile not found');
         if (user.UserId == req.user.UserId)
-            throw new Error('can not block this user');
+            throw new Error('can not block this user')
         const blocked = await this.ProfileService.blockUser(req.user, user);
     }
 }

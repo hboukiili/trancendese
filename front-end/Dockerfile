@@ -4,8 +4,6 @@ WORKDIR /usr/src/app/
 
 COPY ./*.json ./
 
-RUN npm ci
-
 RUN npm install
 
 COPY ./src ./src

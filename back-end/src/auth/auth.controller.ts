@@ -41,6 +41,13 @@ export class AuthControlers {
             res.redirect(process.env.FrontIp + '/settings');
     }
 
+    @Get('wsToken')
+    async wsToken(@Req() req)
+    {
+        const wsToken = this.AuthService.generateJwtToken(req.user);
+        return wsToken;
+    }
+
     @Get('google/callback')
     @UseGuards(GoogleAuthGuard)
     async GoogleAuth(@Req() req, @Res() res)
@@ -69,7 +76,8 @@ export class AuthControlers {
             RefreshToken = await this.AuthService.generateRefreshJwtToken(user);
             res.cookie('refresh_token', RefreshToken, { httpOnly: true, secure : true});
             res.cookie('access_token', accessToken, { httpOnly: true, secure : true });
-            res.json(true);
+            const wsToken = await this.AuthService.generateJwtToken(req.user);
+            res.json(wsToken);
           } catch (err) {
             throw new UnauthorizedException('Invalid refresh token');
           }

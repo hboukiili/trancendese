@@ -367,10 +367,11 @@ export class ProfileService {
         const path = join(__dirname, '../../../uploads', filename);
 		console.log(path);
         await fs.writeFile(path, file.buffer);
-		// const picture = await this.prisma.user.update({
-		// 	where: { username, },
-		// 	data : { avatar : path },
-		// })
+		const pathPicture = 'http://localhost:' + "3001" + '/uploads' + filename;
+		const picture = await this.prisma.user.update({
+			where: { username, },
+			data : { avatar : pathPicture },
+		})
 		return true;
 	}
 
