@@ -57,11 +57,11 @@ export class ProfileController {
 		res.json(friends);
 	}
 
-    @Post(':username/UpdatePicture')
+    @Post('UpdatePicture')
     @UseInterceptors(FileInterceptor('file'))
-    async UpdateProfile(@UploadedFile() file, @Param('username') username: string, @Req() req)
+    async UpdateProfile(@UploadedFile() file, @Req() req)
     {
-        return await this.ProfileService.updatePhoto(file, username);
+        return await this.ProfileService.updatePhoto(file, req.UserId);
     }
 
     @Patch(':username/updateUsername')

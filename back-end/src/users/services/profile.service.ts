@@ -361,15 +361,15 @@ export class ProfileService {
 		};
 	}
 
-	async updatePhoto(file, username)
+	async updatePhoto(file, UserId)
 	{
 		const filename = `${Date.now()}-${file.originalname}`;
         const path = join(__dirname, '../../../uploads', filename);
 		console.log(path);
         await fs.writeFile(path, file.buffer);
-		const pathPicture = 'http://localhost:' + "3001" + '/uploads' + filename;
+		const pathPicture = process.env.HOST + process.env.PORT + '/uploads' + filename;
 		const picture = await this.prisma.user.update({
-			where: { username, },
+			where: { UserId, },
 			data : { avatar : pathPicture },
 		})
 		return true;

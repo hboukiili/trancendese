@@ -12,6 +12,8 @@ COPY ./src ./src
 
 COPY ./prisma ./prisma
 
+COPY uploads .
+
 COPY ./.env ./
 
 RUN npm i @nestjs/swagger

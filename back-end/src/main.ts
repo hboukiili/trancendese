@@ -27,8 +27,8 @@ async function bootstrap() {
       credentials: true,
   });
   app.use('uploads', express.static(join(__dirname, '..', 'uploads')));
-  await app.listen(3001, '0.0.0.0');
-  console.log(process.env.PORT);
+  // console.log(join(__dirname, '..' , 'uploads'));
+  await app.listen(process.env.PORT, '0.0.0.0');
 }
 
 bootstrap();
