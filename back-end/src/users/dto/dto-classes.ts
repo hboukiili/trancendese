@@ -51,6 +51,7 @@ export class RecentActivity
 	Player2 		: string;
 	Player2Avatar	: string;
 	IsDraw  		: boolean;
+	AreFriends        : boolean;
 }
 
 export class ProfileFriends
@@ -66,7 +67,31 @@ export class ProfileFriends
 
 export class blockedlist
 {
-	UserId 	 : string;
+	friendshipId 	: number;
+	UserId 	 		: string;
+	avatar 	 		: string;
+	username 		: string;
+}
+
+export class setting
+{
+	avatar : string;
+	username : string;
+	email : string;
+}
+
+export class request
+{
 	avatar 	 : string;
 	username : string;
+	friendshipId : number;	
+}
+
+export class notification
+{
+	avatar : string;
+	username : string;
+	isRead : boolean;
+	notificationId : number;
+	Type : string;
 }

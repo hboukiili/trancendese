@@ -5,6 +5,7 @@
     align-items: center;
     flex-direction: row;
     gap: toRem(48);
+    position: relative;
 }
 
 .btn-msgnot {
@@ -13,6 +14,8 @@
     align-items: center;
     width: 100%;
     height: 100%;
+    // position: relative;
+    overflow: visible;
 
     img {
         width: toRem(26);
@@ -75,6 +78,9 @@
         height: toRem(314);
         overflow-y: auto;
         overflow-x: hidden;
+        -moz-transition: all 300ms ease-in-out;
+        -o-transition: all 300ms ease-in-out;
+        -webkit-transition: all 300ms ease-in-out;
     }
 }
 
@@ -161,4 +167,169 @@
         font-size: toRem(8);
         color: #FFFFFF;
     }
+    .dec{
+        color: #ED5152;
+    }
+}
+
+.burger {
+    display: none;
+}
+
+.nav-mobile {
+    display: none;
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    background-color: #ED5152;
+    left: 0;
+    top: 0;
+    background: linear-gradient(135deg, rgba(19, 16, 16, 0.1), rgba(12, 7, 7, 0));
+    backdrop-filter: blur(2rem);
+    -webkit-backdrop-filter: blur(0.125rem);
+    border-radius: 1.25rem;
+    border: 1px solid rgba(237, 81, 82, 0.18);
+    box-shadow: 0 0.5rem 2rem 0 rgba(0, 0, 0, 0.37);
+
+    ul {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: toRem(70);
+
+        a {
+            .logout {
+                box-shadow: none;
+                width: 30%;
+            }
+        }
+    }
+
+    button {
+        font-size: toRem(90);
+        position: absolute;
+        right: toRem(50);
+        top: toRem(70);
+        color: #ED5152;
+        // backdrop-filter: drop-shadow(toRem(3) toRem(3) toRem(3) black);
+    }
+}
+
+.invitation-user {
+    display: flex;
+    flex-direction: column;
+    gap: toRem(11);
+    width: toRem(314);
+    height: toRem(118);
+    padding-left: 1rem;
+    padding-right: toRem(24);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    // align-items: center;
+    -moz-transition: all 100ms ease-in;
+    -o-transition: all 100ms ease-in;
+    -webkit-transition: all 100ms ease-in;
+    background-color: #353133;
+    border-bottom: toRem(1) solid rgba(0, 0, 0, 0.3);
+    border-top: toRem(1) solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    &:hover {
+        background: #272325;
+    }
+    .info {
+        display: flex;
+        flex-direction: row;
+        gap: toRem(30);
+        align-items: center;
+        height: toRem(51);
+
+        img {
+            border-radius: toRem(10);
+            width: toRem(51);
+            height: toRem(51);
+        }
+
+        .who {
+            display: flex;
+            flex-direction: column;
+            gap: toRem(9);
+
+            h4 {
+                color: #FFF;
+                font-family: 'SF';
+                font-size: toRem(14);
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                text-transform: uppercase;
+            }
+
+            p {
+                font-size: toRem(11);
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+    }
+
+    .btn {
+        display: flex;
+        gap: toRem(15);
+        align-items: center;
+        width: 100%;
+        flex-direction: row-reverse;
+        padding-right: toRem(50);
+        button {
+            width: toRem(65);
+            height: toRem(26);
+            border-radius: toRem(40);
+            background: linear-gradient(to bottom, #5699AE, #E15253);
+            box-shadow: 0px toRem(4) toRem(40) 0px rgba(0, 0, 0, 0.30);
+            padding: toRem(1);
+            -moz-transition: all 100ms ease-in;
+            -o-transition: all 100ms ease-in;
+            -webkit-transition: all 100ms ease-in;
+            &:hover{
+                transform: scale(1.05);
+            }
+
+            .text {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: toRem(40);
+                background-color: #353133;
+                color: #00887A;
+                font-size: toRem(11);
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                -moz-transition: all 100ms ease-in;
+                -o-transition: all 100ms ease-in;
+                -webkit-transition: all 100ms ease-in;
+                &:hover{
+                    background-color: #282428;
+                }
+
+            }
+            .decline{
+                color: #ED5152;
+            }
+        }
+    }
+}
+
+
+.isFull{
+    position: absolute;
+    width: toRem(5);
+    height: toRem(5);
+    border-radius: 50%;
+    background-color: #ED5152;
+    transform: translate(toRem(12), toRem(-12));
 }

@@ -41,7 +41,7 @@
 
 .searchC {
     position: absolute;
-    top: toRem(73);
+    top: 3.5rem;
     // width: 100%;
     // height: 100%;
 }
@@ -107,6 +107,20 @@
                 border-radius: 50%;
             }
         }
+        .user-notFriend-search{
+            &::before {
+                content: "";
+                position: relative;
+                top: toRem(-15);
+                left: toRem(42);
+                width: 0.4rem;
+                height: 0.4rem;
+                background-color: transparent;
+                z-index: 8888888888;
+                border: toRem(1) solid transparent;
+                border-radius: 50%;
+            }
+        }
 
         .f-part1 {
             display: flex;
@@ -157,7 +171,6 @@
 
             img {
                 width: toRem(33);
-                height: toRem(36);
             }
         }
 

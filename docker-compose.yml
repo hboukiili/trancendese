@@ -3,14 +3,12 @@ services:
   db:
     build: ./data
     restart: always
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb
+    env_file:
+      - ./back-end/.env
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./data/pgdata:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
   back-end:
     build: ./back-end
     restart: always
@@ -18,9 +16,13 @@ services:
       - db
     volumes:
       - ./back-end/src:/usr/src/app/src
+      - ./back-end/uploads:/usr/src/app/uploads
+      - ./back-end/prisma:/usr/src/app/prisma
     ports:
-      - "3001:3001"
       - "5555:5555"
+      - "3001:3001"
+    env_file:
+      - ./back-end/.env
   front-end:
     build: ./front-end
     restart: always
@@ -30,3 +32,13 @@ services:
       - ./front-end/src:/usr/src/app/src
     ports:
       - "3000:3000"
+  # nginx:
+  #   image: nginx
+  #   ports:
+  #     - 80:80
+  #   env_file:
+  #     - ./nginx/.env
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #   depends_on:
+  #     - back-end

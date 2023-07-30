@@ -35,6 +35,20 @@
         padding-right: toRem(27);
         padding-left: toRem(15);
         border-right: toRem(1) solid rgba(249, 198, 144, 0.2);
+        a{
+            width: toRem(70);
+            height: toRem(70);
+            border-radius: 1rem;
+            background-size: cover;
+            div{
+                width: 100%;
+                height: 100%;
+                border-radius: 1rem;
+                background-size: cover;
+                background-image: url('../../../../assets/img/avatar.png');
+            }
+        
+        }
     }
     .m1-nl{
         display: flex;
@@ -72,14 +86,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-left: toRem(40);
+        margin-left: 1.5rem;
         @include backblur(toRem(81), toRem(86), #ED5152);
     }
-}
-.mid-img1{
-    width: toRem(70);
-    height: toRem(70);
-    border-radius: 1rem;
 }
 .mid-img2{
     width: toRem(15);
@@ -87,7 +96,7 @@
 }
 .mid-img3{
     width: toRem(81);
-    height: toRem(86);
+    // height: toRem(86);
 }
 .seperator{
     width: toRem(300);

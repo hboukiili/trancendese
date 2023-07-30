@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -11,77 +11,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  
-  UserId              String                @id
-  username            String             @unique
-  FullName            String
-  avatar              String
-  FA_On               Boolean?
-  FAsecret            String?
-  XP                  Int?                @default(0)
-  win                 Int?                @default(0)
-  loss                Int?                @default(0)
-  draw                Int?                @default(0)
-  level               Int?                @default(0)
-  badge               String?
-  email               String             @unique
-  createdAt           DateTime           @default(now())
-  status              Boolean             @default(true)
-  
+  UserId    String   @id
+  username  String   @unique
+  FullName  String
+  avatar    String
+  FA_On     Boolean?
+  FAsecret  String?
+  XP        Int?     @default(0)
+  level     Int?     @default(0)
+  badge     String?
+  email     String   @unique
+  createdAt DateTime @default(now())
+  status    Boolean  @default(true)
+
   // Relations
-  SenderFriendships   Friendship[]        @relation("SenderFriendships")
-  ReceiverFriendships Friendship[]       @relation("ReceiverFriendships")
-  Messages            Message[]           @relation("SenderMessages")
-  membershipGroups    Membership[]       @relation("MembershipGroupUsers")
-  notifications       Notification[]      @relation("UserNotifications")
-  Player1Relation     Game[]              @relation("Player1Relation")
-  Player2Relation     Game[]              @relation("Player2Relation")
-  WinnerRelation     Game[]              @relation("WinnerRelation")
+  SenderFriendships   Friendship[]   @relation("SenderFriendships")
+  ReceiverFriendships Friendship[]   @relation("ReceiverFriendships")
+  Messages            Message[]      @relation("SenderMessages")
+  membershipGroups    Membership[]   @relation("MembershipGroupUsers")
+  notifications       Notification[] @relation("UserNotifications")
+  notifications2      Notification[] @relation("UserNotifications2")
+  Player1Relation     Game[]         @relation("Player1Relation")
+  Player2Relation     Game[]         @relation("Player2Relation")
+  WinnerRelation      Game[]         @relation("WinnerRelation")
+  BadgesRelation      achievement?
+}
+
+model achievement {
+  badgesId   Int     @id @default(autoincrement())
+  user       User?   @relation(fields: [UserId], references: [UserId])
+  UserId     String  @unique
+  extrovert  Boolean @default(false) // got 10 friends
+  Helmchen   Boolean @default(false) // 10 in 3 matches
+  PongPlayer Boolean @default(false) // Played a game
+  kasparov   Boolean @default(false) // won against ai
+  Worldcup   Boolean @default(false) // Win 7 games in football
+  Hawking    Boolean @default(false) // win a blackhole game
+  Batal      Boolean @default(false) // first rank
 }
 
 model Room {
-  
-  RoomId        Int       @id @default(autoincrement())
-  RoomNAme      String
-  CreationTime  DateTime  @default(now())
-  updateTime    DateTime  @updatedAt @default(now())
-  ischannel     Boolean
-  Password      String
+  RoomId       Int      @id @default(autoincrement())
+  RoomNAme     String?
+  CreationTime DateTime @default(now())
+  updateTime   DateTime @default(now()) @updatedAt
+  ischannel    Boolean  @default(false)
+  Password     String?
+  Type         String?
 
   // Relations
-  Message Message[] @relation("messages")
+  Message Message[]    @relation("messages")
   members Membership[] @relation("roomMember")
 }
 
 model Message {
-  
-  MessageId   Int       @id @default(autoincrement())
-  room       Room       @relation(name : "messages", fields : [RoomId], references : [RoomId])
-  RoomId      Int
-  user        User       @relation(name : "SenderMessages", fields : [UserId], references : [UserId])
-  UserId      String
-  Content     String
-  SendTime    DateTime  @updatedAt @default(now())
-  
+  MessageId Int      @id @default(autoincrement())
+  room      Room     @relation(name: "messages", fields: [RoomId], references: [RoomId])
+  RoomId    Int
+  user      User     @relation(name: "SenderMessages", fields: [UserId], references: [UserId])
+  UserId    String
+  Content   String
+  SendTime  DateTime @default(now()) @updatedAt
 }
 
 model Friendship {
-  
-  FriendshipId      Int         @id @default(autoincrement())
-  sender            User        @relation(name : "SenderFriendships", fields: [SenderId], references: [UserId])
+  FriendshipId      Int      @id @default(autoincrement())
+  sender            User     @relation(name: "SenderFriendships", fields: [SenderId], references: [UserId])
   SenderId          String
-  receiver          User        @relation(name : "ReceiverFriendships", fields: [ReceiverId], references: [UserId])
+  receiver          User     @relation(name: "ReceiverFriendships", fields: [ReceiverId], references: [UserId])
   ReceiverId        String
-  Accepted          Boolean     @default(false)
-  blockedBySender   Boolean     @default(false)
-  blockedByReceiver Boolean     @default(false)
-  CreationTime      DateTime    @default(now())
+  Accepted          Boolean  @default(false)
+  blockedBySender   Boolean  @default(false)
+  blockedByReceiver Boolean  @default(false)
+  CreationTime      DateTime @default(now())
 }
 
 enum notificationType {
-  friendship_request
   Accepted_request
   game_invitation
   Achievement
@@ -89,30 +95,26 @@ enum notificationType {
 }
 
 model Notification {
-  NotificationId  Int      @id @default(autoincrement())
-  user            User     @relation(name : "UserNotifications", fields : [UserId], references : [UserId])
-  UserId          String
-  Type            notificationType   
-  isRead          Boolean  
-  CreationTime    DateTime @default(now())
-}
-
-enum Role {
-  USER
-  ADMIN
+  NotificationId Int              @id @default(autoincrement())
+  sender         User             @relation(name: "UserNotifications", fields: [senderId], references: [UserId])
+  senderId       String
+  receiver       User             @relation(name: "UserNotifications2", fields: [receiverId], references: [UserId])
+  receiverId     String
+  Type           notificationType
+  isRead         Boolean
+  CreationTime   DateTime         @default(now())
 }
 
 model Membership {
-
-  GroupId       Int  @id @default(autoincrement())
-  room          Room @relation(name: "roomMember", fields : [RoomId], references : [RoomId])
-  RoomId        Int
-  member        User @relation(name: "MembershipGroupUsers", fields : [UserId], references : [UserId])
-  UserId        String
-  Role          Role @default(USER)
-  isBanned      Boolean
-  isMuted       Boolean
-  CreationTime  DateTime   @default(now())
+  MembershipId Int      @id @default(autoincrement())
+  room         Room     @relation(name: "roomMember", fields: [RoomId], references: [RoomId])
+  RoomId       Int
+  member       User     @relation(name: "MembershipGroupUsers", fields: [UserId], references: [UserId])
+  UserId       String
+  Role         String   @default("USER")
+  isBanned     Boolean  @default(false)
+  isMuted      Boolean  @default(false)
+  CreationTime DateTime @default(now())
 }
 
 enum MODE {
@@ -121,20 +123,18 @@ enum MODE {
   Friends
 }
 
-
-model Game{
-
-  GameId              Int       @id @default(autoincrement())
-  Player1             User      @relation(name : "Player1Relation", fields : [PlayerId1], references : [UserId])
-  PlayerId1           String
-  Player2             User      @relation(name : "Player2Relation", fields : [PlayerId2], references : [UserId]) 
-  PlayerId2           String
-  Mode                MODE
-  winner              User?      @relation(name : "WinnerRelation", fields : [WinnerId], references : [UserId]) 
-  WinnerId            String?
-  isDraw              Boolean   @default(false)
-  WinnerXP            Int?
-  looserXP            Int?
-  Rounds              Int        
-  CreationTime        DateTime   @default(now())
+model Game {
+  GameId       Int      @id @default(autoincrement())
+  Player1      User     @relation(name: "Player1Relation", fields: [PlayerId1], references: [UserId])
+  PlayerId1    String
+  Player2      User     @relation(name: "Player2Relation", fields: [PlayerId2], references: [UserId])
+  PlayerId2    String
+  Mode         MODE
+  winner       User?    @relation(name: "WinnerRelation", fields: [WinnerId], references: [UserId])
+  WinnerId     String?
+  isDraw       Boolean  @default(false)
+  WinnerXP     Int?
+  looserXP     Int?
+  Rounds       Int
+  CreationTime DateTime @default(now())
 }

@@ -214,6 +214,7 @@ input[type="radio"]:checked+label::before {
             width: toRem(42);
             height: toRem(42);
             margin-right: 1.5rem;
+            border-radius: toRem(10);
         }
 
         .username {

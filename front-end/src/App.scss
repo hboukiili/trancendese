@@ -12,6 +12,7 @@
     overflow-y: auto;
     // background: linear-gradient(183.52deg, rgba(113, 61, 65, 0.9) -842.96%, rgba(10, 10, 12, 0.9) 99.44%);
     z-index: -2;
+    
 }
 
 img {
@@ -38,7 +39,179 @@ $base-screen-font-size: $base-font-size;
   }
 }
 
-// Generate media queries for various screen widths
-@for $i from 320px through 7680px {
+@for $i from 320px through 770px {
+  $base-font-size: 9.8px;
+  $base-screen-width : 770px;
+  $base-screen-font-size: $base-font-size;
   @include font-size($i);
+}
+@for $i from 771px through 7680px {
+  $base-font-size: 16px;
+  $base-screen-width : 1920px;
+  $base-screen-font-size: $base-font-size;
+  @include font-size($i);
+}
+
+
+.securePage{
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(toRem(2));
+}
+
+.twoFa {
+  width: toRem(452);
+  height: toRem(422);
+  box-shadow: 0px toRem(4) toRem(40) 0px rgba(0, 0, 0, 0.50);
+  border-radius: toRem(40);
+  background-image: linear-gradient(to bottom, #5699AE, #E15253);
+  padding: toRem(1.5);
+
+  .twoFA-cont {
+      width: 100%;
+      height: 100%;
+      border-radius: toRem(40);
+      display: flex;
+      flex-direction: column;
+      background-color: #232225;
+      // align-items: center;
+      justify-content: space-between;
+      padding: toRem(29);
+      padding-top: toRem(28);
+      padding-bottom: toRem(20);
+      gap: toRem(51);
+
+      h1 {
+          color: #FFF;
+          font-size: toRem(22);
+          font-style: normal;
+          font-weight: 556;
+          line-height: normal;
+      }
+
+      .main2FA {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img {
+              filter: drop-shadow(0.063rem 0 0 #FDBB75)  drop-shadow(0 0.063rem 0 #FDBB75) drop-shadow(-0.063rem 0 0 #FDBB75) drop-shadow(0 -0.063rem 0 #FDBB75); 
+          }
+          .tuto {
+              width: fit-content;
+              height: fit-content;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              gap: toRem(5);
+              margin-left: toRem(29);
+
+              // align-items: center;
+              li {
+                  color: #FFF;
+                  font-size: toRem(14);
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 141.023%;
+              }
+          }
+
+          img {
+              width: toRem(200);
+          }
+
+          .codeGenerating {
+              display: flex;
+              align-items: center;
+              gap: toRem(12.92);
+              .numberInput{
+                  width: toRem(35.897);
+                  height: toRem(35.897);
+                  padding: toRem(1);
+                  border-radius: toRem(14);
+                  background: linear-gradient(360deg, rgba(86,153,174,1) 0%, rgba(225,82,83,1) 100%);
+                  // background: #232225;
+                  box-shadow: 0px toRem(4) toRem(4) 0px rgba(0, 0, 0, 0.25);
+              
+              input[type=number]{
+                  background: #232225;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: toRem(14);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color: white;
+                  font-size: toRem(22);
+                  font-style: normal;
+                  font-weight: 500;
+                  padding-left: toRem(11);
+              }
+              input::-webkit-outer-spin-button,
+              input::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+              }
+              input[type=number] {
+                  -moz-appearance: textfield;
+                }
+              }
+              .codeAni{
+                  box-shadow: 0 toRem(5) toRem(10) rgba(225,82,83, 1);
+                  animation-name: False;
+                  animation-duration: 0.5s;
+
+              }
+          }
+      }
+
+      .footer-2fa {
+          display: flex;
+          flex-direction: row-reverse;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+
+          button {
+              width: toRem(70);
+              height: toRem(37);
+              border-radius: toRem(19);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: #FFF;
+              font-size: toRem(15);
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              background-color: #00887A;
+          }
+
+      }
+  }
+}
+
+@keyframes False {
+  0% {
+      transform: translateX(toRem(2));
+  }
+  20%{
+      transform: translateX(toRem(-4));
+  }
+  40%{
+      transform: translateX(toRem(2));
+  }
+  60%{
+      transform: translateX(toRem(-3));
+  }
+  60%{
+      transform: translateX(toRem(2));
+  }
+  100%{
+      transform: translateX(toRem(-1));
+  }
 }

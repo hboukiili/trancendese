@@ -5,7 +5,7 @@
     width: 100%;
     gap: 2rem;
     position: relative;
-    top: toRem(-10);
+    top: 5rem;
 
     .fa-Profile {
         display: flex;
@@ -107,6 +107,7 @@
                     background: #4F5150;
                     border-radius: toRem(19);
                 }
+
                 p {
                     font-family: 'SF';
                     font-style: normal;
@@ -413,8 +414,9 @@ h1 {
     padding-right: 2.125rem;
     width: 100%;
     position: relative;
-    top: toRem(-17);
+    top: toRem(-60);
     // gap: 4.5rem;
+    margin-left: toRem(200);
 
     .AchivementsProfile,
     .UpgradeProfile,
@@ -755,3 +757,85 @@ h1 {
         }
     }
 }
+
+.pad {
+    padding: toRem(0);
+    transition: padding 0.1s ease-in-out;
+}
+
+.ActivityInfo {
+    width: 0;
+    height: 0;
+    box-sizing: border-box;
+    border-radius: toRem(8);
+    box-shadow: 0px toRem(4) toRem(40) 0px rgba(0, 0, 0, 0.50);
+    background: linear-gradient(90deg, rgba(86, 153, 174, 1) 0%, rgba(225, 82, 83, 1) 12%);
+    opacity: 0;
+    transform: translate(toRem(-10), toRem(7));
+    transition: all 0.6s ease-in-out;
+    overflow: hidden;
+
+    .textinfo {
+        border-radius: toRem(8);
+        height: 100%;
+        width: 100%;
+        background: #232225;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        p {
+            color: #F9C690;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: toRem(340);
+            height: toRem(25);
+            position: absolute;
+            font-size: toRem(10);
+            font-style: normal;
+            font-weight: 300;
+            line-height: normal;
+            transition-delay: 0.7s;
+            transition-property: opacity;
+            transition-duration: 400ms;
+            // -webkit-transition: opacity 0s;
+            opacity: 1;
+        }
+
+    }
+
+}
+
+body:has(#infoBtn:hover) .ActivityInfo {
+    opacity: 0.5;
+    width: toRem(250);
+    height: toRem(25);
+
+}
+
+body:has(#infoBtn:hover) .pad {
+    padding: toRem(1);
+
+}
+
+body:has(#infoBtn:hover) .ActivityInfo .textinfo p {
+    opacity: 1;
+}
+
+.swiper {
+    width: toRem(300);
+    height: fit-content;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // border-radius: 18px;
+    // font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+

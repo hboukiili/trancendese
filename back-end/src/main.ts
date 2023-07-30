@@ -6,7 +6,6 @@ import * as express from 'express';
 import { join } from 'path';
 
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -14,8 +13,8 @@ async function bootstrap() {
     .setTitle('Trencendece')
     .setDescription('the back-end API')
     .setVersion('1.0')
-    .addTag('cats')
-    .build();parseInt
+    .addTag('back-end')
+    .build();
 
   const document = SwaggerModule.createDocument(app as any, config);
 
@@ -26,8 +25,8 @@ async function bootstrap() {
       origin: process.env.FrontIp,
       credentials: true,
   });
-  app.use('uploads', express.static(join(__dirname, '..', 'uploads')));
-  // console.log(join(__dirname, '..' , 'uploads'));
+
+  // app.use('uploads', express.static(join(__dirname, '..', 'uploads')));
   await app.listen(process.env.PORT, '0.0.0.0');
 }
 

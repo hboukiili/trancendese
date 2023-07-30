@@ -1,34 +1,68 @@
 import "./Search.scss"
 import SearImg from "../../../../assets/img/search.svg"
+import defaultAvatar from "../../../../assets/img/avatar.png"
 import GradienBox from '../../../../tools/GradienBox'
-import Awardtest from './testBadge.svg'
+import SBadge from "../../../../assets/img/small-badge.svg"
+import bronze from '../../../../assets/img/Badges/Bronze.png'
+import silver from '../../../../assets/img/Badges/Silver.png'
+import gold from '../../../../assets/img/Badges/Gold.png'
+import platinium from '../../../../assets/img/Badges/Platinium.png'
+import diamond from '../../../../assets/img/Badges/Diamond.png'
+import master from '../../../../assets/img/Badges/Master.png'
+import grandMaster from '../../../../assets/img/Badges/GrandMaster.png'
+import {nanoid} from 'nanoid'
 import { useState, useRef } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
-import { useSelector } from "react-redux"
+import { Link } from 'react-router-dom'
+import axios from '../../../../Interceptor/Interceptor'
 
 function SearchContent(props: any) {
+	const myBadge = (badge:string): string => {
+		switch (badge) {
+			case 'bronze':
+				return bronze;
+			case 'silver':
+				return silver;
+			case 'gold':
+				return gold;
+			case 'platinium':
+				return platinium;
+			case 'diamond':
+				return diamond;
+			case 'master':
+				return master;
+			case 'grandmaster':
+				return grandMaster;
+		}
+		return ''
+	}
 	const SimpeLoop = () => {
-		console.log('user ound', props.userFound);
-		const elements = props.userFound.map((e: any, i:number) =>
-			<a key={'userFound-' + i} href='#' className="found">
-				<div className={'f-part1 ' + (e.status === true ? "user-active-search" : "user-desactive-search")}>
-					<img src={e.avatar} alt="" />
+		const elements = props.userFound.map((e: any, i: number) =>
+			<Link onClick={() => {
+				props.set(false);
+			}} to={`/profile/${e.username}`} key={nanoid()} className="found">
+				<div className={'f-part1 ' + (e.isFriend ? (e.status === true ? "user-active-search" : "user-desactive-search") : 'user-notFriend-search')}>
+					<img onError={(e: any) => {
+						e.target.src = defaultAvatar;
+					}
+					} src={e.avatar} alt="" />
 					<div className="textInfo">
-						<h4>{e.login}</h4>
+						<h4>{e.username}</h4>
 						<p>{'LEVEL ' + e.level}</p>
 					</div>
 				</div>
 				<div className="f-part2">
-					<img src={Awardtest} alt="" />
+					<img src={myBadge(e.badge)} alt="" />
+					{/* // should Badge here  remember?? */}
 				</div>
-			</a>
+			</Link>
 		)
 		return elements
 	}
 	return (
 		<div className="SearchContent">{
 			props.userFound.length > 0 ? SimpeLoop() :
-			'No User Found!'
+				'No User Found!'
 		}
 		</div>
 	);
@@ -37,7 +71,7 @@ function SearchContent(props: any) {
 function Search() {
 	const [isVisible, setIsVisible] = useState(false);
 	const ref = useRef(null)
-	const users: any = useSelector((state: any) => state.users.users);
+	// const users: any = useSelector((state: any) => state.users.users);
 	const [userFound, setUserFound] = useState([]);
 	const handleClickOutside = () => {
 		setIsVisible(false)
@@ -45,21 +79,22 @@ function Search() {
 	useOnClickOutside(ref, handleClickOutside);
 	function handleChange(event: any) {
 		const value = event.target.value;
-		if (value.length == 0)
-		{
+		if (value.length == 0) {
 			setUserFound([]);
 			setIsVisible(false)
 		}
-		else
-		{
-			const newUsers = users.filter((e: any) => e.login.includes(value));
-			if (newUsers.length == 0)
-				setIsVisible(false)
-			else
-			{
+		else {
+			const newUsers = async () => {
+				await axios.post('/search', { user: value }).then((resp: any) => setUserFound(resp.data))
 				setIsVisible(true)
-				setUserFound(newUsers);
 			}
+			newUsers();
+			// if (newUsers.length == 0)
+			// 	setIsVisible(false)
+			// else
+			// {
+			// 	setUserFound(newUsers);
+			// }
 		}
 	}
 	return (
@@ -67,7 +102,7 @@ function Search() {
 			{
 				isVisible &&
 				<div ref={ref} className="searchC">
-					<SearchContent userFound={userFound} />
+					<SearchContent set={setIsVisible} userFound={userFound} />
 				</div>
 			}
 			<div ref={ref} className="searchI  nput">

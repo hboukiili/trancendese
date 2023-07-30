@@ -1,10 +1,14 @@
 import axios from 'axios'
+import {getToken} from '../features/SocketToken'
+import { AppDispatch } from "../store/store"
+import { useDispatch } from 'react-redux';
 
 const api = axios.create({
     baseURL: 'http://localhost:3001',
     withCredentials: true,
 });
 
+// const dispatch: AppDispatch = useDispatch()
 
 api.interceptors.response.use(
     (response) => response,
@@ -12,6 +16,7 @@ api.interceptors.response.use(
         if (error.response && error.response.status === 401 && error.response.data.message === 'Token has expired') {
             try {
                 const refreshResponse = await api.get('/auth/refresh');
+                // dispatch(getToken());
                 return api(error.config);
             } catch (refreshError) {
                 console.error('Error during token refresh:', refreshError);
@@ -28,6 +33,7 @@ api.interceptors.request.use(
         if (error.response && error.response.status === 401 && error.response.data.message === 'Token has expired') {
             try {
                 const refreshRequest = await api.get('/auth/refresh');
+                // dispatch(getToken());
                 return api(error.config);
             } catch (refreshError) {
                 console.error('Error during token refresh:', refreshError);

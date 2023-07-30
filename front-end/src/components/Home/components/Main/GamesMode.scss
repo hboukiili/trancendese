@@ -55,6 +55,7 @@
     justify-content: center;
     align-items: center;
     z-index: 98;
+    overflow: visible;
 
     // height: 100%;
     // position: absolute;
@@ -101,6 +102,17 @@
         height: toRem(166);
     }
 }
+.BLACKHOLE {
+    overflow: visible;
+    img {
+        // width: toRem(198);
+        mix-blend-mode: lighten;
+        position: relative;
+        transform: scale(1.5);
+        width: toRem(139);
+        height: toRem(166);
+    }
+}
 
 #classicIMG #aiIMG #friendIMG {
     transition: all 1s ease-in-out;
@@ -108,20 +120,20 @@
 }
 
 
-body:has(#classicA:hover) #classicIMG {
-    // filter: saturate(0);
-    transform: scale(2);
-}
+// body:has(#classicA:hover) #classicIMG {
+//     // filter: saturate(0);
+//     transform: scale(2);
+// }
 
-body:has(#aiA:hover) #aiIMG {
-    // filter: saturate(0);
-    transform: scale(2);
-}
+// body:has(#aiA:hover) #aiIMG {
+//     // filter: saturate(0);
+//     transform: scale(2);
+// }
 
-body:has(#friendA:hover) #friendIMG {
-    // filter: saturate(0);
-    transform: scale(2.1);
-}
+// body:has(#friendA:hover) #friendIMG {
+//     // filter: saturate(0);
+//     transform: scale(2.1);
+// }
 
 .owl-item.active.center {
     transform: scale(1.1);
@@ -158,16 +170,17 @@ body:has(#friendA:hover) #friendIMG {
 }
 
 .custom-nav-btn {
-    width: toRem(42);
-    height: toRem(42);
+    width: 2.625rem;
+    height: 2.625rem;
     box-shadow: 0px 0.25rem 2.5rem rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(0.75rem);
     border-radius: 0.8125rem;
     background: linear-gradient(to bottom, #5699AE, #E15253);
-    padding: 0.0625rem;
+    padding: toRem(1);
     position: absolute;
-    // top: 0;
-    // left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .content-nav {
         width: 100%;
@@ -187,13 +200,13 @@ body:has(#friendA:hover) #friendIMG {
 .next-btn {
     position: absolute;
     top: -9.75rem;
-    left: 68.4125rem;
+    left: 33.7rem;
 }
 
 .prev-btn {
     position: absolute;
     top: toRem(-156);
-    left: toRem(-48);
+    left: -37.9rem;
 }
 
 .owl-nav {
@@ -207,4 +220,27 @@ body:has(#friendA:hover) #friendIMG {
     // position: relative;
     // z-index: 1;
     margin-inline: auto;
+}
+
+
+.gamesmodeCont-mobile{
+    display: none;
+    flex-direction: column;
+    gap: toRem(30);
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: toRem(80);
+    margin-top: toRem(30);
+    div{
+        .container-games{
+            // width: 50rem;
+
+        }
+    }
+}
+.FOOT{
+    img{
+        transform: translateX(3rem) scale(1.7);
+    }
 }

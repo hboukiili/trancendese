@@ -1,13 +1,14 @@
 @import "../../global.scss";
 
-.login-container{
+.login-container {
     display: flex;
     width: 100vw;
     height: 100vh;
-    .log{
+
+    .log {
         width: 100%;
         height: 100%;
-        background-image: url("../../assets/img/bg.svg");
+        background-image: url("../../assets/img/bg.png");
         background-repeat: no-repeat;
         background-position: right;
         display: flex;
@@ -16,24 +17,28 @@
         margin-bottom: toRem(120);
         gap: toRem(50);
         background-size: contain;
-        .logo{
+
+        .logo {
             width: toRem(80);
             height: toRem(80);
             background-image: url("../../assets/img/logo.svg");
             background-repeat: no-repeat;
             background-size: contain;
         }
-        .content-log{
+
+        .content-log {
             display: flex;
             flex-direction: column;
             gap: toRem(81);
             margin-left: toRem(68);
             z-index: 2;
-            .title-log{
+
+            .title-log {
                 display: flex;
                 flex-direction: column;
                 gap: 1rem;
-                h1{
+
+                h1 {
                     font-family: 'SF';
                     font-style: normal;
                     font-weight: 700;
@@ -41,6 +46,7 @@
                     line-height: 10rem;
                     text-transform: uppercase;
                     color: #F9C690;
+
                     &::after {
                         content: "";
                         position: absolute;
@@ -56,7 +62,8 @@
                         opacity: 0.5;
                     }
                 }
-                h4{
+
+                h4 {
                     font-family: 'Gotham';
                     font-style: normal;
                     font-weight: 400;
@@ -66,43 +73,51 @@
                 }
 
             }
-            .btn-log{
+
+            .btn-log {
                 display: flex;
                 flex-direction: column;
                 gap: 2rem;
-                .btn-b{
+
+                .btn-b {
                     display: flex;
                     gap: toRem(39);
                     align-items: center;
-                    a{
-                        width: 100%;
-                        height: 100%;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        font-family: 'SF';
-                        font-style: normal;
-                        font-weight: 600;
-                        font-size: toRem(22.5);
-                        color: #FFFFFF;
-                        text-shadow: 0px toRem(4) toRem(10) rgba(0, 0, 0, 0.2);
-                    }
-                    p{
-                        font-family: 'SF';
-                        font-style: normal;
-                        font-weight: 300;
-                        font-size: toRem(17);
-                        text-transform: capitalize;
-                        color: #FFFFFF;
-                    }
                 }
             }
+
+            //         // a {
+            //         //     width: 100%;
+            //         //     height: 100%;
+            //         //     display: flex;
+            //         //     justify-content: center;
+            //         //     align-items: center;
+            //         //     font-family: 'SF';
+            //         //     font-style: normal;
+            //         //     font-weight: 600;
+            //         //     font-size: toRem(22.5);
+            //         //     color: #FFFFFF;
+            //         //     text-shadow: 0px toRem(4) toRem(10) rgba(0, 0, 0, 0.2);
+            //         // }
+
+            //         p {
+            //             font-family: 'SF';
+            //             font-style: normal;
+            //             font-weight: 300;
+            //             font-size: toRem(17);
+            //             text-transform: capitalize;
+            //             color: #FFFFFF;
+            //         }
+            //     }
+            // }
         }
     }
+
     background: linear-gradient(183.52deg, rgba(113, 61, 65, 0.9) -842.96%, rgba(10, 10, 12, 0.9) 99.44%);
     box-shadow: 0px toRem(4) toRem(4) rgba(0, 0, 0, 0.25);
 }
-.ball{
+
+.ball {
     position: absolute;
     width: toRem(250);
     height: toRem(250);
@@ -111,4 +126,57 @@
     border-radius: 50%;
     z-index: 1;
     opacity: 0.3;
+}
+
+.btnsLogin {
+    background: linear-gradient(180deg, rgba(86, 153, 174, 1) 0%, rgba(225, 82, 83, 1) 100%);
+    background: rgb(86,153,174);
+    background: linear-gradient(317deg, rgba(86,153,174,1) 0%, rgba(225,82,83,1) 29%);
+    width: toRem(215);
+    height: toRem(62);
+    border-radius: toRem(10);
+    box-shadow: 0px toRem(4) torem(40) 0px rgba(0, 0, 0, 0.50);
+    backdrop-filter: blur(toRem(2));
+    padding: toRem(1);
+    transition: all 0.2s ease-in-out;
+    &:hover{
+        // background: rgb(86,153,174);
+        // background: linear-gradient(332deg, rgba(86,153,174,1) 0%, rgba(225,82,83,1) 100%);
+        color: rgba(255, 255, 255, 1);
+        box-shadow: 0 5px 15px rgba(225,82,83, .4);
+    }
+    .btnCon {
+        background-color: #242324;
+        width: 100%;
+        height: 100%;
+        border-radius: toRem(10);
+        display: flex;
+        align-items: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: toRem(18);
+        padding-right: toRem(18);
+        // gap: toRem(10);
+        justify-content: space-between;
+        overflow: hidden;
+        .I42 {
+            width: toRem(30);
+            height: toRem(30);
+        }
+
+        .google {
+            width: toRem(25);
+            height: toRem(26.67);
+            filter: saturate(0.75);
+        }
+
+        h4 {
+            color: #FFF;
+            text-shadow: 0px toRem(4) toRem(10) 0px rgba(0, 0, 0, 0.20);
+            font-size: toRem(22.5);
+            font-style: normal;
+            font-weight: 500;
+            line-height: toRem(44);
+        }
+    }
 }

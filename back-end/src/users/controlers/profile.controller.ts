@@ -1,5 +1,5 @@
 import { Body, ConsoleLogger, Controller, Get, NotFoundException, Param, Patch, Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
+import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
 import { ProfileService } from '../services/profile.service';
@@ -16,35 +16,20 @@ export class ProfileController {
 
     @Get(':username/gamehistory')
     async getGameHistory(@Req() req, @Res() res, @Param('username') username : string)
-	{	 
+	{	
 		const user = await this.ProfileService.ReturnOneUserByusername(username);
+    
 		if (!user)
 			throw new NotFoundException('User profile not found');
-        let game : AllGames = await this.ProfileService.fetchgame(user);
+        let game : AllGames = await this.ProfileService.fetchgame(user, req.user);
         res.json(game);
     }
 
     @Get(':username/profile')
     async getProfile(@Req() req, @Res() res, @Param('username') username : string){
-        // var blocked;
-        const user = await this.ProfileService.ReturnOneUserByusername(username);
-        // if (user.UserId !== req.user.UserId)
-        //     blocked = await this.ProfileService.isBlocked(user, req.user);
-		// if (blocked || !user)
-		// 	throw new NotFoundException('User profile not found');
-        const Isowner = user.username === req.user.username;
-        let isFriend = false;
-        if (!Isowner)
-            isFriend = await this.ProfileService.checkisfriend(user);
-        res.json({
-            avatar 	 : user.avatar,
-            status 	 : user.status,
-            level  	 : user.level,
-            xp       : user.XP,
-            username : user.username,
-            Isowner,
-            isFriend,
-        });
+       
+        const profile = await this.ProfileService.getProfile(req.user, username);
+        res.json(profile);
     }
 
 	@Get(':username/Friends')
@@ -57,23 +42,7 @@ export class ProfileController {
 		res.json(friends);
 	}
 
-    @Post('UpdatePicture')
-    @UseInterceptors(FileInterceptor('file'))
-    async UpdateProfile(@UploadedFile() file, @Req() req)
-    {
-        return await this.ProfileService.updatePhoto(file, req.UserId);
-    }
-
-    @Patch(':username/updateUsername')
-    async updateUsername(@Body('username') newUsername: string, @Param('username') oldusername : string, @Req() req)
-    {
-        if (req.user.username === newUsername)
-            throw new Error('No changes has been made');
-        return await this.ProfileService.updateUsername(newUsername, oldusername);
-    }
-    
     @Post('blockUser')
-    @Post('CancelRequest')
     @ApiBody({ 
         schema: {
           type: 'object',
@@ -89,8 +58,23 @@ export class ProfileController {
         const user = await this.ProfileService.ReturnOneUserByusername(username);
         if (!user)
             throw new NotFoundException('User profile not found');
-        if (user.UserId == req.user.UserId)
-            throw new Error('can not block this user')
         const blocked = await this.ProfileService.blockUser(req.user, user);
     }
+
+    @Get(":username/Activity")
+    async getActivity(@Req() req, @Param('username') username : string, @Res() res)
+    {
+        const user = await this.ProfileService.ReturnOneUserByusername(username);
+        if (!user)
+            throw new NotFoundException('User profile not found');
+        const Activity =  await this.ProfileService.getActivity(user);
+        res.json(Activity);
+    }
+
+    @Get('Achievement')
+    async GetAchievement(@Req() req)
+    {
+        return await this.ProfileService.getAchievement(req.user);
+    }
 }
+ 

@@ -8,6 +8,7 @@ import { JwtService } from './auth-services/jwt.service';
 import { UsersModule } from 'src/users/users.module';
 import { AccessTokenMiddleware } from 'src/access-token-middleware/access-token.middleware';
 import { GoogleStrategy } from './auth-services/GoogleStrategy';
+// import { WebSocketAuthGuard } from './auth-guard/wsjwt-guard';
 
 @Module({
   controllers: [AuthControlers],

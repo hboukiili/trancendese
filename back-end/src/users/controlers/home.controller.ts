@@ -1,5 +1,5 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard.guard';
+import { JwtAuthGuard } from 'src/auth/auth-guard/jwt-guard';
 import { UsersService } from '../services/users.service';
 import {UserDTO, GamesDTO, AllGames, topPlayers} from '../dto/dto-classes'
 import { HomeService } from '../services/home.service';
@@ -24,15 +24,9 @@ export class HomeController {
 
     @Get('MyProfile')
     async GetProfile(@Req() req, @Res() res){
-        let lastGame = await this.HomeService.lastGame(req.user);
-        res.json({
-            lastGame : lastGame,
-            avatar : req.user.avatar,
-            username : req.user.username,
-            level : req.user.level,
-            badge : req.user.badge,
-            status : req.user.status,           
-        });
+
+        const MyProfile = await this.HomeService.getMyProfile(req.user);
+        res.json(MyProfile);
     }
 
     @Get('RecentActivity')

@@ -9,6 +9,7 @@
 html {
   scroll-behavior: smooth;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -58,29 +59,170 @@ code {
   opacity: 0.5;
   border: 0px none #232223;
 }
-textarea, input { outline: none; }
+
+textarea,
+input {
+  outline: none;
+}
+
 /* Default base font size for all screens */
 /* :root {
   font-size: 16px;
 } */
 
-a{
+a {
   text-decoration: none;
 }
-button{
+
+button {
   outline: none;
   background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
-input{
+input {
   border: 0;
 }
-canvas{
+
+canvas {
   z-index: 9000000000;
+}
+
+/* 1485 */
+/* @media screen and (max-width: 1485px) {
+  .login-container .log {
+    background-size: cover;
+  }
+} */
+.profileRE{
+  position: relative;
+  top: initial;
+  left: initial;
+}
+@media screen and (max-width: 770px) {
+  .main, .profileDown{
+    margin-left: 0;
+  }
+  .bar-left{
+    display: none !important;
+
+  }
+  .profileDown{
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transform: translate(-27.5rem, 6rem);
+    
+  }
+
+  .login-container{
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .login-container .log {
+    background-size: cover;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    
+    overflow: hidden;
+  }
+  .login-container .log .content-log .title-log h1::after{
+    content: none;
+  }
+
+  .login-container .log .content-log {
+    justify-content: center;
+    align-items: center;
+    /* transform: translateY(65px); */
+    margin-left: 0;
+    transform: scale(1.5);
+  }
+  .login-container .log .logo {
+    position: relative;
+    top: -12rem;
+    transform: scale(1.5);
+  }
+  .ProfileComponent-Activity-Friends{
+    flex-direction: column;
+  }
+  .profileDown  .AchivementsProfile, .profileDown  .UpgradeProfile{
+    display: none;
+
+  }
+  .profileDown{
+    margin-top: 2rem;
+    /* flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row-reverse;
+    overflow-y: scroll; */
+  }
+  .ProfileComponent-Activity-Friends{ 
+    margin-top: 2rem;
+    position: relative;
+    top: 31rem;
+  }
+  .ProfileComponent-Activity-Friends .profile-hol{
+    display: none;
+  }
+  .profileRE{
+    position: relative;
+    top: -47rem;
+  }
+  .nav-mobile {
+    display: block;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+
+  .myProfile {
+    display: none;
+  }
+
+  .Home {
+    padding: 2rem;
+  }
+
+  .recentActivity {
+    display: none;
+  }
+
+  .gamesmodeCont {
+    /* display: none; */
+  }
+
+  .gamesmodeCont-mobile {
+    display: flex;
+  }
+.ProfileComponent-Activity-Friends .fa-Profile {
+  position: relative;
+  top: 32rem;
+  transform: translateX(17rem);
+}
+.ProfileComponent-Activity-Friends .fa-Profile .textActive, .ProfileComponent-Activity-Friends .fa-Profile .graph{
+  transform: translateX(17rem);
+}
+}
+.swiper-slide-shadow.swiper-slide-shadow-cards{
+  background: rgba(0, 0, 0, 0);
+}
+.swiper-3d .swiper-slide-shadow{
+ display: none;
 }

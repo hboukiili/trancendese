@@ -1,0 +1,128 @@
+@import "../../../../../global.scss";
+
+.GameContainer {
+    margin-top: 7rem;
+    width: fit-content
+}
+
+.gameContent {
+    width: 100%;
+    height: 100%;
+    padding-inline: toRem(30);
+    padding-top: toRem(24.62);
+    padding-bottom: toRem(21);
+    display: flex;
+    flex-direction: column;
+    gap: toRem(21);
+
+    .gameHeader {
+        display: flex;
+        width: 100%;
+        padding-inline: toRem(18);
+        justify-content: space-between;
+        align-items: center;
+
+        .Player {
+            display: flex;
+            align-items: flex-end;
+            gap: toRem(8);
+
+            img {
+                width: toRem(76);
+                height: toRem(76);
+                object-fit: cover;
+                border-radius: toRem(10);
+            }
+
+            .scoreUser {
+                display: flex;
+                flex-direction: column;
+                gap: toRem(10);
+
+                p {
+                    color: #FFF;
+                    font-size: toRem(22);
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+
+                .score {
+                    height: toRem(33);
+                    display: flex;
+                    align-items: center;
+                    gap: toRem(8);
+
+                    .goal {
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 50%;
+                        background-color: #E15253;
+                    }
+                }
+            }
+        }
+
+        .Player2 {
+            flex-direction: row-reverse;
+
+            .scoreUser {
+                .score {
+                    .goal {
+                        background-color: #5699AF;
+                    }
+                }
+            }
+        }
+    }
+}
+.Tablecont{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .TableC{
+        width: toRem(1168);
+        height: toRem(663);
+    }
+}
+
+.table {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: toRem(30);
+    border: toRem(4) solid white;
+}
+
+.table::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #E15253, #5699AF);
+    opacity: 0.2;
+    border-radius: toRem(30);
+}
+
+.lineC {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.line {
+    height: 99.4%;
+    border: toRem(2) solid white;
+    position: absolute;
+}

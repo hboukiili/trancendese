@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient, User, } from '@prisma/client';
 import { GamesDTO, ProfileFriends } from '../dto/dto-classes';
 import { join } from 'path';
-import { promises as fs } from 'fs';
 import { ConflictException } from '@nestjs/common';
+import { HomeService } from './home.service';
 
 
 
 @Injectable()
 export class ProfileService {
     prisma = new PrismaClient();
-	constructor(){}
+	constructor(private readonly HomeService : HomeService){}
 
     async ReturnOneUserByusername(username : string){
 		const findUser = await this.prisma.user.findUnique({
@@ -24,6 +24,89 @@ export class ProfileService {
 		return findUser;
     }
 
+	async getAchievement(User : User)
+	{
+		const achievement = await this.prisma.achievement.findFirst({
+			where : { 
+				UserId : User.UserId,
+			}
+		})
+		return achievement;
+	}
+
+	async calculRating(user)
+	{
+		const block = await this.getBlockeduserIds(user);
+		const games = await this.Allgames(user, block);
+		const count = await this.countGames(games, user, block);
+
+		const rating = (drawCount, lossCount, winCount) => {
+			const totalGames = drawCount + lossCount + winCount;
+			const winPercentage = winCount / totalGames;
+			const rating = (winPercentage * 10).toFixed(1);
+			return rating;
+		  };
+		  
+		const playerRating = await rating(count.Draw, count.loose, count.win);
+
+		return playerRating;
+	}
+
+	async playerRank(user)
+	{
+		const table =  await this.HomeService.Best6Players(user);
+		return table.findIndex(player => player.username === user.username) + 1;
+	}
+
+
+	async getProfile(User : User, username)
+	{
+		var blocked;
+
+		const user = await this.ReturnOneUserByusername(username);
+
+		if (user && user.UserId !== User.UserId)
+		    blocked = await this.isBlocked(user, User);
+
+		if (blocked || !user)
+			throw new NotFoundException('User profile not found');
+
+		const Isowner = user.username === User.username;
+		var isSent = false;
+		var isFriend = false;
+		var friend;
+		var friendshipId = 0;
+
+		if (!Isowner)
+		{
+			friend = await this.checkisfriend(user, User);
+			isSent = friend.length ? true : false;
+			isFriend = isSent ? friend[0].Accepted : false;
+			friendshipId = isSent || isFriend ? friend[0].FriendshipId : 0;
+		}
+
+		user.avatar =  user.avatar.search("https://cdn.intra.42.fr/users/") == -1 && !user.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + user.avatar : user.avatar;
+
+		const playerRating = await this.calculRating(user);
+
+		const rank = await this.playerRank(user);
+
+	
+		return ({
+			isOwner : Isowner,
+			isSent : isSent,
+			isFriend : isFriend,
+			rank,
+			rating			: playerRating,
+			friendshipId	: friendshipId,
+			UserId   		: user.UserId,
+			avatar 	 		: user.avatar,
+			status 	 		: user.status,
+			level  	 		: user.level,
+			xp       		: user.XP,
+			username 		: user.username,
+		});
+	}
 	async blockUser(user : User, targetUser : User)
 	{
 		var friend = await this.prisma.friendship.findFirst({
@@ -78,7 +161,9 @@ export class ProfileService {
     
     async userFriends(user : User, authUser : User)
 	{
-		const friendsInfo = await this.prisma.friendship.findMany({
+		const blocked = await this.getBlockeduserIds(authUser);
+
+		const friendsInfo1 = await this.prisma.friendship.findMany({
 			where : {
 				AND : [
 					{
@@ -107,7 +192,11 @@ export class ProfileService {
 				}
 			}
 		});
-			
+
+		var friendsInfo = friendsInfo1.filter(authUser => !blocked.includes(authUser.receiver.UserId));
+
+		friendsInfo = friendsInfo.filter(authUser => !blocked.includes(authUser.sender.UserId));
+
 		if (user.UserId !== authUser.UserId)
 		{
 			let friendsInfo2 = await this.prisma.friendship.findMany({
@@ -115,7 +204,7 @@ export class ProfileService {
 					AND : [
 						{
 							OR: [{SenderId : authUser.UserId}, {ReceiverId : authUser.UserId}]
-						},
+						},				
 					],
 					blockedByReceiver : false,
 					blockedBySender : false,
@@ -138,18 +227,18 @@ export class ProfileService {
 						}
 					}
 				}
-
 			});
 
 			var friend2;
+			var accepted = false;
 			const afriends = friendsInfo.map((friendship) => {
 				const friend = friendship.sender.username === user.username ? friendship.receiver : friendship.sender;
+					friend.avatar = friend.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !friend.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + friend.avatar : friend.avatar;
 					if (friend.username !== authUser.username)
 					{
 						const isMutual = friendsInfo2.some((friendship) => {
 							friend2 = friendship.sender.UserId === authUser.UserId ? friendship.receiver : friendship.sender;
-							if (friend.UserId === friend2.UserId)
-								friend2.accepted = friendship.Accepted;
+							accepted = friendship.sender.UserId === authUser.UserId ? friend2.accepted : false;
 							return friend.UserId === friend2.UserId;
 						});
 						return {
@@ -157,15 +246,14 @@ export class ProfileService {
 							UserId	: friend.UserId,
 							avatar : friend.avatar,
 							username : friend.username,
-							Accepted : friend2.accepted,
+							Accepted : accepted,
 							sentInvitation : isMutual,
 							isOwner : false,
 						}
 					}
 					else
 					{
-						friend2.accepted = friendship.Accepted;
-						if (friend2.accepted)
+						if (friendship.Accepted)
 							return {
 								UserId	: friend.UserId,
 								avatar : friend.avatar,
@@ -177,12 +265,14 @@ export class ProfileService {
 					}
 					
 			}).filter((friend) => friend !== undefined);
+
 			return afriends;
 		}
 		else if (user.UserId === authUser.UserId)
 		{
 			const friends : ProfileFriends[] = friendsInfo.map((friendsInfo) => {
 				const check = friendsInfo.sender.UserId === user.UserId ? friendsInfo.receiver : friendsInfo.sender;
+				check.avatar = check.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !check.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + check.avatar : check.avatar;
 				if (friendsInfo.Accepted)
 					return {
 						friendshipId : friendsInfo.FriendshipId,
@@ -198,24 +288,22 @@ export class ProfileService {
 		}
 	}
 
-    async checkisfriend(user : User)
+    async checkisfriend(user : User, AuthUser : User)
 	{
 		const friend = await this.prisma.friendship.findMany({
 			where :
 			{
 				AND : [
 					{
-						OR: [{SenderId : user.UserId}, {ReceiverId : user.UserId}]
+						OR: [{SenderId : user.UserId, ReceiverId : AuthUser.UserId},
+							{SenderId : AuthUser.UserId, ReceiverId : user.UserId},]
 					},
-					{
-						Accepted : true,
-					}
 				]
 			},
 			take : 1,
 		});
 		friend.filter((friend) => friend !== undefined);
-		return friend.length ? true : false;
+		return friend;
 	}
     
 	async isBlocked(user : User, AuthUser : User)
@@ -238,10 +326,10 @@ export class ProfileService {
 				],
 			}
 		});
-		return isBlocked === null;
+		return !(isBlocked === null);
 	}
 
-	async fetchgame(user : User)
+	async getBlockeduserIds(user : User)
 	{
 		const blockedUser = await this.prisma.friendship.findMany({
 			where : {
@@ -271,7 +359,55 @@ export class ProfileService {
 		const blockedUserIds = blockedUser.map(friendship =>
 			friendship.SenderId === user.UserId ? friendship.ReceiverId : friendship.SenderId
 		);
+	
+		return blockedUserIds;
+	}
 
+	async countGames(games, user, blockedUserIds)
+	{
+		const Draw = await this.prisma.game.count({
+			where:{
+				isDraw: true,
+				OR: [
+						{ 
+							PlayerId1: user.UserId, 
+							PlayerId2: { not: { in: blockedUserIds } },
+						},
+						{ 
+							PlayerId2: user.UserId, 
+							PlayerId1: { not: { in: blockedUserIds } },
+						},
+				  ],
+			}
+		});
+
+		const win = await this.prisma.game.count({
+			where:{
+				WinnerId: user.UserId,
+				OR: [
+						{ 
+							PlayerId1: user.UserId, 
+							PlayerId2: { not: { in: blockedUserIds } },
+						},
+						{ 
+							PlayerId2: user.UserId, 
+							PlayerId1: { not: { in: blockedUserIds } },
+						},
+				],
+			}
+		});
+
+		const loose = games.length - (win + Draw);
+
+		return {
+			loose,
+			Draw,
+			win
+		};
+	}
+
+	async Allgames(user, blockedUserIds)
+	{
 		let games = await this.prisma.game.findMany({
 			where: {
 				OR: [
@@ -289,47 +425,30 @@ export class ProfileService {
 				CreationTime : "desc"
 			}
 		})
-		const Draw = await this.prisma.game.count({
-			where:{
-				isDraw: true,
-				OR: [
-					{ 
-					  PlayerId1: user.UserId, 
-					  PlayerId2: { not: { in: blockedUserIds } },
-					},
-					{ 
-					  PlayerId2: user.UserId, 
-					  PlayerId1: { not: { in: blockedUserIds } },
-					},
-				  ],
-			}
-		});
+		return games;
+	}
 
-		const win = await this.prisma.game.count({
-			where:{
-				WinnerId: user.UserId,
-				OR: [
-					{ 
-					  PlayerId1: user.UserId, 
-					  PlayerId2: { not: { in: blockedUserIds } },
-					},
-					{ 
-					  PlayerId2: user.UserId, 
-					  PlayerId1: { not: { in: blockedUserIds } },
-					},
-				],
-			}
-		});
+	async fetchgame(user : User, authUser : User)
+	{
+		const blockedUserIds = await this.getBlockeduserIds(authUser);
+		
+		let games1 = await this.Allgames(user, blockedUserIds);
 
-		const loose = games.length - (win + Draw);
+		var games = games1.filter(gameUser => !blockedUserIds.includes(gameUser.PlayerId1));
 
+		games = games.filter(user => !blockedUserIds.includes(user.PlayerId2));
+
+		const count = this.countGames(games, user, blockedUserIds);
+	
 		let AllGames : GamesDTO [] = [];
+
 		let isadv;
+
 		for (let i = 0; i < games.length; i++){
 
 			let { GameId, Mode, isDraw, Rounds, WinnerXP, looserXP } = games[i];
 
-			let won = games[i].WinnerId == user.UserId ? true : false;
+			let won = games[i].WinnerId === user.UserId ? true : false;
 
 			isadv = games[i].PlayerId1 === user.UserId ? games[i].PlayerId2 : games[i].PlayerId1;
 		
@@ -338,6 +457,9 @@ export class ProfileService {
 					UserId : isadv,
 				}
 			});
+
+			if (adv.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !adv.avatar.search('/uploads/'))
+				adv.avatar = process.env.HOST + process.env.PORT + adv.avatar;
 
 			let Game: GamesDTO = {
 				GameId: GameId.toString(),
@@ -354,41 +476,48 @@ export class ProfileService {
 		}
 	
 		return {
-			win,
-			loose,
-			Draw,
+			win : (await count).win,
+			loose : (await count).loose,
+			Draw : (await count).Draw,
 			AllGames
 		};
 	}
 
-	async updatePhoto(file, UserId)
+	async getActivity(user : User)
 	{
-		const filename = `${Date.now()}-${file.originalname}`;
-        const path = join(__dirname, '../../../uploads', filename);
-		console.log(path);
-        await fs.writeFile(path, file.buffer);
-		const pathPicture = process.env.HOST + process.env.PORT + '/uploads' + filename;
-		const picture = await this.prisma.user.update({
-			where: { UserId, },
-			data : { avatar : pathPicture },
-		})
-		return true;
-	}
-
-	async updateUsername(newUsername : string, oldusername : string)
-	{
-		const exist = await this.prisma.user.findUnique({
-			where : {username : newUsername},
+		const blockedUserIds = await this.getBlockeduserIds(user);
+	
+		const lastGames = await this.prisma.game.findMany({
+			where: {
+				OR: [
+					{ 
+					  PlayerId1: user.UserId, 
+					  PlayerId2: { not: { in: blockedUserIds } },
+					},
+					{ 
+					  PlayerId2: user.UserId, 
+					  PlayerId1: { not: { in: blockedUserIds } },
+					},
+				  ],
+			},
+			orderBy:{
+				CreationTime : "desc"
+			},
+			take : 10,
 		});
 
-		if (exist)
-			throw new ConflictException('Username is already in use');
+		var count = 0;
+		var arr = [];
 
-		const picture = await this.prisma.user.update({
-			where: { username : oldusername },
-			data : { username : newUsername },
-		})
-
-		return true;
+		for (let i : number = 0; i < lastGames.length; i++)
+		{
+			count -= count > 0 && lastGames[i].WinnerId !== user.UserId ? 120 : 0;
+			count = count < 0 ? 0 : count;
+			count += lastGames[i].isDraw ? 60 : 0;
+			count += lastGames[i].WinnerId === user.UserId ? 120 : 0;
+			arr[i] = count;
+		}
+		return arr;
 	}
+
 }

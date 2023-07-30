@@ -3,13 +3,13 @@ import { Express, query } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth-services/auth.service';
 import { Response } from 'express';
-import { JwtAuthGuard } from './auth-guard/jwt-guard.guard';
+import { JwtAuthGuard } from './auth-guard/jwt-guard';
 import { User } from '@prisma/client';
 import { UsersService } from 'src/users/services/users.service';
 import { AccessTokenMiddleware } from '../access-token-middleware/access-token.middleware'
 import * as jwt from 'jsonwebtoken';
 import { GoogleAuthGuard } from './auth-guard/Google-Guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -36,16 +36,19 @@ export class AuthControlers {
         res.cookie('refresh_token', RefreshToken, { httpOnly: true, secure : true});
         res.cookie('isAuthenticated', true, {secure : true});
         if (found)
+        {
             res.redirect(process.env.FrontIp);
+        }
         else 
             res.redirect(process.env.FrontIp + '/settings');
     }
 
-    @Get('wsToken')
-    async wsToken(@Req() req)
+    @Get('WsToken')
+    @UseGuards(JwtAuthGuard)
+    async getWsToken(@Req() req)
     {
-        const wsToken = this.AuthService.generateJwtToken(req.user);
-        return wsToken;
+        const token = await this.AuthService.generateJwtToken(req.user);
+        return token;
     }
 
     @Get('google/callback')
@@ -76,7 +79,7 @@ export class AuthControlers {
             RefreshToken = await this.AuthService.generateRefreshJwtToken(user);
             res.cookie('refresh_token', RefreshToken, { httpOnly: true, secure : true});
             res.cookie('access_token', accessToken, { httpOnly: true, secure : true });
-            const wsToken = await this.AuthService.generateJwtToken(req.user);
+            const wsToken = await this.AuthService.generateJwtToken(user);
             res.json(wsToken);
           } catch (err) {
             throw new UnauthorizedException('Invalid refresh token');
@@ -90,8 +93,41 @@ export class AuthControlers {
     }
 
     @Get('enable-2fa')
-    enable2FA()
+    @UseGuards(JwtAuthGuard)
+    async enable2FA(@Req() req, @Res() res)
     {
+        const qrcode = await this.AuthService.GenerateQrCode(req.user);
+        res.send(qrcode);
+    }
 
+    @Post("verify-2fa")
+    @ApiBody({ 
+        schema: {
+          type: 'object',
+          properties: {
+            Code: {
+              type: 'string',
+            },
+          },
+        },
+    })
+    @UseGuards(JwtAuthGuard)
+    async verify2fa(@Body("Code") FaCode : string, @Req() req)
+    {
+        return await this.AuthService.checkvaliditionof2fa(req.user, FaCode);
+    }
+
+    @Get("isFA-enabled")
+    @UseGuards(JwtAuthGuard)
+    async isFa_enabled(@Req() req)
+    {
+       return await this.UsersService.checkFaIsEnabled(req.user);
+    }
+
+    @Post('isFA-enabled')
+    @UseGuards(JwtAuthGuard)
+    async isFAenabled(@Req() req)
+    {
+        await this.AuthService.disableFA(req.user);
     }
 }

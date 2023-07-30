@@ -7,7 +7,7 @@
 
 .bar-left {
     display: flex;
-    position: relative;
+    position: fixed;
     height: fit-content;
     margin: auto 0;
     margin-left: 1.4375rem;
@@ -15,15 +15,13 @@
 }
 
 .left-bar-container {
-    height: 59rem;
+    // height: 59rem;
+    height: fit-content;
     width: toRem(118);
     border-radius: toRem(40);
-    padding: toRem(1);
+    padding: toRem(1.3);
     background: linear-gradient(to bottom, #5699AE, #E15253);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-    // margin: toRem(23);
-    // position: fixed;
-
+    box-shadow: 0px toRem(4) toRem(4) rgba(0, 0, 0, 0.5);
 }
 
 .left-bar {
@@ -49,6 +47,7 @@ ul {
     gap: toRem(72);
     width: 100%;
     height: fit-content;
+    margin: toRem(70) 0;
 
     a {
         text-decoration: none;
@@ -92,6 +91,46 @@ ul {
 .desactive {
     @include backblur(toRem(35), toRem(35), #37BEB0);
 }
+
+
+.nav-icon {
+    svg {
+        width: 1.5rem;
+
+        path {
+            transition: fill 0.3s ease-in;
+            fill: white;
+        }
+    }
+}
+
+.nav-icon-act {
+    svg {
+        width: 1.5rem;
+
+        path {
+            transition: fill 0.3s ease-in;
+            fill: #E15253;
+        }
+    }
+}
+
+.nav-mobile-icon {
+    div {
+        div {
+            svg {
+                width: 7rem;
+                // transform: scale(2);
+
+                path {
+                    // width: 20rem;
+                }
+            }
+        }
+    }
+
+}
+
 
 .logout {
     display: flex;

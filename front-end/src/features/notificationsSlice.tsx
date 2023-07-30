@@ -4,7 +4,6 @@ import { NotificationType } from '../interface/interfaces'
 
 export const getNotification = createAsyncThunk('notification/getNotification', async () => {
     const response = await axios.get("http://localhost:3001/notifications");
-    // console.log('axios data notification fetching', response.data);
     return response.data;
 });
 
