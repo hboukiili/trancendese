@@ -197,7 +197,7 @@ function App() {
 	const [isFullN, setIsfullN] = useState(false);
 	useEffect(() => {
 		if (token) {
-			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/notification`, {
+			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/socket.io/notification`, {
 				extraHeaders: {
 					Authorization: `Bearer ${token}`,
 				}

@@ -31,7 +31,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 			where : { UserId : client.data.playload.userId },
 			data : { status : true},
 		})
-
+		console.log('test');
 		this.socketService.storeSocket(client.data.playload.userId, client);
 	}
 

@@ -73,7 +73,7 @@ function ChatContent(params: any) {
 	const token = useSelector((state: any) => state.token).token;
 	useEffect(() => {
 		if (token) {
-			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/chat`, {
+			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/socket.io/chat`, {
 				extraHeaders: {
 					Authorization: `Bearer ${token}`,
 				}
