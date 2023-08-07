@@ -12,7 +12,7 @@ import axios from '../../../../../Interceptor/Interceptor'
 import GradienBox from '../../../../../tools/GradienBox'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import {nanoid} from 'nanoid'
+import { nanoid } from 'nanoid'
 
 type ProfileRightType = {
     avatar: string;
@@ -37,7 +37,7 @@ function TheGame(props: any) {
                     props.theGame === 'lose' ? 'gameSta loseGame' : 'gameSta'}>
                     <div className="infoGame">
                         <Link to={`/profile/${props.login}`}>
-                            <img src={props.avatar} onError={(e: any) => {
+                            <img src={props.avatar ? props.avatar : defaultAvatar} onError={(e: any) => {
                                 e.target.src = defaultAvatar;
                             }
                             } alt="Enemey" />
@@ -115,9 +115,19 @@ function ProfileDown() {
         };
         calculateWidths();
     }, [ProfileRight])
-
     var arrayArch: Archivement[] = [];
     arrayArch.push({ title: 'Batal', img: batal }, { title: 'Hawking', img: hawking })
+
+    const [AchivementArr, setAchievement] = useState<any>({});
+
+    useEffect(() => {
+        const FecthData = async () => {
+            await axios.get('/Profile/Achievement').then((rsp: any) => {
+                setAchievement(rsp.data);
+            })
+        }
+        FecthData();
+    }, [])
     return (
         <div className="profileDown">
             <motion.div
@@ -129,13 +139,6 @@ function ProfileDown() {
                 <h1>Achievements</h1>
                 <GradienBox mywidth={'380px'} myheight={'388px'} myborder={'40px'}>
                     <div className="archivement-container" style={{ overflow: 'hidden' }}>
-                        {/* <button onClick={() => {
-                            setDirection(1)
-                            if (index - 1 < 0)
-                                setIndex(arrayArch.length - 1);
-                            else
-                                setIndex(index - 1);
-                        }} className='button-slide'><div className="backjack"><img src={btnSlide} alt="" /></div></button> */}
                         <Swiper
                             effect={'cards'}
                             grabCursor={true}
@@ -143,31 +146,24 @@ function ProfileDown() {
                             className="mySwiper"
                         >
                             <SwiperSlide>
-                                <img style={{ width: '100%' }} src={batal} alt="" />
+                                <img style={{ width: '100%', filter: (AchivementArr.Batal ? 'saturate(1)' : 'saturate(0)') }} src={batal} alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img style={{ width: '100%' }} src={hawking} alt="" />
+                                <img style={{ width: '100%', filter: (AchivementArr.Hawking ? 'saturate(1)' : 'saturate(0)') }} src={hawking} alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img style={{ width: '100%' }} src={worldCup} alt="" />
+                                <img style={{ width: '100%', filter: (AchivementArr.Worldcup ? 'saturate(1)' : 'saturate(0)') }} src={worldCup} alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img style={{ width: '100%' }} src={helmchen} alt="" />
+                                <img style={{ width: '100%', filter: (AchivementArr.Helmchen ? 'saturate(1)' : 'saturate(0)') }} src={helmchen} alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img style={{ width: '100%' }} src={kasparov} alt="" />
+                                <img style={{ width: '100%', filter: (AchivementArr.kasparov ? 'saturate(1)' : 'saturate(0)') }} src={kasparov} alt="" />
                             </SwiperSlide>
                             <SwiperSlide>
-                                <img style={{ width: '100%' }} src={extrovert} alt="" />
+                                <img style={{ width: '100%', filter: (AchivementArr.extrovert ? 'saturate(1)' : 'saturate(0)') }} src={extrovert} alt="" />
                             </SwiperSlide>
                         </Swiper>
-                        {/* <button onClick={() => {
-                            setDirection(-1)
-                            if (index + 1 >= arrayArch.length)
-                                setIndex(0);
-                            else
-                                setIndex(index + 1);
-                        }} className='button-slide right-btn'><div className="backjack"><img className='imgRight' src={btnSlide} alt="" /></div></button> */}
                     </div>
                 </GradienBox>
             </motion.div>

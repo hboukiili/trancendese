@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import "./MsgNot.scss"
 import inviFriend from "../../../../assets/img/invitation-friend.svg"
 import BellImg from "../../../../assets/img/bell.svg"
@@ -9,18 +9,16 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { ReactSVG } from 'react-svg';
 import axios from '../../../../Interceptor/Interceptor'
 import LogoutImg from "../../../../assets/img/Logout.svg";
-// import 'badge' from "../../../../assets/img/'badge'-noti.svg";
-// remember??
 import HomeImg from "../../../../assets/img/Home.svg";
 import ProfImg from "../../../../assets/img/profile.svg";
 import SetfImg from "../../../../assets/img/Settings.svg";
 import ChatImg from "../../../../assets/img/chat.svg";
 import defaultAvatar from "../../../../assets/img/avatar.png";
-import Stream from "../../../../assets/img/stream.svg";
 import LeaderBoard from "../../../../assets/img/leaderBoard.svg";
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom';
-import {nanoid} from 'nanoid'
+import { nanoid } from 'nanoid'
+
 function MsgNot(props: any) {
 	const [isVisible, setIsVisible] = useState(false);
 	const [isVisibleI, setIsVisibleI] = useState(false);
@@ -28,7 +26,7 @@ function MsgNot(props: any) {
 	const ref = useRef(null)
 	const refI = useRef(null)
 	const [Login, setLogin] = useState('')
-	const [isFull, setIsfull] = useState(0);
+
 	useEffect(() => {
 		axios.get('/Home/Hero').then((response) => setLogin(response.data))
 	}, [])
@@ -41,7 +39,13 @@ function MsgNot(props: any) {
 		setIsVisibleI(false)
 
 	}
-
+	useEffect(() => {
+		const FecthIsfull = async () => {
+			await axios.get('/isRequest').then((rsp) => props.setIsfull(rsp.data));
+			await axios.get('/noticationState').then((rsp) => props.setIsfullN(rsp.data));
+		}
+		FecthIsfull();
+	}, [])
 	useOnClickOutside(ref, handleClickOutside);
 	useOnClickOutside(refI, handleClickOutsideI);
 	return (
@@ -54,7 +58,7 @@ function MsgNot(props: any) {
 					}
 					} className='btn-msgnot'>
 						<img style={{ width: '1.5rem', fill: 'red', transform: 'translateX(0.156rem)' }} src={inviFriend} alt='' />
-						{isFull > 0 && <div className="isFull"></div>}
+						{props.isFull && <div className="isFull"></div>}
 					</button>
 				</GradienBox>
 				<AnimatePresence mode='wait'>
@@ -65,7 +69,7 @@ function MsgNot(props: any) {
 							animate={{ scale: 1, }}
 							exit={{ scale: 0 }}
 							key={'invitations'}
-							transition={{ ease: "easeInOut"}}
+							transition={{ ease: "easeInOut" }}
 							style={{ position: 'absolute', top: '3.5rem', width: 'fit-content', transform: 'translateX(-15rem)' }}>
 							<NotificationCont isN={false} />
 						</motion.div>
@@ -74,7 +78,11 @@ function MsgNot(props: any) {
 			</div>
 			<div ref={ref}>
 				<GradienBox mywidth="49px" myheight="49px" myborder="10px">
-					<button onClick={() => setIsVisible(!isVisible)} className='btn-msgnot'><img style={{ width: '1.5rem' }} alt='' src={BellImg} /></button>
+					<button onClick={() => setIsVisible(!isVisible)} className='btn-msgnot'><img style={{ width: '1.5rem' }} alt='' src={BellImg} />
+						{
+							props.isFullN && <div className="isFull"></div>
+						}
+					</button>
 				</GradienBox>
 				<AnimatePresence mode='wait'>
 					{
@@ -84,7 +92,7 @@ function MsgNot(props: any) {
 							animate={{ scale: 1, }}
 							exit={{ scale: 0 }}
 							key={'notifi'}
-							transition={{ ease: "easeInOut"}}
+							transition={{ ease: "easeInOut" }}
 							style={{ position: 'absolute', top: '3.5rem', left: '5rem', width: 'fit-content' }}>
 							<NotificationCont data={props.noti} isN={true} />
 						</motion.div>
@@ -95,7 +103,7 @@ function MsgNot(props: any) {
 
 			<div onClick={() => setNavMo(true)} className='burger'>
 				<GradienBox mywidth="49px" myheight="49px" myborder="10px">
-					<button className='btn-msgnot'><img style={{ width: '1.5rem' }} src={burger} alt='' />{isFull > 0 && <div className="isFull"></div>}</button>
+					<button className='btn-msgnot'><img style={{ width: '1.5rem' }} src={burger} alt='' /></button>
 				</GradienBox>
 			</div>
 			<AnimatePresence mode='wait'>
@@ -128,12 +136,6 @@ function MsgNot(props: any) {
 							</NavLink>
 							<NavLink onClick={() => setNavMo(false)} className={({ isActive }) =>
 								isActive ? 'nav-icon-act nav-mobile-icon' : 'nav-icon nav-mobile-icon'
-							} to='stream'>
-								<ReactSVG src={Stream} />
-								{/* <img style={{ width: '1.5rem' }} src={Stream} alt="Stream" /> */}
-							</NavLink>
-							<NavLink onClick={() => setNavMo(false)} className={({ isActive }) =>
-								isActive ? 'nav-icon-act nav-mobile-icon' : 'nav-icon nav-mobile-icon'
 							} to='leaderBoard'>
 								<ReactSVG src={LeaderBoard} />
 								{/* <img style={{ width: '1.5rem' }} src={LeaderBoard} alt="Leader Board" /> */}
@@ -144,7 +146,7 @@ function MsgNot(props: any) {
 								<ReactSVG src={SetfImg} />
 								{/* <img style={{ width: '1.5rem' }} src={SetfImg} alt="Settings" /> */}
 							</NavLink>
-							<a style={{ paddingTop: '10rem' }} href="http://localhost:3001/auth/logout" className='logout'>
+							<a style={{ paddingTop: '10rem' }} href={`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/auth/logout`} className='logout'>
 								<img style={{ width: '15rem' }} src={LogoutImg} alt="" />
 							</a>
 						</ul>
@@ -156,14 +158,14 @@ function MsgNot(props: any) {
 }
 function Notification(props: any) {
 	const [textNotifi, setText] = useState('')
-
+	const [isRead, setRead] = useState<boolean>(props.isRead);
 	useEffect(() => {
 		setText(text());
 	}, [])
 	const text = () => {
 		switch (props.type) {
 			case "Accepted_request":
-				return `${props.username} has accept your request. You are friends now!`;
+				return `${props.username} accepted your request.`;
 				break;
 			case "game_invitation":
 				return `${props.username} has invited you to a game of Ping Pong! Accept or decline the invitation now.`
@@ -171,18 +173,21 @@ function Notification(props: any) {
 			case "GroupInvitation":
 				return `Check your Inbox Chat, ${props.username} has invited you in a Group!`;
 				break;
-			case "Achievement":
-				return `Congratulations! You have been awarded a new Archievement.`
-				break;
 			default:
 				return '';
 		}
 	}
 	text();
+	const navigate = useNavigate();
 	return (
-		<div id={props.key} className="notification">
-			<div className={!props.isRead ? "no-read" : ""}>
-				<img src={props.img !== null ? props.img : 'badge'} alt="" />
+		<div onClick={async () => {
+			await axios.post('/ReadNotification', { notificationId: props.notificationId }).catch((err) => console.log());
+			setRead(true);
+			if (props.username)
+				navigate(`/profile/${props.username}`);
+		}} style={{ cursor: 'pointer' }} id={props.key} className="notification">
+			<div className={!isRead ? "no-read" : ""}>
+				<img src={(props.img ? props.img : defaultAvatar)} alt="" />
 			</div>
 			<div className="noti-text">{textNotifi}</div>
 		</div>
@@ -218,7 +223,7 @@ function Invitation(props: any) {
 							<img onError={(e: any) => {
 								e.target.src = defaultAvatar;
 							}
-							} src={props.data.avatar} />
+							} src={props.data.avatar ? props.data.avatar : defaultAvatar} />
 							<div className="who">
 								<h4>{props.data.username}</h4>
 								<p>Sent a request to you</p>
@@ -253,7 +258,7 @@ function NotificationCont(props: any) {
 			<div className="notification-container">
 				<div className="head-noti-container">
 					<div className="notication-head">{props.isN === true ? 'NOTIFICATIONS' : 'NEW REQUESTS'}</div>
-					<span className='notifi-num'>{data.length}</span>
+					<span className='notifi-num'>{data.filter((e: any) => !e.isRead).length}</span>
 					{/* notifi.filter((not: any) => not.isRead === 0).length */}
 				</div>
 				<div className="main-noti">
@@ -263,21 +268,20 @@ function NotificationCont(props: any) {
 							data.map((e: any, i: number) => <Invitation key={nanoid()} data={e} />)
 							:
 							data.map((e: any) => {
-								return (<Notification key={nanoid()} username={e.username} type={e.Type} isRead={e.isRead} img={e.avatar ? e.avatar : null} />);
+								return (<Notification notificationId={e.notificationId} key={nanoid()} username={e.username} type={e.Type} isRead={e.isRead} img={e.avatar ? e.avatar : null} />);
 							})
-						// onClick={() => handleNotificationClick(index + 1)}
-						// props.isN === true ? notifi.map((e: any, index: number) => {
-						// 	return (<Notification onClick={() => handleNotificationClick(index + 1)} key={'noti-' + index} isRead={e.isRead} img={test} text={e.text} />);
-						// });
 					}
 				</div>
-				<div className="fot-notification">
-					{
-						props.isN === true ? <button className='mark-read'>Mark all as read</button> : <button className='mark-read dec'>Decline all</button>
-						// onClick={markAllAsRead}
-					}
+				{
+					props.isN === true &&
+					<div className="fot-notification">
+						<button onClick={async () => {
+							await axios.post('/readallnotification');
+							window.location.reload();
+						}} className='mark-read'>Mark all as read</button>
+					</div>
+				}
 
-				</div>
 			</div>
 		</GradienBox>
 	)

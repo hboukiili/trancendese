@@ -6,15 +6,10 @@ COPY ./*.json ./
 
 RUN npm install
 
-
-RUN apt-get update && apt-get install coreutils
-
-RUN apt-get install xdg-utils -y
-
 RUN npm install -g concurrently
 
 EXPOSE 3000
 
 EXPOSE 5555
 
-ENTRYPOINT ["sh", "-c", "trap 'exit' INT TERM; concurrently 'npm run start:dev' 'npx prisma generate' 'npx prisma studio' "]
+ENTRYPOINT ["sh", "-c", "trap 'exit' INT TERM; concurrently 'npm run start:dev' 'npx prisma generate' "]

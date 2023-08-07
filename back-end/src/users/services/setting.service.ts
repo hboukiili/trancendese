@@ -26,7 +26,7 @@ export class SettingService {
                 email : true,
             }
         });
-		infos.avatar = infos.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !infos.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + infos.avatar : infos.avatar;
+		infos.avatar = infos.avatar && infos.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !infos.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + infos.avatar : infos.avatar;
         return infos;
     }
 
@@ -53,7 +53,7 @@ export class SettingService {
 
 		blockedBySender.map((friend) => {
 			let { avatar, UserId, username} = friend.receiver;
-			avatar = avatar.search("https://cdn.intra.42.fr/users/") === -1 && !avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + avatar : avatar;
+			avatar = avatar && avatar.search("https://cdn.intra.42.fr/users/") === -1 && !avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + avatar : avatar;
 			blockedlist.push({
 				friendshipId : friend.FriendshipId,
 				avatar,
@@ -96,40 +96,44 @@ export class SettingService {
     async removeAccount(@Res() res, User : User)
 	{
         await this.prisma.$transaction(async (prisma) => {
-            await this.prisma.game.deleteMany({where : {
-                OR : [
-                    {PlayerId1 : User.UserId},
-                    {PlayerId2 : User.UserId},
-                ]
-            }}),
-            await this.prisma.friendship.deleteMany({
-                where : {
-                    OR : [
-                        {SenderId : User.UserId},
-                        {ReceiverId : User.UserId},
-                    ]
-                }
-            }),
-            await this.prisma.notification.deleteMany({
-                where : {
-                    OR : [
-                        {senderId : User.UserId},
-                        {receiverId : User.UserId},
-                    ]
-                }
-            })
-            await this.prisma.membership.deleteMany({
-                where : {
-                    UserId : User.UserId,
-                }
-            }),
-            await this.prisma.message.deleteMany({
-                where: {
-                    UserId : User.UserId,
-                }
-            })
-			await this.prisma.achievement.delete({where : { UserId : User.UserId}}),
-            await this.prisma.user.delete({where : { UserId : User.UserId}})
+			try {
+				await prisma.game.deleteMany({where : {
+					OR : [
+						{PlayerId1 : User.UserId},
+						{PlayerId2 : User.UserId},
+					]
+				}}),
+				await prisma.friendship.deleteMany({
+					where : {
+						OR : [
+							{SenderId : User.UserId},
+							{ReceiverId : User.UserId},
+						]
+					}
+				}),
+				await prisma.notification.deleteMany({
+					where : {
+						OR : [
+							{senderId : User.UserId},
+							{receiverId : User.UserId},
+						]
+					}
+				})
+				await prisma.membership.deleteMany({
+					where : {
+						UserId : User.UserId,
+					}
+				}),
+				await prisma.message.deleteMany({
+					where: {
+						UserId : User.UserId,
+					}
+				})
+				await prisma.achievement.delete({where : { UserId : User.UserId}}),
+				await prisma.user.delete({where : { UserId : User.UserId}})
+			}	catch (error) {
+
+			}
         });
 		res.clearCookie('access_token');
 		res.clearCookie('refresh_token');

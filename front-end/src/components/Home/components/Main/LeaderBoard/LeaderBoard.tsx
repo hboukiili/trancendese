@@ -24,7 +24,7 @@ function LeaderBoard() {
                 <img className='avatarRank' onError={(e: any) => {
                     e.target.src = defaultAvatar;
                 }
-                } src={props.user.avatar} alt="" />
+                } src={props.user.avatar ? props.user.avatar : defaultAvatar} alt="" />
                 <div className="username">{props.user.username}</div>
                 <div className="pointsRank">{props.user.XP}pts</div>
                 <div className="ratingRank">{(props.user.rating !== "NaN" ? props.user.rating : '--')}</div>

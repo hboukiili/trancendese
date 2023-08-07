@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './Settings.scss'
 import axios from '../../../../../Interceptor/Interceptor'
 import {nanoid} from 'nanoid'
-
+import defaultAvatar from '../../../../../assets/img/avatar.png'
 
 function Blockedlist() {
     const [update, setUpdate] = useState(true);
@@ -38,7 +38,7 @@ function Blockedlist() {
                 <div className="blockedListC">
                     <div className="usersBlocked">
                         {
-                            data.length > 0 ? data.map((e: any, number) => <UserB key={nanoid()} idShip={e.friendshipId} avatar={e.avatar} username={e.username} />) : <p>No User Blocked</p>
+                            data.length > 0 ? data.map((e: any) => <UserB key={nanoid()} idShip={e.friendshipId} avatar={e.avatar ? e.avatar : defaultAvatar} username={e.username} />) : <p>No User Blocked</p>
                         }
                     </div>
                 </div>

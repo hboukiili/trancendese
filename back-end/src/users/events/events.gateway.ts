@@ -27,8 +27,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	async handleConnection(client: Socket) {
 		
-		console.log('connected');
-
 		await this.prisma.user.update({
 			where : { UserId : client.data.playload.userId },
 			data : { status : true},
@@ -39,7 +37,16 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	async handleDisconnect(client :Socket) {
 
-		await this.prisma.user.update({
+		const exist = await this.prisma.user.findFirst({
+			where : {
+				UserId : client.data.playload.userId,
+			}
+		})
+
+		if (!exist)
+			return ;
+		
+			await this.prisma.user.update({
 			where : { UserId : client.data.playload.userId },
 			data : { status : false},
 		})
@@ -59,4 +66,8 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		this.socketService.emitToClient(clientId, 'request', data);
 	}
 
+	handleMessages(client, data, clientId)
+	{
+		this.socketService.emitToClient(clientId, 'notification', data);
+	}
 }

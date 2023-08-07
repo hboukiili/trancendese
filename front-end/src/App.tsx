@@ -1,7 +1,7 @@
 import Login from './components/Login/Login';
 import './App.scss';
 import Home from './components/Home/Home';
-import { useEffect, useState, Suspense, lazy } from 'react';
+import { useEffect, useState, lazy } from 'react';
 import Particle from './tools/ParticalComponent';
 import Cookies from 'js-cookie';
 import axios from './Interceptor/Interceptor'
@@ -11,22 +11,44 @@ import { useSelector } from 'react-redux';
 import Loading from './components/Loading';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store'
-// import Secure from '';
 import { io } from 'socket.io-client';
+import defaultAvatar from './assets/img/avatar.png'
 import GradienBox from './tools/GradienBox';
 import { motion, AnimatePresence } from 'framer-motion';
-// const Home = lazy(() => import('./components/Home/Home'));
+import { useNavigate } from 'react-router-dom';
+
 const Secure = lazy(() => import('./Secure'));
-// const Particle = lazy(() => import('./tools/ParticalComponent'));
+
+
+
+
+
+
+const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+
+
+
+console.error = () => { };
+console.warn = () => { };
 
 function SlideButton(props: any) {
+
 	const [slideChanger, SetSlideChange] = useState({ circle: props.isAccept ? 'sliderA' : 'sliderD' })
 	const handler = () => {
-		const PostData = async () => {
-			await axios.post((props.isAccept ? '/AcceptRequest' : '/CancelRequest'), { FriendshipId: props.data });
+		if (props.isGame) {
+			if (props.isAccept)
+				window.location.replace(`/game/friends/${props.username}`);
+			// navigate('/about', { replace: true });
+			// SetSlideChange({ circle: props.isAccept ? 'sliderA slider-accept' : 'sliderD slider-decline' });
 		}
-		SetSlideChange({ circle: props.isAccept ? 'sliderA slider-accept' : 'sliderD slider-decline' });
-		PostData();
+		else {
+			const PostData = async () => {
+				await axios.post((props.isAccept ? '/AcceptRequest' : '/CancelRequest'), { FriendshipId: props.data });
+			}
+			SetSlideChange({ circle: props.isAccept ? 'sliderA slider-accept' : 'sliderD slider-decline' });
+			PostData();
+		}
 		setTimeout(() => { props.set(false) }, 500);
 	}
 	const Accept = () => (
@@ -54,11 +76,33 @@ function SlideButton(props: any) {
 }
 type InvitationFunc = {
 	state: any,
-	data: invitationRequest
+	data: any;
+	wichOne: number;
 }
-function Invitation({ state, data }: InvitationFunc) {
-	const stater = (e: boolean) => {
+function Invitation({ state, data, wichOne }: InvitationFunc) {
+	const stater = (e: number) => {
 		state(e);
+	}
+	const [text, setText] = useState('');
+	useEffect(() => {
+		setText(Ftext());
+	}, [])
+	const Ftext = () => {
+		if (wichOne === 2) {
+			switch (data.Type) {
+				case "Accepted_request":
+					return `${data.username} has accept your request. You are friends now!`;
+				case "game_invitation":
+					return `${data.username} has invited you to a game of Ping Pong! Accept or decline the invitation now.`
+				case "GroupInvitation":
+					return `Check your Inbox Chat, ${data.username} has invited you in a Group!`;
+				case "Message":
+					return `${data.username} sent you a Message.`
+				default:
+					return '';
+			}
+		}
+		return '';
 	}
 	return (
 		<motion.div
@@ -67,11 +111,11 @@ function Invitation({ state, data }: InvitationFunc) {
 			exit={{ opacity: 0 }}
 			transition={{ duration: 0.5 }}
 			className="invitation-container">
-			<GradienBox zIndex={100000} mywidth="397px" myheight="157.02px" myborder="20px">
-				<div className="invitation">
+			<GradienBox zIndex={100000} mywidth="397px" myheight={(wichOne === 1 || (wichOne === 2 && data.Type === 'game_invitation')) ? "157.02px" : "100px"} myborder="20px">
+				{data && <div className="invitation">
 					<div className="close-invi" onClick={() => {
 						setTimeout(() => {
-							stater(false);
+							stater(0);
 						}, 300)
 					}}>
 						<svg width="0.563rem" height="0.563rem" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,33 +123,26 @@ function Invitation({ state, data }: InvitationFunc) {
 						</svg>
 					</div>
 					<div className="invitation-content">
-						<img className='img-invitation' src={data.sender.avatar} alt="" />
-						<p>{`${data.sender.username} has sent you a friend request! Accept or decline the invitation now.`}</p>
+						<img className='img-invitation' src={wichOne === 1 ? (data.sender && data.sender.avatar ? data.sender.avatar : defaultAvatar) : (data.avatar ? data.avatar : defaultAvatar)} alt="" />
+						<p>{wichOne === 1 ? `${data.sender && data.sender.username} has sent you a friend request! Accept or decline the invitation now.` : text}</p>
 					</div>
-					<div className="footer-onvitation">
-						<SlideButton set={stater} data={data.FriendshipId} isAccept={1} />
-						<SlideButton set={stater} data={data.FriendshipId} isAccept={0} />
-					</div>
-				</div>
+					{
+						(wichOne === 1 || (wichOne === 2 && data.Type === 'game_invitation')) &&
+						<div className="footer-onvitation">
+							<SlideButton username={data.senderId} isGame={(wichOne === 2 && data.Type === 'game_invitation')} set={stater} data={data.FriendshipId} isAccept={1} />
+							<SlideButton username={data.senderId} isGame={(wichOne === 2 && data.Type === 'game_invitation')} set={stater} data={data.FriendshipId} isAccept={0} />
+						</div>
+					}
+
+				</div>}
 			</GradienBox>
 		</motion.div>
 	);
 }
 
-type invitationRequest = {
-	FriendshipId: number;
-	ReceiverId: string;
-	sender: {
-		UserId: string,
-		avatar: string,
-		username: string,
-	}
-
-}
 
 function App() {
-	// const data:any = useSelector((state:any) => state.admin)
-	const [invit, setInvit] = useState(false)
+	const [invit, setInvit] = useState(0)
 	const dispatch: AppDispatch = useDispatch()
 	const [isLogin, setisLogin] = useState(false);
 	const [isSecure, setSecure] = useState(false);
@@ -113,18 +150,15 @@ function App() {
 	const isDownState = useSelector((state: any) => state.isDown);
 	const tokenTest = useSelector((state: any) => state.token);
 	const [token, setToken] = useState(tokenTest);
-	const [invitationRequest, setInviRequest] = useState<invitationRequest>({ FriendshipId: 0, ReceiverId: '0', sender: { UserId: '', avatar: '', username: '', } });
-
-
+	const [invitationRequest, setInviRequest] = useState<any>({ FriendshipId: 0, ReceiverId: '0', sender: { UserId: '', avatar: '', username: '', } });
 	useEffect(() => {
+
 		const tesServer = async () => {
 			if (isDownState.isDown === true) {
 				await axios.get('/').then((resp) => {
 					dispatch(seIsDown(false));
 				}).catch(error => {
-					// if (error.request)
 					dispatch(seIsDown(true));
-					// tesServer();
 				})
 			}
 
@@ -144,42 +178,59 @@ function App() {
 	}, [tokenTest])
 
 	useEffect(() => {
-		const CheckFa = async () => {
-			await axios.get('/auth/isFA-enabled').then((rsp) => setSecure(rsp.data.FA_ON))
-		}
-		CheckFa();
-		const GetToken = async () => {
-			if (isLogin) {
-				dispatch(getToken());
+		if (isLogin) {
+			const CheckFa = async () => {
+				await axios.get('/auth/isFA-enabled').then((rsp) => setSecure(rsp.data.FA_ON))
 			}
+			CheckFa();
+			const GetToken = async () => {
+				if (isLogin) {
+					dispatch(getToken());
+				}
+			}
+			GetToken();
 		}
-		GetToken();
+
 	}, [isLogin])
 
+	const [isFull, setIsfull] = useState(false);
+	const [isFullN, setIsfullN] = useState(false);
 	useEffect(() => {
 		if (token) {
-			console.log('here');
-			const socket = io('http://localhost:3001/notification', {
+			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/notification`, {
 				extraHeaders: {
 					Authorization: `Bearer ${token}`,
 				}
 			});
+			socket.on('connect_failed', function () {
+				document.write("Sorry, there seems to be an issue with the connection!");
+			})
+			socket.on('connect_error', (error: any) => {
+				console.error('');
+			});
 			socket.on('connect', () => {
-				console.log('Socket.IO connected.');
 			});
 
-			socket.on('request', (data: invitationRequest) => {
+			socket.on('request', (data: any) => {
+				setIsfull(true);
 				setInviRequest(data);
-				setInvit(true);
+				setInvit(1);
 				setTimeout(() => {
-					setInvit(false);
+					setInvit(0);
 				}, 30000)
-				console.log('Received notification:', data);
+			});
+
+			socket.on('notification', (data: any) => {
+				setInvit(2);
+				setInviRequest(data);
+				setIsfullN(true)
+				setTimeout(() => {
+					setInvit(0);
+				}, 30000)
 
 			});
 
 			socket.on('disconnect', () => {
-				console.log('Socket.IO disconnected.');
 			});
 
 			return () => {
@@ -190,11 +241,14 @@ function App() {
 	return (
 		<div className="App">
 			{/* <Suspense fallback={<><Loading /></>}> */}
-				<Particle />
-				{
-					isDown ? <Loading /> :
-						!isLogin ? <Login /> : (!isSecure ? <><Home socketInvi={setInvit} /><AnimatePresence mode='wait'>{invit && <Invitation data={invitationRequest} state={setInvit} />}</AnimatePresence></> : <Secure setSec={setSecure} />)
-				}
+			<Particle />
+			{
+				isDown ? <Loading /> :
+					!isLogin ? <Login /> : (!isSecure ? <><Home isFull={isFull} setIsfull={setIsfull} isFullN={isFullN} setIsfullN={setIsfullN} socketInvi={setInvit} /><AnimatePresence mode='wait'>
+						{invit && <Invitation wichOne={invit} data={invitationRequest && invitationRequest} state={setInvit} />}
+					</AnimatePresence>
+					</> : <Secure setSec={setSecure} />)
+			}
 			{/* </Suspense> */}
 		</div>
 	);

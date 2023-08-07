@@ -53,8 +53,10 @@ export class FriendshipService {
                 throw new InternalServerErrorException('something went wrong');
         }
 
-        invite.sender.avatar =  invite.sender.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !invite.sender.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + invite.sender.avatar : invite.sender.avatar;
-        // console.log(invite.sender.avatar);
+        invite.sender.avatar = invite.sender.avatar && invite.sender.avatar.search("https://cdn.intra.42.fr/users/") === -1
+            && !invite.sender.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + invite.sender.avatar
+                : invite.sender.avatar;
+
         const final = {
             friendshipId : invite.FriendshipId,
             UserId : invite.sender.UserId,
@@ -82,8 +84,7 @@ export class FriendshipService {
                 data: { Accepted : true},
             });
         } catch (error) {
-            if (error)
-                throw new InternalServerErrorException('no friendship request has been found');
+
         }
 
 		const notification =  await this.prisma.notification.create({
@@ -110,10 +111,10 @@ export class FriendshipService {
                 }
 
 		})
-
-        notification.sender.avatar =  notification.sender.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !notification.sender.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + notification.sender.avatar : notification.sender.avatar;
         const websocketNotifiation = {
-            avatar : notification.sender.avatar,
+            avatar : notification.sender.avatar && notification.sender.avatar.search("https://cdn.intra.42.fr/users/") === -1
+                && !notification.sender.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + notification.sender.avatar
+                    : notification.sender.avatar,
             username : notification.sender.username,
             isRead : notification.isRead,
             Type : notification.Type,
@@ -135,11 +136,43 @@ export class FriendshipService {
                 });
             });
         }
+
+        const achievement = await this.prisma.achievement.findFirst({
+            where : {
+                UserId : User.UserId,
+            }
+        })
+
+        if (!achievement.extrovert)
+        {
+            const countFriends = await this.prisma.friendship.count({
+                where : {
+                    OR : [
+                        {SenderId : User.UserId}, {ReceiverId : User.UserId},
+                    ],
+                    Accepted : true,
+                    blockedByReceiver : false,
+                    blockedBySender : false,
+                }
+            })
+
+            if (countFriends === 10)
+            {
+                await this.prisma.achievement.update({
+                    where :
+                    {
+                        UserId : User.UserId,
+                    },
+                    data : {
+                        extrovert : true,
+                    }
+                })
+            }
+        }
 	}
 
     async checkRoom(UserId1, UserId2)
     {
-        console.log(UserId1, UserId2);
         const user1Memberships = await this.prisma.membership.findMany({
             where: {
               UserId: UserId1,
@@ -199,6 +232,8 @@ export class FriendshipService {
             where : {
                 ReceiverId : User.UserId,
                 Accepted : false,
+                blockedByReceiver : false,
+                blockedBySender : false,
             },
             select : {
                 FriendshipId : true,
@@ -214,11 +249,12 @@ export class FriendshipService {
 
 
         const friendshipRequest  = request.map((user) => {
-            user.sender.avatar = user.sender.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !user.sender.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + user.sender.avatar : user.sender.avatar;
             return {
                 friendshipId : user.FriendshipId,
                 UserId : user.sender.UserId,
-                avatar : user.sender.avatar,
+                avatar : user.sender.avatar && user.sender.avatar.search("https://cdn.intra.42.fr/users/") === -1
+                    && !user.sender.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + user.sender.avatar
+                        : user.sender.avatar,
                 username : user.sender.username,
             }
         })

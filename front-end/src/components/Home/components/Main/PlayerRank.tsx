@@ -9,7 +9,7 @@ function PlayerRank(props: any) {
       <Link to={'/profile/' + props.login}><img onError={(e) => {
         e.target.src = defaultAvatar;
       }}
-        src={props.avatar} alt="" className='avatar' /></Link>
+        src={props.avatar ? props.avatar : defaultAvatar} alt="" className='avatar' /></Link>
       <p>{props.login}</p>
       <p className='point'>{props.points}<span>pts</span></p>
       <p className='ratings'>{props.level.toFixed(1)}</p>

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
@@ -15,7 +12,7 @@ model User {
   UserId    String   @id
   username  String   @unique
   FullName  String
-  avatar    String
+  avatar    String?
   FA_On     Boolean?
   FAsecret  String?
   XP        Int?     @default(0)
@@ -92,6 +89,7 @@ enum notificationType {
   game_invitation
   Achievement
   GroupInvitation
+  Message
 }
 
 model Notification {
@@ -111,17 +109,13 @@ model Membership {
   RoomId       Int
   member       User     @relation(name: "MembershipGroupUsers", fields: [UserId], references: [UserId])
   UserId       String
-  Role         String   @default("USER")
+  Role         String   @default("Member")
   isBanned     Boolean  @default(false)
   isMuted      Boolean  @default(false)
+  unmuteUntil  DateTime?
   CreationTime DateTime @default(now())
 }
 
-enum MODE {
-  classic
-  AI
-  Friends
-}
 
 model Game {
   GameId       Int      @id @default(autoincrement())
@@ -129,7 +123,7 @@ model Game {
   PlayerId1    String
   Player2      User     @relation(name: "Player2Relation", fields: [PlayerId2], references: [UserId])
   PlayerId2    String
-  Mode         MODE
+  Mode         String   @default("classic")
   winner       User?    @relation(name: "WinnerRelation", fields: [WinnerId], references: [UserId])
   WinnerId     String?
   isDraw       Boolean  @default(false)

@@ -61,7 +61,7 @@ function ProfileHome() {
                                         className='profile-mid'>
                                         <div className='mid1'>
                                             <Link  to={`/profile/${data.username}`} >
-                                                <div style={{backgroundImage: `url(${data.avatar})`}}></div>
+                                                <div style={{backgroundImage: `url(${data.avatar ? data.avatar : defaultAvatar})`}}></div>
                                             </Link>
                                             <div className='m1-nl'>
                                                 <h1 style={{ width: '6.25rem', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>{data.username}</h1>

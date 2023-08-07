@@ -53,16 +53,24 @@ function Main(props: any) {
 				<div className="side1">
 					<div className='top'>
 						<Search />
-						<MsgNot socketInvi={props.socketInvi} />
+						<MsgNot isFull={props.isFull} setIsfull={props.setIsfull} isFullN={props.isFullN} setIsfullN={props.setIsfullN}  socketInvi={props.socketInvi}  />
 					</div>
 					<Routes>
-						<Route path="/" element={<AnimatePresence mode='wait'><Hero /><GamesMode /><BestPlayers /></AnimatePresence>} />
+						<Route path="/" element={<AnimatePresence mode='wait'>
+							<Hero />
+								<GamesMode />
+								<BestPlayers />
+								</AnimatePresence>} />
 						<Route path="chat" element={<Chat params={false} />} />
 						<Route path="chat/:userId" element={<Chat params={true} />} />
 						<Route path="profile/:login" element={<><Profile /></>} />
 						<Route path="settings/" element={<><Settings /></>} />
 						<Route path="/leaderBoard" element={<LeaderBoard />} />
-						<Route path="/game" element={<Game />} />
+						<Route path="/game" element={<Game isBlackHole={false} isOnline={false} mode={'ai'} />} />
+						<Route path="/game/blackhole" element={<Game isBlackHole={true} isOnline={false} mode={'blackhole'} />} />
+						<Route path="/game/classic" element={<Game isBlackHole={false} isOnline={true} mode={'classic'} />} />
+						<Route path="/game/football" element={<Game isBlackHole={false} isOnline={true} mode={'football'} />} />
+						<Route path="/game/friends/:FriendsRoom" element={<Game isBlackHole={false} isOnline={true} mode={'friends'} />} />
 						<Route path="/404" element={<Error404 />} />
 						<Route path="*" element={<Error404 />} />
 

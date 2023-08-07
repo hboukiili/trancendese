@@ -22,12 +22,11 @@ async function bootstrap() {
 
     app.use(cookieParser());
     app.enableCors({
-      origin: process.env.FrontIp,
+      origin : 'http://localhost',
       credentials: true,
   });
 
-  // app.use('uploads', express.static(join(__dirname, '..', 'uploads')));
-  await app.listen(process.env.PORT, '0.0.0.0');
+  await app.listen(process.env.UPORT, '0.0.0.0');
 }
 
 bootstrap();

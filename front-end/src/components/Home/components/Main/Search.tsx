@@ -45,7 +45,7 @@ function SearchContent(props: any) {
 					<img onError={(e: any) => {
 						e.target.src = defaultAvatar;
 					}
-					} src={e.avatar} alt="" />
+					} src={e.avatar ? e.avatar : defaultAvatar} alt="" />
 					<div className="textInfo">
 						<h4>{e.username}</h4>
 						<p>{'LEVEL ' + e.level}</p>

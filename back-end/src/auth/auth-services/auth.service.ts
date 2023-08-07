@@ -14,7 +14,7 @@ export class AuthService {
     constructor(private readonly jwtService: JwtService){}
 
 	async generateJwtToken(user : User){
-		return this.jwtService.sign({ userId: user.UserId, email: user.email, username: user.username});
+		return this.jwtService.sign({ userId: user.UserId, email: user.email, username: user.username, avatar : user.avatar});
 	}
 
 	async generateRefreshJwtToken(user : User){
@@ -79,6 +79,5 @@ export class AuthService {
 				FA_On : false,
 			}
 		})
-		// console.log(change.FA_On);
 	}
 }

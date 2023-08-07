@@ -45,6 +45,7 @@
                     font-style: normal;
                     font-weight: 400;
                     line-height: normal;
+
                 }
 
                 .score {
@@ -76,13 +77,15 @@
         }
     }
 }
-.Tablecont{
+
+.Tablecont {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-    .TableC{
+
+    .TableC {
         width: toRem(1168);
         height: toRem(663);
     }
@@ -125,4 +128,326 @@
     height: 99.4%;
     border: toRem(2) solid white;
     position: absolute;
+}
+
+.black1 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    right: 25rem;
+    bottom: 15rem;
+}
+
+.black2 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    left: 25rem;
+    top: 15rem;
+}
+
+.BlackHole {
+    width: toRem(150);
+    object-fit: cover;
+    animation: rotationImg 1s linear infinite;
+    animation-delay: 0;
+}
+
+@keyframes rotationImg {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+.gamePopup {
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    backdrop-filter: blur(toRem(2));
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: toRem(40);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .statusGame {
+        width: toRem(627);
+        height: toRem(510);
+        border-radius: toRem(40);
+        background: rgba(47, 45, 53, 0.30);
+        box-shadow: 0px toRem(4)toRem(40) 0px rgba(0, 0, 0, 0.50);
+        backdrop-filter: blur(2px);
+        border: toRem(1) solid #5699AF;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.4rem;
+        filter: drop-shadow(0px toRem(50) toRem(80) rgba(0, 136, 122, 0.3));
+
+        .returnFromGame {
+            width: toRem(138);
+            height: toRem(37);
+            border-radius: toRem(18);
+            background: rgba(47, 45, 53, 0.30);
+            box-shadow: 0px toRem(4) toRem(80) 0px rgba(190, 190, 190, 0.30);
+            backdrop-filter: blur(toRem(2));
+            border: toRem(1) #FFF solid;
+        }
+
+        h1 {
+            font-size: toRem(48);
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            text-transform: uppercase;
+        }
+
+        .vs {
+            width: toRem(531.5);
+            height: toRem(77);
+            background-color: rgba(47, 45, 53, 0.30);
+            filter: drop-shadow(0px toRem(50) toRem(80) rgba(0, 136, 122, 0.60));
+            backdrop-filter: blur(toRem(2));
+            border: toRem(1) solid white;
+            border-radius: toRem(18);
+            display: flex;
+            padding: toRem(14) toRem(24);
+            align-items: center;
+            justify-content: space-between;
+
+            .player {
+                display: flex;
+                align-items: center;
+                gap: toRem(17);
+
+                img {
+                    width: toRem(48);
+                    border-radius: toRem(20);
+                    height: toRem(48);
+                    object-fit: cover;
+                }
+
+                p {
+                    font-size: toRem(17);
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                }
+
+            }
+
+            .vsC {
+                width: toRem(106.5);
+                height: toRem(48);
+                background-color: rgba(47, 45, 53, 0.30);
+                filter: drop-shadow(0px toRem(4) toRem(40) rgba(0, 0, 0, 0.50));
+                backdrop-filter: blur(toRem(2));
+                border: toRem(1) #E15253 solid;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: toRem(12);
+                font-size: toRem(30);
+                font-style: normal;
+                font-weight: 900;
+                line-height: normal;
+            }
+        }
+
+        .scoreN {
+            display: flex;
+            gap: toRem(136);
+            align-items: center;
+
+            .numberScore {
+                width: toRem(106.5);
+                height: toRem(46);
+                background-color: rgba(47, 45, 53, 0.30);
+                filter: drop-shadow(0px toRem(4) toRem(80) rgba(190, 190, 190, 0.30));
+                backdrop-filter: blur(toRem(2));
+                border-radius: toRem(18);
+                border: toRem(1) solid white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: toRem(20);
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                text-transform: uppercase;
+            }
+        }
+
+        .pointsScore {
+            font-size: toRem(26);
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+        }
+
+    }
+
+    .lose {
+        filter: drop-shadow(0px toRem(50) toRem(80) rgba(225, 82, 83, 0.3));
+    }
+
+}
+
+.table-classic, .table-friends  {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 30px;
+    border: 4px solid white;
+}
+
+.table-classic::before, .table-friends::before  {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #E15253, #5699AF);
+    opacity: 0.2;
+    border-radius: 30px;
+}
+
+.table-football {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 30px;
+    border: 4px solid white;
+}
+
+.table-football::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../../../../assets/img/football_map.png') no-repeat center center;
+    background-size: cover;
+    border-radius: 30px;
+}
+
+
+.lineC {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.line {
+    height: 99.4%;
+    border: 2px solid white;
+    position: absolute;
+    opacity: 0.45;
+}
+
+.Found {
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    width: 75.0625rem;
+    height: 53.9rem;
+    border-radius: 2.5rem;
+    top: 0;
+    left: 0;
+    z-index: 999999999999999999999999;
+    position: absolute;
+    transform: translate(toRem(-34), toRem(-130));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: toRem(50);
+    flex-direction: column;
+
+    .backHome {}
+
+    .blockss {
+        display: flex;
+
+        .block {
+            --sz: 7rem;
+            --tX: 0;
+            --animation: 600ms cubic-bezier(0.3, 0.5, 0.4, 0.9) infinite alternate-reverse;
+            --hm: 4.5vmin;
+            height: var(--sz);
+            width: var(--sz);
+            background-image: var(--bg);
+            border-radius: 50%;
+            transform: translateX(var(--tX));
+            mix-blend-mode: lighten;
+        }
+
+        .orange {
+            --bg: linear-gradient(-50deg, #ED5152 0%, #d55151 100%);
+            margin-right: var(--hm);
+            animation: attract-orange var(--animation);
+        }
+
+        .blue {
+            --bg: linear-gradient(50deg, #00887A 0%, #1d978b 100%);
+            margin-left: var(--hm);
+            animation: attract-blue var(--animation);
+        }
+
+        @keyframes attract-orange {
+            to {
+                transform: translateX(calc(var(--sz) + calc(var(--hm) / 4)));
+            }
+        }
+
+        @keyframes attract-blue {
+            to {
+                transform: translateX(calc(var(--sz) * -1 - calc(var(--hm) / 4)));
+            }
+        }
+    }
+
+    .returnFromGame {
+        width: toRem(138);
+        height: toRem(37);
+        border-radius: toRem(18);
+        background: rgba(47, 45, 53, 0.30);
+        box-shadow: 0px toRem(4) toRem(80) 0px rgba(190, 190, 190, 0.30);
+        backdrop-filter: blur(toRem(2));
+        border: toRem(1) #FFF solid;
+    }
+
+    .ctnBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: toRem(37);
+        width: 100%;
+    }
+
+
 }

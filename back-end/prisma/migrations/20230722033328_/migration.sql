@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Room" ALTER COLUMN "RoomNAme" DROP NOT NULL;

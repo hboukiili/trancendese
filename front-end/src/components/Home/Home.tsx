@@ -32,7 +32,7 @@ function Home(props: any) {
         <div className="container-home">
           <LeftBar />
           <Suspense fallback={<><Loading /></>}>
-            <Main socketInvi={props.socketInvi} setInvi={props.setInv} setNoti={props.setNoti} invitations={props.invitations} notifications={props.notifications} />
+            <Main isFull={props.isFull} setIsfull={props.setIsfull} isFullN={props.isFullN} setIsfullN={props.setIsfullN} socketInvi={props.socketInvi} setInvi={props.setInv} setNoti={props.setNoti} invitations={props.invitations} notifications={props.notifications} />
           </Suspense>
           <Outlet />
         </div>

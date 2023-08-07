@@ -447,15 +447,15 @@ svg {
 .Error {
     color: #E15253;
     text-shadow:
-        0 0 7px #a60a0a,
-        0 0 7px #a60a0a;
+        0 0 toRem(7) #a60a0a,
+        0 0 toRem(7) #a60a0a;
 }
 
 .validate {
     // transform: translate(6.5rem, 3rem);
     color: #22BFAF;
     text-shadow:
-        0 0 7px #22BFAF;
+        0 0 toRem(7) #22BFAF;
 }
 
 .saveBtn {
@@ -834,6 +834,10 @@ svg {
 
         }
     }
+}
+
+.threeD{
+    
 }
 
 @keyframes False {

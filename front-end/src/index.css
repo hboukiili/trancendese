@@ -99,11 +99,12 @@ canvas {
     background-size: cover;
   }
 } */
-.profileRE{
+.profileRE {
   position: relative;
   top: initial;
   left: initial;
 }
+
 @media screen and (max-width: 770px) {
   .main, .profileDown{
     margin-left: 0;
@@ -219,10 +220,15 @@ canvas {
 .ProfileComponent-Activity-Friends .fa-Profile .textActive, .ProfileComponent-Activity-Friends .fa-Profile .graph{
   transform: translateX(17rem);
 }
+  .emojies {
+    display: none;
+  }
 }
-.swiper-slide-shadow.swiper-slide-shadow-cards{
+
+.swiper-slide-shadow.swiper-slide-shadow-cards {
   background: rgba(0, 0, 0, 0);
 }
-.swiper-3d .swiper-slide-shadow{
- display: none;
+
+.swiper-3d .swiper-slide-shadow {
+  display: none;
 }

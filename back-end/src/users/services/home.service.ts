@@ -31,17 +31,14 @@ export class HomeService {
 	async getMyProfile(user : User)
 	{
 		const badge = await this.getBadge(user.level);
-		// console.log(badge);
 
 		let lastGame = await this.lastGame(user);
 
-		var avatar = user.avatar;
-
-        if (user.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !user.avatar.search('/uploads/'))
-            avatar = process.env.HOST + process.env.PORT + user.avatar;
 		return {
 			lastGame : lastGame,
-            avatar : avatar,
+            avatar : user.avatar && user.avatar.search("https://cdn.intra.42.fr/users/") === -1
+				&& !user.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + user.avatar
+					: user.avatar,
             username : user.username,
             level : user.level,
             badge : badge,
@@ -78,7 +75,7 @@ export class HomeService {
 		});
 
 		const blockedUserIds = blockedUser.map(friendship =>
-			friendship.SenderId === user.UserId ? friendship.ReceiverId : friendship.SenderId
+			friendship.SenderId === user ? friendship.ReceiverId : friendship.SenderId
 		);
 	
 		return blockedUserIds;
@@ -206,7 +203,7 @@ export class HomeService {
 
 		topPlayers = topPlayers.filter(user => !blockedUserIds.includes(user.UserId));
 		const top = await Promise.all(topPlayers.map(async (player) => {
-			player.avatar = player.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !player.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + player.avatar : player.avatar;
+			player.avatar = player.avatar && player.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !player.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + player.avatar : player.avatar;
 			const rating = await this.calculRating(player.UserId);
 			var XP = player.XP;
 			for (let i : number = 1; i < player.level + 1; i++)
@@ -346,8 +343,8 @@ export class HomeService {
 		const recently : RecentActivity[] = [];
 		for (let i = 0; i < allgames.length; i++) {
 			
-			allgames[i].Player2.avatar = allgames[i].Player2.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !allgames[i].Player2.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + allgames[i].Player2.avatar : allgames[i].Player2.avatar;
-			allgames[i].Player1.avatar = allgames[i].Player1.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !allgames[i].Player1.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + allgames[i].Player1.avatar : allgames[i].Player1.avatar;
+			allgames[i].Player2.avatar = allgames[i].Player2.avatar && allgames[i].Player2.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !allgames[i].Player2.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + allgames[i].Player2.avatar : allgames[i].Player2.avatar;
+			allgames[i].Player1.avatar = allgames[i].Player1.avatar && allgames[i].Player1.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !allgames[i].Player1.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + allgames[i].Player1.avatar : allgames[i].Player1.avatar;
 			const check = friends.includes(allgames[i].Player2.username) && friends.includes(allgames[i].Player1.username);
 			if (allgames[i].isDraw)
 			{

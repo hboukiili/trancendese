@@ -9,29 +9,9 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom'
+import { nanoid } from 'nanoid'
 
-function BOxGameMob(props: any) {
-	return (
-		<div>
-			<GradienBox games={true} mywidth="1120px" myheight="300px" myborder="80px">
-				<div style={{ paddingLeft: '5rem', gap: '20rem', fontStyle: '200' }} className="ModePlay">
-					<div className='Mode1'>
-						<h2 style={{ fontSize: '3rem', fontStyle: '200' }}>{props.titleB}</h2>
-						<p style={{ fontSize: '2rem', fontStyle: '200' }}>{props.StitleB}</p>
-						<a href={props.linkB} id={props.idA}>
-							<GradienBox mywidth="300px" myheight="100px" myborder="30px">
-								<div style={{ fontSize: '2rem', fontStyle: '200' }} className="playnowbtn">Play now</div>
-							</GradienBox>
-						</a>
-					</div>
-					<div className={props.classB + ' photoMode'}>
-						<img style={{ width: '23rem', fontStyle: '200' }} id={props.imgID} src={props.imgB} alt="" />
-					</div>
-				</div>
-			</GradienBox>
-		</div>
-	);
-}
 function BOxGame(props: any) {
 	return (
 		<div>
@@ -40,11 +20,11 @@ function BOxGame(props: any) {
 					<div className='Mode1'>
 						<h2>{props.titleB}</h2>
 						<p>{props.StitleB}</p>
-						<a href={props.linkB} id={props.idA}>
+						<Link to={props.linkB} id={props.idA}>
 							<GradienBox mywidth="120px" myheight="40px" myborder="15px">
 								<div className="playnowbtn">Play now</div>
 							</GradienBox>
-						</a>
+						</Link>
 					</div>
 					<div className={props.classB + ' photoMode'}>
 						<img id={props.imgID} src={props.imgB} alt="" />
@@ -58,11 +38,11 @@ function BOxGame(props: any) {
 
 function GamesMode() {
 	const GameModesArr = [
-		<BOxGame key='classicA' idA='classicA' imgID='classicIMG' classB="classic" titleB="Classic" StitleB='Challenge the computer' linkB="#" imgB={classicI} />,
-		<BOxGame key='aiA' idA='aiA' imgID='aiIMG' classB="ai" titleB="AI Mode" StitleB='Traditional gameplay' linkB="#" imgB={aiI} />,
-		<BOxGame key='Foot' idA='Foot' imgID='FootIMG' classB="FOOT" titleB="Football Mode" StitleB='Play like a Football Player' linkB="#" imgB={footBall} />,
-		<BOxGame key='BlackHole' idA='BlackHole' imgID='BlackHoleIMG' classB="BLACKHOLE" titleB="Black Hole" StitleB='Play and challenge the blackholes' linkB="#" imgB={blackHole} />,
-		<BOxGame key='friendA' idA='friendA' imgID='friendIMG' classB="friend" titleB="Friends Mode" StitleB='Social play, easy invites' linkB="#" imgB={friendI} />,
+		<div className={'gsss'} key={nanoid()}><BOxGame idA='classicA' imgID='classicIMG' classB="classic" titleB="Classic" StitleB='Challenge Random Player' linkB="/game/classic" imgB={classicI} /></div>,
+		<div className={'gsss'} key={nanoid()}><BOxGame idA='aiA' imgID='aiIMG' classB="ai" titleB="HK-47 Mode" StitleB='Challenge HK-47' linkB="/game" imgB={aiI} /></div>,
+		<div className={'gsss'} key={nanoid()}><BOxGame idA='Foot' imgID='FootIMG' classB="FOOT" titleB="Football Mode" StitleB='Play like a Football Player' linkB="/game/football" imgB={footBall} /></div>,
+		<div className={'gsss'} key={nanoid()}><BOxGame idA='BlackHole' imgID='BlackHoleIMG' classB="BLACKHOLE" titleB="Black Hole" StitleB='Play and challenge the Blackholes' linkB="/game/blackhole" imgB={blackHole} /></div>,
+		// <div className={'gsss'} key={nanoid()}><BOxGame idA='friendA' imgID='friendIMG' classB="friend" titleB="Friends Mode" StitleB='Social play, easy invites' linkB="#" imgB={friendI} /></div>,
 	];
 	return (
 		<motion.div

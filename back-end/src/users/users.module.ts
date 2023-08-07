@@ -16,7 +16,7 @@ import { EventsService } from './events/services/events.service';
 @Module({
   providers: [UsersService, ProfileService, HomeService, SettingService, FriendshipService, EventsGateway, EventsService],
   controllers: [UsersController, ProfileController, HomeController, SettingController, FriendshipController],
-  exports: [UsersService],
+  exports: [UsersService, EventsGateway, EventsService],
 })
 
 export class UsersModule implements NestModule {

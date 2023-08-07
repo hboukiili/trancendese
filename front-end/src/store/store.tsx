@@ -15,7 +15,7 @@ const store = configureStore({
         admin : adminReducer,
         TwoFa,
         isDown,
-        token
+        token,
     },
 })
 export default  store;

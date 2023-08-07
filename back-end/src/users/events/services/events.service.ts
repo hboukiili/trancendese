@@ -33,7 +33,6 @@ export class EventsService {
     emitToClient(clientId: string, event: string, data: any): boolean {
 
 		const sockets = this.socketsMap.get(clientId);
-		console.log(clientId);
 		if (sockets) {
 			sockets.forEach(socket => {
 				socket.emit(event, data);

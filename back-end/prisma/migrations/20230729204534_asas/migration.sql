@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Room" ALTER COLUMN "ischannel" SET DEFAULT false,
-ALTER COLUMN "Type" DROP NOT NULL;

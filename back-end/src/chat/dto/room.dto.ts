@@ -22,7 +22,7 @@ export class CreateRoomwithMemebrs{
 
 export class AddMemberDto{
     @ApiProperty()
-    userId: string;
+    username: string;
 }
 
 export class JoinroomDto{

@@ -6,7 +6,6 @@ import { ReactSVG } from 'react-svg';
 import ProfImg from "../../../assets/img/profile.svg";
 import SetfImg from "../../../assets/img/Settings.svg";
 import ChatImg from "../../../assets/img/chat.svg";
-import Stream from "../../../assets/img/stream.svg";
 import LeaderBoard from "../../../assets/img//leaderBoard.svg";
 import { NavLink } from "react-router-dom";
 // import axios from '../../../Interceptor/Interceptor'
@@ -46,12 +45,6 @@ function LeftBar() {
             </NavLink>
             <NavLink className={({ isActive }) =>
               isActive ? 'nav-icon-act' : 'nav-icon'
-            } to='stream'>
-              <ReactSVG src={Stream} />
-              {/* <img style={{ width: '1.5rem' }} src={Stream} alt="Stream" /> */}
-            </NavLink>
-            <NavLink className={({ isActive }) =>
-              isActive ? 'nav-icon-act' : 'nav-icon'
             } to='leaderBoard'>
               <ReactSVG src={LeaderBoard} />
               {/* <img style={{ width: '1.5rem' }} src={LeaderBoard} alt="Leader Board" /> */}
@@ -63,7 +56,7 @@ function LeftBar() {
               {/* <img style={{ width: '1.5rem' }} src={SetfImg} alt="Settings" /> */}
             </NavLink>
           </ul>
-          <a href="http://localhost:3001/auth/logout" className='logout'>
+          <a href={`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/auth/logout`} className='logout'>
             <img style={{ width: '2.5rem' }} src={LogoutImg} alt="" />
           </a>
         </div>

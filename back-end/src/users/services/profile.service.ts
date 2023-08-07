@@ -76,6 +76,7 @@ export class ProfileService {
 		var isFriend = false;
 		var friend;
 		var friendshipId = 0;
+		var RoomId;
 
 		if (!Isowner)
 		{
@@ -83,15 +84,13 @@ export class ProfileService {
 			isSent = friend.length ? true : false;
 			isFriend = isSent ? friend[0].Accepted : false;
 			friendshipId = isSent || isFriend ? friend[0].FriendshipId : 0;
+			RoomId = await this.getRoomId(User, user);
 		}
-
-		user.avatar =  user.avatar.search("https://cdn.intra.42.fr/users/") == -1 && !user.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + user.avatar : user.avatar;
 
 		const playerRating = await this.calculRating(user);
 
 		const rank = await this.playerRank(user);
 
-	
 		return ({
 			isOwner : Isowner,
 			isSent : isSent,
@@ -100,13 +99,49 @@ export class ProfileService {
 			rating			: playerRating,
 			friendshipId	: friendshipId,
 			UserId   		: user.UserId,
-			avatar 	 		: user.avatar,
+			avatar 	 		: user.avatar && user.avatar.search("https://cdn.intra.42.fr/users/") == -1
+				&& !user.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + user.avatar
+					: user.avatar,
 			status 	 		: user.status,
 			level  	 		: user.level,
 			xp       		: user.XP,
 			username 		: user.username,
+			RoomId 			: RoomId,
 		});
 	}
+
+	async getRoomId(AuthUser : User, User : User)
+	{
+		const Room = await this.prisma.room.findMany({
+			where: {
+			  AND: [
+				{
+				  members: {
+					some: {
+					  UserId: User.UserId,
+					},
+				  },
+				},
+				{
+				  members: {
+					some: {
+					  UserId: AuthUser.UserId,
+					},
+				  },
+				},
+				{
+				  ischannel: false,
+				},
+			  ],
+			},
+			select: {
+			  RoomId: true,
+			},
+			take: 1,
+		});
+		return Room[0] ? Room[0].RoomId : undefined;
+	}
+
 	async blockUser(user : User, targetUser : User)
 	{
 		var friend = await this.prisma.friendship.findFirst({
@@ -233,7 +268,7 @@ export class ProfileService {
 			var accepted = false;
 			const afriends = friendsInfo.map((friendship) => {
 				const friend = friendship.sender.username === user.username ? friendship.receiver : friendship.sender;
-					friend.avatar = friend.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !friend.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + friend.avatar : friend.avatar;
+					friend.avatar = friend.avatar && friend.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !friend.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + friend.avatar : friend.avatar;
 					if (friend.username !== authUser.username)
 					{
 						const isMutual = friendsInfo2.some((friendship) => {
@@ -272,12 +307,13 @@ export class ProfileService {
 		{
 			const friends : ProfileFriends[] = friendsInfo.map((friendsInfo) => {
 				const check = friendsInfo.sender.UserId === user.UserId ? friendsInfo.receiver : friendsInfo.sender;
-				check.avatar = check.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !check.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + check.avatar : check.avatar;
 				if (friendsInfo.Accepted)
 					return {
 						friendshipId : friendsInfo.FriendshipId,
 						UserId : check.UserId,
-						avatar : check.avatar,
+						avatar : check.avatar && check.avatar.search("https://cdn.intra.42.fr/users/") === -1
+							&& !check.avatar.search('/uploads/')? process.env.HOST + process.env.PORT + check.avatar
+								: check.avatar,
 						username : check.username,
 						sentInvitation : true,
 						Accepted : true,
@@ -438,7 +474,7 @@ export class ProfileService {
 
 		games = games.filter(user => !blockedUserIds.includes(user.PlayerId2));
 
-		const count = this.countGames(games, user, blockedUserIds);
+		const count = await this.countGames(games, user, blockedUserIds);
 	
 		let AllGames : GamesDTO [] = [];
 
@@ -458,16 +494,15 @@ export class ProfileService {
 				}
 			});
 
-			if (adv.avatar.search("https://cdn.intra.42.fr/users/") === -1 && !adv.avatar.search('/uploads/'))
-				adv.avatar = process.env.HOST + process.env.PORT + adv.avatar;
-
 			let Game: GamesDTO = {
 				GameId: GameId.toString(),
 				Mode: Mode,
 				isDraw: isDraw,
 				Rounds: Rounds,
 				won: won,
-				advPic : adv.avatar,
+				advPic : adv.avatar && adv.avatar.search("https://cdn.intra.42.fr/users/") === -1 
+					&& !adv.avatar.search('/uploads/') ? process.env.HOST + process.env.PORT + adv.avatar
+						: adv.avatar,
 				AdvName: adv.username,
 				Winnerxp : WinnerXP,
 				looserxp : looserXP,
@@ -476,9 +511,9 @@ export class ProfileService {
 		}
 	
 		return {
-			win : (await count).win,
-			loose : (await count).loose,
-			Draw : (await count).Draw,
+			win :  count.win,
+			loose :  count.loose,
+			Draw :  count.Draw,
 			AllGames
 		};
 	}

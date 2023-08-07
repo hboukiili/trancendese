@@ -97,7 +97,7 @@ function Profile() {
                                         <div key={nanoid()} className="friend-Profile">
                                             <div className="friend-info">
                                                 <Link to={'/profile/' + e.username}>
-                                                    <img src={e.avatar} onError={(e: any) => {
+                                                    <img src={e.avatar ? e.avatar : defaultAvatar} onError={(e: any) => {
                                                         e.target.src = defaultAvatar;
                                                     }
                                                     } alt="" />
