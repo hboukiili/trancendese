@@ -140,8 +140,6 @@
     padding: toRem(1);
     transition: all 0.2s ease-in-out;
     &:hover{
-        // background: rgb(86,153,174);
-        // background: linear-gradient(332deg, rgba(86,153,174,1) 0%, rgba(225,82,83,1) 100%);
         color: rgba(255, 255, 255, 1);
         box-shadow: 0 5px 15px rgba(225,82,83, .4);
     }

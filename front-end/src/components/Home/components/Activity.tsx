@@ -4,7 +4,6 @@ import axios from '../../../Interceptor/Interceptor'
 import defaultAvatar from '../../../assets/img/avatar.png'
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom'
-// import {nanoid} from 'nanoid'
 function ActivityContent(props: any) {
 	return (
 

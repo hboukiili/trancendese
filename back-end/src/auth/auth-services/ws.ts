@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { WebSocketAuthGuard } from "../auth-guard/wsjwt-guard";
+import { WebSocketAuthGuard } from "../auth-guard/WSjwt-guard";
 
 type SocketIOMIDDELWARE = {
     (client : Socket, next: (err? : Error ) => void);

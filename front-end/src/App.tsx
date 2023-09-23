@@ -197,18 +197,21 @@ function App() {
 	const [isFullN, setIsfullN] = useState(false);
 	useEffect(() => {
 		if (token) {
-			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/socket.io/notification`, {
+
+			const socket = io(`${import.meta.env.VITE_URL}80/notification`, {
 				extraHeaders: {
 					Authorization: `Bearer ${token}`,
 				}
 			});
+
 			socket.on('connect_failed', function () {
 				document.write("Sorry, there seems to be an issue with the connection!");
 			})
 			socket.on('connect_error', (error: any) => {
-				console.error('');
+				// console.error('error');
 			});
 			socket.on('connect', () => {
+				// console.log('connected');
 			});
 
 			socket.on('request', (data: any) => {
@@ -231,6 +234,7 @@ function App() {
 			});
 
 			socket.on('disconnect', () => {
+				console.log('disconnected');
 			});
 
 			return () => {

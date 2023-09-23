@@ -249,7 +249,7 @@ function App({roomId, setDone, isFound, isOnline, token, setGame, setFound, chos
 
     React.useEffect(() => {
         if (isOnline && token && !Socket) {
-            const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/socket.io/game`, {
+            const socket = io(`${import.meta.env.VITE_URL}80/game`, {
                 extraHeaders: {
                     Authorization: `Bearer ${token}`,
                 }
@@ -267,7 +267,6 @@ function App({roomId, setDone, isFound, isOnline, token, setGame, setFound, chos
         if (gameOver) {
             Socket.disconnect();
             setDone(true);
-            
         }
     }, [gameOver])
     const navigate = useNavigate();

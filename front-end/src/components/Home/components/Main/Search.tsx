@@ -53,7 +53,6 @@ function SearchContent(props: any) {
 				</div>
 				<div className="f-part2">
 					<img src={myBadge(e.badge)} alt="" />
-					{/* // should Badge here  remember?? */}
 				</div>
 			</Link>
 		)
@@ -71,7 +70,6 @@ function SearchContent(props: any) {
 function Search() {
 	const [isVisible, setIsVisible] = useState(false);
 	const ref = useRef(null)
-	// const users: any = useSelector((state: any) => state.users.users);
 	const [userFound, setUserFound] = useState([]);
 	const handleClickOutside = () => {
 		setIsVisible(false)
@@ -89,12 +87,6 @@ function Search() {
 				setIsVisible(true)
 			}
 			newUsers();
-			// if (newUsers.length == 0)
-			// 	setIsVisible(false)
-			// else
-			// {
-			// 	setUserFound(newUsers);
-			// }
 		}
 	}
 	return (

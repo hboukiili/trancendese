@@ -1,24 +1,13 @@
 import { lazy } from 'react'
 import Search from './Main/Search'
 import MsgNot from './Main/MsgNot'
-// import GamesMode from './Main/GamesMode'
-// import BestPlayers from './Main/BestPlayers'
-// import Hero from './Main/Hero'
-// import ProfileHome from './Main/ProfileHome'
 import { Route, Routes } from 'react-router-dom'
 import "./Main.scss"
-// import Chat from './Main/Chat/Chat'
-// import Profile from './Main/Profile/Profile'
-// import ProfileDown from './Main/Profile/ProfileDown'
 import Settings from './Main/Settings/Settings'
-// import Error404 from './404'
 import { AnimatePresence } from 'framer-motion';
 import Activity from './Activity';
 import Game from './Main/Game/Game'
-
-// const Activity = lazy(() => import('./Activity'));
 const ProfileProfile = lazy(() => import('./Main/Profile/ProfileProfile'));
-// const Settings = lazy(() => import('./Main/Settings/Settings'));
 const LeaderBoard = lazy(() => import('./Main/LeaderBoard/LeaderBoard'));
 const ProfileDown = lazy(() => import('./Main/Profile/ProfileDown'));
 const Chat = lazy(() => import('./Main/Chat/Chat'));

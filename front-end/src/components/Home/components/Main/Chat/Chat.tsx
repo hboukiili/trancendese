@@ -73,7 +73,7 @@ function ChatContent(params: any) {
 	const token = useSelector((state: any) => state.token).token;
 	useEffect(() => {
 		if (token) {
-			const socket = io(`${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}/socket.io/chat`, {
+			const socket = io(`${import.meta.env.VITE_URL}80/chat`, {
 				extraHeaders: {
 					Authorization: `Bearer ${token}`,
 				}
@@ -201,6 +201,7 @@ function ChatContent(params: any) {
 									}} className='Securite'>Securité</button>}
 									{(params.roomData.isChannel === true && (params.roomData.UserRole === 'Owner')) && <button onClick={async () => {
 										await axios.delete(`/room/${params.roomData.RoomId}/Delete`).catch((error) => console.log(error));
+										navigate('/');
 										window.location.reload();
 									}} className='Block'>Delete Room</button>}
 									{(params.roomData.isChannel === true) && <button onClick={async () => {
@@ -544,7 +545,7 @@ function Chat(props: any) {
 																			}
 																		});
 																	}
-																}} className='btnNewGrp' disabled={CreateRoom.type === 'protected' && (CreateRoom.password?.length === 0 || CreateRoom.password === null)}>Done</button>
+																}} className='btnNewGrp' disabled={CreateRoom.type === 'protected' && (CreateRoom.password?.length === 0 || CreateRoom.password === null)  && CreateRoom.name.length > 12}>Done</button>
 																<button onClick={() => {
 																	setNewGroup(false);
 																	setPopUp(false);

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 const api = axios.create({
     baseURL: `${import.meta.env.VITE_URL + import.meta.env.VITE_PORT}`,
     withCredentials: true,
+    origin : '*',
 });
 
 // const dispatch: AppDispatch = useDispatch()

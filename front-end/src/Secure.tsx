@@ -50,14 +50,14 @@ function Secure(props: any) {
     };
     const handleKeyDown = (e: any, i: number) => {
         if (i > 0 && e.key === 'Backspace') {
-            e.preventDefault(); // Prevent the default backspace behavior
+            e.preventDefault();
             e.target.value = '';
             const tmp = [...Code];
             tmp[i] = -1;
             setCode(tmp);
 
             if (inputRefs.current[i - 1]?.focus) {
-                inputRefs.current[i - 1]?.focus(); // Focus on the previous input field if it exists
+                inputRefs.current[i - 1]?.focus();
             }
         }
     };
