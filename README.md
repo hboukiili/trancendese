@@ -51,7 +51,9 @@ run commend line docker-compse up --build
 ![1691874485614](https://github.com/hboukiili/trancendese/assets/93588318/fed2231e-4e90-4bda-a9aa-18346cf6dc30)
 ![1691874485879](https://github.com/hboukiili/trancendese/assets/93588318/82c7ba5a-e6f1-4fa0-96f8-0358b17de7de)
 ![1691874485498](https://github.com/hboukiili/trancendese/assets/93588318/9eae8c35-348c-4ac5-9d98-dec432360ff9)
-![1691874485503](https://github.com/hboukiili/trancendese/assets/93588318/cbbaab88-1a7e-4af4-84ff-c88aa034d4c9)
+![chat](https://github.com/hboukiili/trancendese/assets/93588318/2fa50c19-16f2-4c8b-b58d-e4c291204447)
+![Screenshot from 2023-09-23 18-15-24](https://github.com/hboukiili/trancendese/assets/93588318/5b8d2f3a-93cd-46e5-a98c-44b4150d3840)
+![Screenshot from 2023-09-23 18-14-17](https://github.com/hboukiili/trancendese/assets/93588318/6c58c242-9397-447f-8233-a4e218078fb9)
 ![Screenshot from 2023-09-23 15-50-14](https://github.com/hboukiili/trancendese/assets/93588318/cac02af1-8d89-4de3-bf50-02c7c993ea95)
 
 
