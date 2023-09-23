@@ -1,4 +1,3 @@
-![Screenshot from 2023-09-23 15-50-14](https://github.com/hboukiili/trancendese/assets/93588318/6a539aef-0ad0-4dd2-bb9b-e023a545983d)
 I - 1 Overview : 
 
 In this subject you will need to build a website for the mighty pong contest. Your website will help user run pong tournament and play against each other. There will be an admin view, chat with moderators, real time multiplayer online games. There will be guilds and wars! You will need to follow thoses rules:
@@ -48,3 +47,16 @@ Installation
 set values in server/.env FORTYTWO_APP_ID FORTYTWO_APP_SECRET FORTYTWO_APP_CALLBACK_URL
 set values in server/.env Google_APP_ID Google_APP_SECRET Google_APP_CALLBACK_URL
 run commend line docker-compse up --build
+
+![Screenshot from 2023-09-23 15-50-14](https://github.com/hboukiili/trancendese/assets/93588318/6a539aef-0ad0-4dd2-bb9b-e023a545983d)
+
+![1691874485503](https://github.com/hboukiili/trancendese/assets/93588318/4075ee24-d443-4c5a-9587-e51ff486154c)
+
+![1691874485498](https://github.com/hboukiili/trancendese/assets/93588318/8a573315-b0be-4d16-a6e7-a64ffdba1656)
+
+![1691874485879](https://github.com/hboukiili/trancendese/assets/93588318/33428783-3446-4bc0-9872-8a4e609e8e09)
+
+![1691874485614](https://github.com/hboukiili/trancendese/assets/93588318/bb01738e-882d-4dab-a17b-ef5a458ff005)
+
+
+
