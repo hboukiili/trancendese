@@ -48,15 +48,10 @@ set values in server/.env FORTYTWO_APP_ID FORTYTWO_APP_SECRET FORTYTWO_APP_CALLB
 set values in server/.env Google_APP_ID Google_APP_SECRET Google_APP_CALLBACK_URL
 run commend line docker-compse up --build
 
-![Screenshot from 2023-09-23 15-50-14](https://github.com/hboukiili/trancendese/assets/93588318/6a539aef-0ad0-4dd2-bb9b-e023a545983d)
-
-![1691874485503](https://github.com/hboukiili/trancendese/assets/93588318/4075ee24-d443-4c5a-9587-e51ff486154c)
-
-![1691874485498](https://github.com/hboukiili/trancendese/assets/93588318/8a573315-b0be-4d16-a6e7-a64ffdba1656)
-
-![1691874485879](https://github.com/hboukiili/trancendese/assets/93588318/33428783-3446-4bc0-9872-8a4e609e8e09)
-
-![1691874485614](https://github.com/hboukiili/trancendese/assets/93588318/bb01738e-882d-4dab-a17b-ef5a458ff005)
-
+![1691874485614](https://github.com/hboukiili/trancendese/assets/93588318/fed2231e-4e90-4bda-a9aa-18346cf6dc30)
+![1691874485879](https://github.com/hboukiili/trancendese/assets/93588318/82c7ba5a-e6f1-4fa0-96f8-0358b17de7de)
+![1691874485498](https://github.com/hboukiili/trancendese/assets/93588318/9eae8c35-348c-4ac5-9d98-dec432360ff9)
+![1691874485503](https://github.com/hboukiili/trancendese/assets/93588318/cbbaab88-1a7e-4af4-84ff-c88aa034d4c9)
+![Screenshot from 2023-09-23 15-50-14](https://github.com/hboukiili/trancendese/assets/93588318/cac02af1-8d89-4de3-bf50-02c7c993ea95)
 
 
