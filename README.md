@@ -44,8 +44,8 @@ The main purpose of this website is to play pong against other players and show 
 
 Installation
 
-set values in server/.env FORTYTWO_APP_ID FORTYTWO_APP_SECRET FORTYTWO_APP_CALLBACK_URL
-set values in server/.env Google_APP_ID Google_APP_SECRET Google_APP_CALLBACK_URL
+set values in back-end/.env FORTYTWO_APP_ID FORTYTWO_APP_SECRET FORTYTWO_APP_CALLBACK_URL
+set values in back-end/.env Google_APP_ID Google_APP_SECRET Google_APP_CALLBACK_URL
 run commend line docker-compse up --build
 
 ![1691874485614](https://github.com/hboukiili/trancendese/assets/93588318/fed2231e-4e90-4bda-a9aa-18346cf6dc30)
